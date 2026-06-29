@@ -1,0 +1,599 @@
+---
+import { Image } from 'astro:assets';
+---
+
+<section
+  class="bg-[#121B14] pt-[48px] md:pt-[120px] pb-[48px] md:pb-[120px] w-full"
+  aria-label="Who We Serve"
+>
+  <div class="max-w-[1440px] mx-auto px-4 lg:px-[80px]">
+    <div
+      class="flex flex-col lg:flex-row gap-4 lg:gap-10 justify-between items-start lg:items-center"
+    >
+      <div
+        class="flex flex-col gap-3 w-full lg:w-[60%] items-center lg:items-start text-center lg:text-left"
+      >
+        <p
+          class="text-[12px] md:text-[14px] font-normal font-inter text-[#EAF5D2] tracking-wide"
+          aria-hidden="true"
+        >
+          - Who we serve -
+        </p>
+        <h2
+          class="text-[28px] md:text-[48px] text-[#F9F9F9] font-medium font-noto leading-[1.1] tracking-tight max-w-[700px] mt-2 mb-0"
+          style="font-stretch: condensed;"
+        >
+          Built for People who believe in Long Term Investment &amp; Wealth
+          Creation.
+        </h2>
+      </div>
+      <div
+        class="w-full lg:w-[35%] flex items-center justify-center lg:justify-end text-center lg:text-left"
+      >
+        <p
+          class="text-[#E0E0E0] font-normal font-inter text-[16px] md:text-[20px] leading-[1.5] max-w-[420px]"
+        >
+          Our Portfolios are designed for long term wealth acquisition and
+          recovering turbulent markets.
+        </p>
+      </div>
+    </div>
+
+    <div
+      class="flex flex-col md:grid md:grid-cols-2 lg:grid-cols-4 gap-5 mt-[32px] md:mt-16"
+    >
+      {/* ── Column 1: Salaried HNIs + Delegating HNIs ── */}
+      <div class="w-full flex flex-col gap-5 order-2 md:order-1">
+
+        {/* Card: Salaried HNIs */}
+        <article
+          class="bg-[#0B2415] border border-[#1B3B26] rounded-[16px] p-6 md:p-5 relative overflow-hidden min-h-[224px] h-auto md:h-[295px] flex flex-col justify-between group cursor-pointer transition-colors hover:border-[#2C523A]"
+        >
+          {/* Desktop */}
+          <div class="hidden md:flex flex-col h-full justify-between">
+            <div>
+              <div class="flex justify-between items-start mb-[48px]">
+                <h3
+                  class="text-[24px] text-[#F9F9F9] font-medium font-noto tracking-tight"
+                >
+                  Salaried HNIs
+                </h3>
+                <span class="text-[#E0E0E0] group-hover:text-white transition-colors" aria-hidden="true">
+                  <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true" focusable="false">
+                    <path d="M1 13L13 1M13 1H4M13 1V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </span>
+              </div>
+              <p class="text-[16px] text-[#E0E0E0] font-normal font-inter leading-[1.5]">
+                Want expert opinion on helping you form a graduation path?
+              </p>
+            </div>
+            <div class="relative w-[236px] h-[100px] flex flex-row items-center" aria-hidden="true">
+              <Image
+                src="/images/shape.png"
+                alt=""
+                width={141}
+                height={150}
+                format="webp"
+                quality={85}
+                loading="lazy"
+                decoding="async"
+                class="w-[100px] h-[100px] object-contain"
+                aria-hidden="true"
+              />
+              <Image
+                src="/images/person-img1.png"
+                alt=""
+                width={150}
+                height={150}
+                format="webp"
+                quality={85}
+                loading="lazy"
+                decoding="async"
+                class="w-[100px] h-[100px] rounded-full -ml-8 border-[3px] border-[#0C1E14]"
+                aria-hidden="true"
+              />
+              <Image
+                src="/images/person-img2.png"
+                alt=""
+                width={150}
+                height={150}
+                format="webp"
+                quality={85}
+                loading="lazy"
+                decoding="async"
+                class="w-[100px] h-[100px] rounded-full -ml-4 border-[3px] border-[#0C1E14]"
+                aria-hidden="true"
+              />
+            </div>
+          </div>
+
+          {/* Mobile */}
+          <div class="flex md:hidden flex-col relative z-10 gap-4">
+            <div class="relative h-[48px] w-full flex items-center" aria-hidden="true">
+              <Image
+                src="/images/shape.png"
+                alt=""
+                width={141}
+                height={150}
+                format="webp"
+                quality={85}
+                loading="lazy"
+                decoding="async"
+                class="w-[48px] h-[48px] object-contain opacity-70"
+                aria-hidden="true"
+              />
+              <Image
+                src="/images/person-img1.png"
+                alt=""
+                width={150}
+                height={150}
+                format="webp"
+                quality={85}
+                loading="lazy"
+                decoding="async"
+                class="w-[48px] h-[48px] rounded-full -ml-4 border-2 border-[#0B2415]"
+                aria-hidden="true"
+              />
+              <Image
+                src="/images/person-img2.png"
+                alt=""
+                width={150}
+                height={150}
+                format="webp"
+                quality={85}
+                loading="lazy"
+                decoding="async"
+                class="w-[48px] h-[48px] rounded-full -ml-4 border-2 border-[#0B2415]"
+                aria-hidden="true"
+              />
+            </div>
+            <h3 class="text-[20px] text-[#F9F9F9] font-medium font-noto tracking-tight">
+              Salaried HNIs
+            </h3>
+            <p class="text-[16px] text-[#E0E0E0] font-normal font-inter leading-[1.4]">
+              Want expert opinion on helping you form a graduation path?
+            </p>
+            <a
+              href="/who-we-serve/salaried-hnis"
+              class="flex items-center text-[16px] font-medium font-inter text-[#EAF5D2]"
+            >
+              Learn More
+              <svg class="ml-1" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+                <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
+          </div>
+        </article>
+
+        {/* Card: Delegating HNIs */}
+        <article
+          class="bg-[#0B2415] border border-[#1B3B26] rounded-[16px] p-6 md:p-5 relative overflow-hidden min-h-[224px] h-auto md:h-[295px] flex flex-col justify-between group cursor-pointer transition-colors hover:border-[#2C523A]"
+        >
+          {/* Desktop */}
+          <div class="hidden md:flex flex-col h-full justify-between">
+            <div>
+              <div class="flex justify-between items-start mb-[48px]">
+                <h3 class="text-[24px] text-[#F9F9F9] font-medium font-noto tracking-tight">
+                  Delegating HNIs
+                </h3>
+                <span class="text-[#E0E0E0] group-hover:text-white transition-colors" aria-hidden="true">
+                  <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true" focusable="false">
+                    <path d="M1 13L13 1M13 1H4M13 1V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </span>
+              </div>
+              <p class="text-[16px] text-[#E0E0E0] font-normal font-inter leading-[1.5]">
+                Looking for systematic withdrawal and strong wealth protection?
+              </p>
+            </div>
+            <div class="relative w-[262px] h-[109px] mx-auto mt-auto overflow-hidden">
+              <Image
+                src="/images/Delegating HNIs.png"
+                alt="Delegating HNIs investment overview"
+                width={262}
+                height={109}
+                format="webp"
+                quality={85}
+                loading="lazy"
+                decoding="async"
+                class="absolute inset-0 w-full h-full object-cover rounded-sm opacity-90"
+              />
+            </div>
+          </div>
+
+          {/* Mobile */}
+          <div class="flex md:hidden flex-col relative z-10 gap-4">
+            <div class="relative h-[48px] w-[115px] rounded overflow-hidden">
+              <Image
+                src="/images/Delegating HNIs.png"
+                alt=""
+                width={115}
+                height={48}
+                format="webp"
+                quality={85}
+                loading="lazy"
+                decoding="async"
+                class="absolute inset-0 w-full h-full object-cover opacity-90"
+                aria-hidden="true"
+              />
+            </div>
+            <h3 class="text-[20px] text-[#F9F9F9] font-medium font-noto tracking-tight">
+              Delegating HNIs
+            </h3>
+            <p class="text-[16px] text-[#E0E0E0] font-normal font-inter leading-[1.4]">
+              Looking for systematic withdrawal and strong wealth protection?
+            </p>
+            <a
+              href="/who-we-serve/delegating-hnis"
+              class="flex items-center text-[16px] font-medium font-inter text-[#EAF5D2]"
+            >
+              Learn More
+              <svg class="ml-1" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+                <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
+          </div>
+        </article>
+
+      </div>
+
+      {/* ── Column 2: Entrepreneurs (tall) ── */}
+      <div class="w-full h-full order-4 md:order-2">
+        <article
+          class="bg-[#0B2415] border border-[#1B3B26] rounded-[16px] p-6 md:p-5 relative overflow-hidden min-h-[224px] h-auto md:h-full md:min-h-[610px] flex flex-col justify-between group cursor-pointer transition-colors hover:border-[#2C523A]"
+        >
+          {/* Desktop */}
+          <div class="hidden md:flex flex-col h-full justify-between relative z-10">
+            <div>
+              <div class="flex justify-between items-start mb-[48px]">
+                <h3 class="text-[24px] text-[#F9F9F9] font-medium font-noto tracking-tight">
+                  Entrepreneurs
+                </h3>
+                <span class="text-[#E0E0E0] group-hover:text-white transition-colors" aria-hidden="true">
+                  <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true" focusable="false">
+                    <path d="M1 13L13 1M13 1H4M13 1V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </span>
+              </div>
+              <p class="text-[16px] text-[#E0E0E0] font-normal font-inter leading-[1.5]">
+                Facing issues with concentrated assets?
+              </p>
+            </div>
+            <div class="relative w-full h-[422px] mt-auto flex items-end justify-center overflow-hidden">
+              <div class="absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
+                <Image
+                  src="/images/serve-img-bg.png"
+                  alt=""
+                  width={392}
+                  height={633}
+                  format="webp"
+                  quality={80}
+                  loading="lazy"
+                  decoding="async"
+                  class="absolute inset-0 w-full h-full object-cover opacity-60"
+                  aria-hidden="true"
+                />
+              </div>
+              <Image
+                src="/images/serve-img2.png"
+                alt="Entrepreneur wealth management"
+                width={262}
+                height={393}
+                format="webp"
+                quality={85}
+                loading="lazy"
+                decoding="async"
+                class="relative z-10 w-[262px] h-auto object-contain object-bottom"
+              />
+            </div>
+          </div>
+
+          {/* Mobile */}
+          <div class="flex md:hidden flex-col relative z-10 gap-4">
+            <div class="relative h-[64px] w-[64px] rounded-sm overflow-hidden border border-[#1B3B26]" aria-hidden="true">
+              <Image
+                src="/images/serve-img-bg.png"
+                alt=""
+                width={64}
+                height={64}
+                format="webp"
+                quality={80}
+                loading="lazy"
+                decoding="async"
+                class="absolute inset-0 w-full h-full object-cover object-center"
+                aria-hidden="true"
+              />
+              <Image
+                src="/images/serve-img2.png"
+                alt=""
+                width={64}
+                height={64}
+                format="webp"
+                quality={85}
+                loading="lazy"
+                decoding="async"
+                class="absolute inset-0 w-full h-full object-cover object-[center_75%]"
+                aria-hidden="true"
+              />
+            </div>
+            <h3 class="text-[20px] text-[#F9F9F9] font-medium font-noto tracking-tight">
+              Entrepreneurs
+            </h3>
+            <p class="text-[16px] text-[#E0E0E0] font-normal font-inter leading-[1.4]">
+              Facing issues with concentrated assets?
+            </p>
+            <a
+              href="/who-we-serve/business-owners"
+              class="flex items-center text-[16px] font-medium font-inter text-[#EAF5D2]"
+            >
+              Learn More
+              <svg class="ml-1" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+                <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
+          </div>
+        </article>
+      </div>
+
+      {/* ── Column 3: Retirees + Windfall Gains ── */}
+      <div class="w-full flex flex-col gap-5 order-3 md:order-3">
+
+        {/* Card: Retirees */}
+        <article
+          class="bg-[#0B2415] border border-[#1B3B26] rounded-[16px] p-6 md:p-5 relative overflow-hidden min-h-[224px] h-auto md:h-[295px] flex flex-col justify-between group cursor-pointer transition-colors hover:border-[#2C523A]"
+        >
+          {/* Desktop */}
+          <div class="hidden md:flex flex-col h-full justify-between">
+            <div>
+              <div class="flex justify-between items-start mb-[48px]">
+                <h3 class="text-[24px] text-[#F9F9F9] font-medium font-noto tracking-tight">
+                  Retirees
+                </h3>
+                <span class="text-[#E0E0E0] group-hover:text-white transition-colors" aria-hidden="true">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+                    <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </span>
+              </div>
+              <p class="text-[16px] text-[#E0E0E0] font-normal font-inter leading-[1.5] max-w-[90%]">
+                Looking for systematic withdrawal and strong wealth protection?
+              </p>
+            </div>
+            <div
+              class="relative w-full h-[109px] mt-auto opacity-80 mix-blend-luminosity pointer-events-none group-hover:scale-[1.02] transition-transform duration-500 overflow-hidden"
+              aria-hidden="true"
+            >
+              <Image
+                src="/images/serve-img.png"
+                alt=""
+                width={393}
+                height={164}
+                format="webp"
+                quality={85}
+                loading="lazy"
+                decoding="async"
+                class="absolute inset-0 w-full h-full object-cover object-bottom"
+                aria-hidden="true"
+              />
+            </div>
+          </div>
+
+          {/* Mobile */}
+          <div class="flex md:hidden flex-col relative z-10 gap-4">
+            <div class="relative h-[48px] w-[115px] overflow-hidden" aria-hidden="true">
+              <Image
+                src="/images/serve-img.png"
+                alt=""
+                width={115}
+                height={48}
+                format="webp"
+                quality={85}
+                loading="lazy"
+                decoding="async"
+                class="absolute inset-0 w-full h-full object-cover opacity-90 mix-blend-luminosity"
+                aria-hidden="true"
+              />
+            </div>
+            <h3 class="text-[20px] text-[#F9F9F9] font-medium font-noto tracking-tight">
+              Retirees
+            </h3>
+            <p class="text-[16px] text-[#E0E0E0] font-normal font-inter leading-[1.4]">
+              Looking for systematic withdrawal and strong wealth protection?
+            </p>
+            <a
+              href="/who-we-serve/retirees"
+              class="flex items-center text-[16px] font-medium font-inter text-[#EAF5D2]"
+            >
+              Learn More
+              <svg class="ml-1" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+                <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
+          </div>
+        </article>
+
+        {/* Card: Windfall Gains */}
+        <article
+          class="bg-[#0B2415] border border-[#1B3B26] rounded-[16px] p-6 md:p-5 relative overflow-hidden min-h-[224px] h-auto md:h-[295px] flex flex-col justify-between group cursor-pointer transition-colors hover:border-[#2C523A]"
+        >
+          {/* Desktop */}
+          <div class="hidden md:flex flex-col h-full justify-between relative z-10">
+            <div>
+              <div class="flex justify-between items-start mb-[48px]">
+                <h3 class="text-[24px] text-[#F9F9F9] font-medium font-noto tracking-tight">
+                  Windfall Gains
+                </h3>
+                <span class="text-[#E0E0E0] group-hover:text-white transition-colors" aria-hidden="true">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+                    <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </span>
+              </div>
+              <p class="text-[16px] text-[#E0E0E0] font-normal font-inter leading-[1.5] pr-8 relative z-20">
+                Want expert opinion on helping you form a graduation path?
+              </p>
+            </div>
+            <div
+              class="relative w-full max-w-[236px] h-[100px] mt-auto flex items-end justify-center pointer-events-none group-hover:scale-[1.02] transition-transform duration-500 z-10"
+              aria-hidden="true"
+            >
+              <div class="absolute left-[-10px] top-0">
+                <Image
+                  src="/images/shape.png"
+                  alt=""
+                  width={141}
+                  height={150}
+                  format="webp"
+                  quality={85}
+                  loading="lazy"
+                  decoding="async"
+                  class="w-[100px] h-[100px] object-contain opacity-60"
+                  aria-hidden="true"
+                />
+              </div>
+              <div class="relative z-10 w-[96px] h-[96px] rounded-full border-[3px] border-[#0B2415] overflow-hidden ml-4">
+                <Image
+                  src="/images/person-img1.png"
+                  alt=""
+                  width={96}
+                  height={96}
+                  format="webp"
+                  quality={85}
+                  loading="lazy"
+                  decoding="async"
+                  class="absolute inset-0 w-full h-full object-cover"
+                  aria-hidden="true"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Mobile */}
+          <div class="flex md:hidden flex-col relative z-10 gap-4">
+            <div class="relative h-[48px] w-full flex items-center" aria-hidden="true">
+              <Image
+                src="/images/shape.png"
+                alt=""
+                width={141}
+                height={150}
+                format="webp"
+                quality={85}
+                loading="lazy"
+                decoding="async"
+                class="w-[48px] h-[48px] object-contain opacity-70"
+                aria-hidden="true"
+              />
+              <Image
+                src="/images/person-img1.png"
+                alt=""
+                width={150}
+                height={150}
+                format="webp"
+                quality={85}
+                loading="lazy"
+                decoding="async"
+                class="w-[48px] h-[48px] rounded-full -ml-4 border-2 border-[#0B2415]"
+                aria-hidden="true"
+              />
+            </div>
+            <h3 class="text-[20px] text-[#F9F9F9] font-medium font-noto tracking-tight">
+              Windfall Gains
+            </h3>
+            <p class="text-[16px] text-[#E0E0E0] font-normal font-inter leading-[1.4]">
+              Want expert opinion on helping you form a graduation path?
+            </p>
+            <a
+              href="/who-we-serve/windfall-gains"
+              class="flex items-center text-[16px] font-medium font-inter text-[#EAF5D2]"
+            >
+              Learn More
+              <svg class="ml-1" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+                <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
+          </div>
+        </article>
+
+      </div>
+
+      {/* ── Column 4: NRIs (tall, gold) ── */}
+      <div class="w-full h-full order-1 md:order-4">
+        <article
+          class="bg-[#FDF1D5] border border-[#EAD3AE] rounded-[16px] p-6 md:p-5 relative overflow-hidden min-h-[224px] h-auto md:h-full md:min-h-[610px] flex flex-col justify-between group cursor-pointer transition-colors hover:border-[#E8D9BB]"
+        >
+          {/* Desktop */}
+          <div class="hidden md:flex flex-col h-full justify-between relative z-10">
+            <div>
+              <div class="flex justify-between items-start mb-[48px]">
+                <h3 class="text-[24px] text-[#000000] font-medium font-noto tracking-tight">
+                  NRIs
+                </h3>
+                <span class="text-[#6F6F6F] group-hover:text-black transition-colors" aria-hidden="true">
+                  <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true" focusable="false">
+                    <path d="M1 13L13 1M13 1H4M13 1V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </span>
+              </div>
+              <p class="text-[16px] text-[#6F6F6F] font-normal font-inter leading-[1.5] pr-4">
+                Planning to move back and need help with your finances?
+              </p>
+            </div>
+            <div class="relative w-full h-[262px] mt-auto overflow-hidden">
+              <Image
+                src="/images/globe.png"
+                alt="Globe representing NRI global investments"
+                width={536}
+                height={536}
+                format="webp"
+                quality={85}
+                loading="lazy"
+                decoding="async"
+                class="absolute inset-0 w-full h-full object-contain opacity-90"
+              />
+            </div>
+          </div>
+
+          {/* Mobile: decorative globe background */}
+          <div
+            class="md:hidden absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 w-[200px] h-[200px] pointer-events-none opacity-40 z-0"
+            aria-hidden="true"
+          >
+            <Image
+              src="/images/globe.png"
+              alt=""
+              width={200}
+              height={200}
+              format="webp"
+              quality={80}
+              loading="lazy"
+              decoding="async"
+              class="absolute inset-0 w-full h-full object-contain"
+              aria-hidden="true"
+            />
+          </div>
+
+          {/* Mobile */}
+          <div class="flex md:hidden flex-col relative z-10 gap-4 pt-[76px]">
+            <h3 class="text-[20px] text-[#111111] font-medium font-noto tracking-tight">
+              NRIs
+            </h3>
+            <p class="text-[16px] text-[#4A4A4A] font-normal font-inter leading-[1.4]">
+              Planning to move back and need help with your finances?
+            </p>
+            <a
+              href="/who-we-serve/nris"
+              class="flex items-center text-[16px] font-medium font-inter text-[#111111]"
+            >
+              Learn More
+              <svg class="ml-1" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+                <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
+          </div>
+        </article>
+      </div>
+
+    </div>
+  </div>
+</section>

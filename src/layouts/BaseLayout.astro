@@ -1,0 +1,45 @@
+---
+import '@styles/global.css';
+import SeoHead from '@components/layout/SeoHead.astro';
+import SiteHeader from '@components/navigation/SiteHeader.astro';
+import type { SeoProps } from '@lib/seo';
+
+interface Props extends SeoProps {
+  headerVariant?: 'default' | 'transparent';
+  fullWidth?: boolean;
+}
+
+const {
+  headerVariant = 'default',
+  fullWidth = false,
+  ...seoProps
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en-IN">
+  <head>
+    ><meta name="robots" content="noindex, nofollow"/>
+    <SeoHead {...seoProps}>
+      <slot name="head" />
+    </SeoHead>
+  </head>
+  <body>
+    <SiteHeader variant={headerVariant} />
+
+    <main id="main-content" tabindex="-1">
+      <slot />
+    </main>
+
+    <!-- <SiteFooter /> -->
+
+    <!-- Analytics (via Partytown) -->
+    <!-- <script is:inline type="text/partytown" async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script is:inline type="text/partytown">
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script> -->
+  </body>
+</html>

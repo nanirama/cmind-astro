@@ -1,0 +1,242 @@
+---
+import Button from '@components/ui/Button.astro';
+import { HERO_SIZES } from '@utils/image';
+
+interface Cta {
+  label: string;
+  href: string;
+  variant?: 'primary' | 'secondary' | 'ghost' | 'gold';
+  external?: boolean;
+}
+
+interface HeroImage {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+}
+
+interface Props {
+  eyebrow?: string;
+  heading: string;
+  subheading?: string;
+  body?: string;
+  ctas?: Cta[];
+  image?: HeroImage;
+  backgroundVariant?: 'default' | 'gradient' | 'dark' | 'image';
+  fullHeight?: boolean;
+}
+
+const {
+  eyebrow,
+  heading,
+  subheading,
+  body,
+  ctas = [],
+  image,
+  backgroundVariant = 'default',
+  fullHeight = false,
+} = Astro.props;
+---
+
+<section
+  class:list={[
+    'hero-section',
+    `hero-section--${backgroundVariant}`,
+    fullHeight && 'hero-section--full-height',
+  ]}
+  aria-label={`${heading} hero`}
+>
+  <div class="container">
+    <div class:list={['hero-section__inner', image ? 'hero-section__inner--split' : 'hero-section__inner--centered']}>
+      <!-- Text content -->
+      <div class="hero-section__content">
+        {eyebrow && <p class="eyebrow hero-section__eyebrow">{eyebrow}</p>}
+
+        <h1 class="hero-section__heading text-balance">{heading}</h1>
+
+        {subheading && (
+          <p class="hero-section__subheading text-pretty">{subheading}</p>
+        )}
+
+        {body && (
+          <p class="body-lg hero-section__body text-pretty">{body}</p>
+        )}
+
+        {ctas.length > 0 && (
+          <div class="hero-section__ctas" role="group" aria-label="Call to action">
+            {ctas.map((cta) => (
+              <Button
+                href={cta.href}
+                variant={cta.variant ?? 'primary'}
+                size="lg"
+                external={cta.external}
+              >
+                {cta.label}
+              </Button>
+            ))}
+          </div>
+        )}
+
+        <slot name="content-extra" />
+      </div>
+
+      <!-- Hero image -->
+      {image && (
+        <div class="hero-section__image-wrapper" aria-hidden={!image.alt ? 'true' : undefined}>
+          <img
+            src={image.src}
+            alt={image.alt}
+            width={image.width ?? 800}
+            height={image.height ?? 600}
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+            sizes={HERO_SIZES}
+            class="hero-section__image"
+          />
+        </div>
+      )}
+    </div>
+  </div>
+
+  <!-- Background decoration -->
+  <div class="hero-section__bg-deco" aria-hidden="true">
+    <slot name="bg-decoration" />
+  </div>
+</section>
+
+<style>
+  .hero-section {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(var(--space-4xl), 12vw, var(--space-6xl));
+  }
+
+  .hero-section--full-height {
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+  }
+
+  .hero-section--full-height .container {
+    width: 100%;
+  }
+
+  /* Background variants */
+  .hero-section--default {
+    background-color: var(--color-surface);
+  }
+
+  .hero-section--gradient {
+    background: linear-gradient(
+      135deg,
+      var(--color-beige-50) 0%,
+      var(--color-primary-50) 50%,
+      var(--color-beige-100) 100%
+    );
+  }
+
+  .hero-section--dark {
+    background-color: var(--color-primary-900);
+    color: var(--color-text-inverse);
+  }
+
+  .hero-section--dark h1,
+  .hero-section--dark .hero-section__subheading {
+    color: var(--color-beige-100);
+  }
+
+  .hero-section--dark .hero-section__body {
+    color: var(--color-beige-300);
+  }
+
+  .hero-section--dark .eyebrow {
+    color: var(--color-gold-400);
+  }
+
+  /* Inner layout */
+  .hero-section__inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-section__inner--centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 56rem;
+    margin-inline: auto;
+  }
+
+  .hero-section__inner--split {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-2xl);
+    align-items: center;
+  }
+
+  @media (min-width: 768px) {
+    .hero-section__inner--split {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  /* Content */
+  .hero-section__eyebrow {
+    margin: 0 0 var(--space-sm);
+  }
+
+  .hero-section__heading {
+    font-size: var(--fs-display-2xl);
+    line-height: var(--lh-display-2xl);
+    letter-spacing: var(--ls-display);
+    margin: 0 0 var(--space-md);
+  }
+
+  .hero-section__subheading {
+    font-family: var(--font-serif);
+    font-size: var(--fs-display-sm);
+    line-height: var(--lh-display-sm);
+    color: var(--color-text-secondary);
+    font-weight: 400;
+    margin: 0 0 var(--space-md);
+  }
+
+  .hero-section__body {
+    margin: 0 0 var(--space-xl);
+  }
+
+  .hero-section__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+  }
+
+  .hero-section__inner--centered .hero-section__ctas {
+    justify-content: center;
+  }
+
+  /* Image */
+  .hero-section__image-wrapper {
+    position: relative;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+  }
+
+  .hero-section__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Background decoration */
+  .hero-section__bg-deco {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+</style>

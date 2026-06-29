@@ -1,0 +1,110 @@
+---
+import SectionHeader from '@components/ui/SectionHeader.astro';
+
+interface TimelineEvent {
+  year: string;
+  heading: string;
+  description?: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  heading?: string;
+  events: TimelineEvent[];
+}
+
+const { eyebrow, heading, events } = Astro.props;
+---
+
+<section class="timeline-section section" aria-label={heading ?? 'Timeline'}>
+  <div class="container">
+    {(eyebrow || heading) && (
+      <SectionHeader eyebrow={eyebrow} heading={heading} align="center" />
+    )}
+    <ol class="timeline" aria-label="Company milestones">
+      {events.map((event, index) => (
+        <li class="timeline__item">
+          <div class="timeline__connector" aria-hidden="true">
+            <div class="timeline__dot" />
+            {index < events.length - 1 && <div class="timeline__line" />}
+          </div>
+          <article class="timeline__content">
+            <time class="timeline__year">{event.year}</time>
+            <h3 class="timeline__heading">{event.heading}</h3>
+            {event.description && <p class="timeline__desc body-base">{event.description}</p>}
+          </article>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .timeline {
+    max-width: 44rem;
+    margin: var(--space-2xl) auto 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .timeline__item {
+    display: grid;
+    grid-template-columns: 5rem 1fr;
+    gap: var(--space-lg);
+    position: relative;
+  }
+
+  .timeline__connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: var(--space-3xs);
+  }
+
+  .timeline__dot {
+    width: 1rem;
+    height: 1rem;
+    border-radius: var(--radius-full);
+    background-color: var(--color-gold-500);
+    border: 3px solid var(--color-surface);
+    box-shadow: 0 0 0 3px var(--color-gold-200);
+    flex-shrink: 0;
+    z-index: 1;
+  }
+
+  .timeline__line {
+    width: 2px;
+    flex: 1;
+    background: linear-gradient(to bottom, var(--color-gold-300), var(--color-border));
+    margin-top: var(--space-xs);
+    min-height: var(--space-xl);
+  }
+
+  .timeline__content {
+    padding-bottom: var(--space-xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+  }
+
+  .timeline__year {
+    font-family: var(--font-sans);
+    font-size: var(--fs-text-xs);
+    font-weight: 700;
+    letter-spacing: var(--ls-wide);
+    text-transform: uppercase;
+    color: var(--color-gold-600);
+  }
+
+  .timeline__heading {
+    font-size: var(--fs-text-lg);
+    font-weight: 600;
+    margin: 0;
+    color: var(--color-text-primary);
+  }
+
+  .timeline__desc {
+    margin: 0;
+    max-width: 52ch;
+  }
+</style>

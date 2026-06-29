@@ -1,0 +1,47 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Page Not Found"
+  description="The page you're looking for doesn't exist. Return to the CapitalMind homepage."
+  noIndex={true}
+>
+  <div class="not-found section">
+    <div class="container-narrow" style="text-align:center;">
+      <p class="eyebrow">404 Error</p>
+      <h1 class="not-found__heading">Page Not Found</h1>
+      <p class="body-lg not-found__body">
+        The page you're looking for has moved or doesn't exist.
+      </p>
+      <div class="not-found__actions">
+        <a href="/" class="btn btn-primary btn-lg">Back to Home</a>
+        <a href="/strategies" class="btn btn-secondary btn-lg">View Strategies</a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .not-found {
+    min-height: 60dvh;
+    display: flex;
+    align-items: center;
+  }
+
+  .not-found__heading {
+    margin: var(--space-sm) 0 var(--space-md);
+  }
+
+  .not-found__body {
+    margin: 0 auto var(--space-xl);
+    max-width: 44ch;
+  }
+
+  .not-found__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-sm);
+  }
+</style>

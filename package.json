@@ -1,0 +1,42 @@
+{
+  "name": "capitalmind",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "CapitalMind – Production-grade Astro financial platform for investors, NRIs, founders, and wealth management clients.",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "sync": "astro sync",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@astrojs/mdx": "^4.0.0",
+    "@astrojs/partytown": "^2.1.2",
+    "@astrojs/react": "^4.0.0",
+    "@astrojs/rss": "^4.0.11",
+    "@astrojs/sitemap": "^3.2.1",
+    "@astrojs/tailwind": "^5.1.4",
+    "@types/react": "^18.3.20",
+    "@types/react-dom": "^18.3.5",
+    "astro": "^5.10.0",
+    "clsx": "^2.1.1",
+    "framer-motion": "^11.18.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "reading-time": "^1.5.0",
+    "rehype-autolink-headings": "^7.1.0",
+    "rehype-slug": "^6.0.0",
+    "sharp": "^0.33.5",
+    "tailwind-merge": "^2.6.0",
+    "typescript": "^5.7.3",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  }
+}

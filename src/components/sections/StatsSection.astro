@@ -1,0 +1,122 @@
+---
+import SectionHeader from '@components/ui/SectionHeader.astro';
+
+interface Stat {
+  value: string;
+  label: string;
+  prefix?: string;
+  suffix?: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  heading?: string;
+  stats: Stat[];
+  variant?: 'default' | 'dark' | 'brand';
+}
+
+const { eyebrow, heading, stats, variant = 'default' } = Astro.props;
+---
+
+<section class:list={['stats-section', `stats-section--${variant}`]} aria-label={heading ?? 'Key statistics'}>
+  <div class="container">
+    {(eyebrow || heading) && (
+      <SectionHeader eyebrow={eyebrow} heading={heading} align="center" />
+    )}
+    <dl class="stats-section__grid">
+      {stats.map((stat) => (
+        <div class="stats-section__item">
+          <dt class="stats-section__label">{stat.label}</dt>
+          <dd class="stats-section__value" data-value={stat.value}>
+            {stat.prefix && <span class="stats-section__prefix">{stat.prefix}</span>}
+            <span class="stats-section__number">{stat.value}</span>
+            {stat.suffix && <span class="stats-section__suffix">{stat.suffix}</span>}
+          </dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>
+
+<style>
+  .stats-section {
+    padding-block: clamp(var(--space-3xl), 8vw, var(--space-5xl));
+  }
+
+  .stats-section--default {
+    background-color: var(--color-surface-raised);
+  }
+
+  .stats-section--dark {
+    background-color: var(--color-primary-900);
+  }
+
+  .stats-section--dark .stats-section__label,
+  .stats-section--dark .stats-section__value {
+    color: var(--color-beige-200);
+  }
+
+  .stats-section--dark .stats-section__number {
+    color: var(--color-gold-400);
+  }
+
+  .stats-section--brand {
+    background: linear-gradient(135deg, var(--color-primary-800) 0%, var(--color-primary-600) 100%);
+  }
+
+  .stats-section--brand .stats-section__label { color: var(--color-beige-300); }
+  .stats-section--brand .stats-section__number { color: var(--color-gold-300); }
+
+  .stats-section__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-xl);
+    margin-top: var(--space-2xl);
+  }
+
+  @media (min-width: 768px) {
+    .stats-section__grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .stats-section__item {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+
+  .stats-section__value {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3xs);
+    font-family: var(--font-serif);
+    color: var(--color-primary-700);
+    margin: 0;
+  }
+
+  .stats-section__number {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: var(--ls-display);
+  }
+
+  .stats-section__prefix,
+  .stats-section__suffix {
+    font-size: var(--fs-display-sm);
+    font-weight: 600;
+    color: var(--color-gold-600);
+  }
+
+  .stats-section__label {
+    font-size: var(--fs-text-sm);
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    text-align: center;
+    margin: 0;
+    max-width: 20ch;
+  }
+</style>

@@ -1,0 +1,14 @@
+---
+import { cn } from '@utils/cn';
+
+interface Props {
+  variant?: 'primary' | 'gold' | 'beige';
+  class?: string;
+}
+
+const { variant = 'primary', class: className } = Astro.props;
+---
+
+<span class={cn('badge', `badge-${variant}`, className)}>
+  <slot />
+</span>

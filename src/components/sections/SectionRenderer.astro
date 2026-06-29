@@ -1,0 +1,73 @@
+---
+/**
+ * SectionRenderer – content-driven section dispatch.
+ * Accepts an array of typed section schemas and renders the correct component.
+ * All sections are defined in content collection frontmatter; never hardcoded in page layouts.
+ */
+// import HeroSection from './HeroSection.astro';
+// import StatsSection from './StatsSection.astro';
+// import CTASection from './CTASection.astro';
+import FAQSection from './FAQSection.astro';
+// import TestimonialSection from './TestimonialSection.astro';
+// import FeaturesSection from './FeaturesSection.astro';
+// import TeamSection from './TeamSection.astro';
+// import TimelineSection from './TimelineSection.astro';
+// import QuoteSection from './QuoteSection.astro';
+// import ContentSection from './ContentSection.astro';
+import HomeHeroSection from './HomeHeroSection/index.astro';
+import WhoWeServeSection from './WhoWeServeSection.astro';
+import OurInvestmentPrinciplesSection from './OurInvestmentPrinciplesSection.astro';
+import CapitalmindAdvantageSection from './CapitalmindAdvantageSection.astro';
+import MeetOurFounderSection from './MeetOurFounderSection.astro';
+import TestimonialsSection from './TestimonialsSection.astro';
+import LatestMarketUpdatesSection from './LatestMarketUpdatesSection.astro';
+
+type Section = Record<string, unknown> & { type: string };
+
+interface Props {
+  sections: Section[];
+}
+
+const { sections } = Astro.props;
+---
+
+{sections.map((section) => {
+  switch (section.type) {
+    // case 'homeherosection':
+    //   return <HomeHeroSection {...section as any} />;
+    case 'hero':
+      return <HomeHeroSection {...section as any} />;
+    case 'whoweserve':
+      return <WhoWeServeSection {...section as any} />;
+    case 'ourinvestmentprinciples':
+      return <OurInvestmentPrinciplesSection {...section as any} />;
+    case 'capitalmindadvantage':
+      return <CapitalmindAdvantageSection {...section as any} />;
+    case 'meetourfounder':
+      return <MeetOurFounderSection {...section as any} />;
+    case 'testimonialssection':
+      return <TestimonialsSection {...section as any} />;
+    case 'latestmarketupdates':
+      return <LatestMarketUpdatesSection {...section as any} />;
+    // case 'stats':
+    //   return <StatsSection {...section as any} />;
+    // case 'cta':
+    //   return <CTASection {...section as any} />;
+    case 'faq':
+      return <FAQSection {...section as any} />;
+    // case 'testimonials':
+    //   return <TestimonialSection {...section as any} />;
+    // case 'features':
+    //   return <FeaturesSection {...section as any} />;
+    // case 'team':
+    //   return <TeamSection {...section as any} />;
+    // case 'timeline':
+    //   return <TimelineSection {...section as any} />;
+    // case 'quote':
+    //   return <QuoteSection {...section as any} />;
+    // case 'content':
+    //   return <ContentSection {...section as any} />;
+    default:
+      return null;
+  }
+})}

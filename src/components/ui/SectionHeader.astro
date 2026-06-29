@@ -1,0 +1,65 @@
+---
+interface Props {
+  eyebrow?: string | undefined;
+  heading?: string | undefined;
+  body?: string | undefined;
+  align?: 'left' | 'center' | 'right';
+  headingLevel?: 2 | 3 | 4;
+  headingClass?: string | undefined;
+}
+
+const {
+  eyebrow,
+  heading,
+  body,
+  align = 'left',
+  headingLevel = 2,
+  headingClass,
+} = Astro.props;
+
+const HeadingTag = `h${headingLevel}` as 'h2' | 'h3' | 'h4';
+const alignClass = align === 'center' ? 'section-header--center' : align === 'right' ? 'section-header--right' : '';
+---
+
+{(eyebrow || heading || body) && (
+  <div class:list={['section-header', alignClass]}>
+    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+    {heading && (
+      <HeadingTag class:list={['section-header__heading', 'text-balance', headingClass]}>
+        {heading}
+      </HeadingTag>
+    )}
+    {body && <p class:list={['body-lg', 'section-header__body', 'text-pretty']}>{body}</p>}
+    <slot />
+  </div>
+)}
+
+<style>
+  .section-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    max-width: 52ch;
+  }
+
+  .section-header--center {
+    align-items: center;
+    text-align: center;
+    max-width: 60ch;
+    margin-inline: auto;
+  }
+
+  .section-header--right {
+    align-items: flex-end;
+    text-align: right;
+    margin-left: auto;
+  }
+
+  .section-header__heading {
+    margin: 0;
+  }
+
+  .section-header__body {
+    margin: 0;
+  }
+</style>

@@ -1,0 +1,22 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import SectionRenderer from '@components/sections/SectionRenderer.astro';
+import { getEntry } from 'astro:content';
+import { buildOrganizationJsonLd } from '@lib/seo';
+
+const homePage = await getEntry('home', 'homepage');
+if (!homePage) throw new Error('Home content not found: src/content/home/homepage.md');
+
+const { title, description, seoTitle, seoDescription, sections = [] } = homePage.data;
+const jsonLd = buildOrganizationJsonLd();
+---
+
+<BaseLayout
+  title={seoTitle ?? title}
+  description={seoDescription ?? description}
+  ogType="website"
+  headerVariant="transparent"
+  jsonLd={jsonLd}
+>
+  <SectionRenderer sections={sections as any} />
+</BaseLayout>

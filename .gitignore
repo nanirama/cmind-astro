@@ -1,0 +1,37 @@
+# Dependency directory
+node_modules/
+
+# Build output
+dist/
+.astro/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+npm-debug.log*
+
+# Runtime data
+*.pid
+*.seed
+
+# Lighthouse CI
+lhci-results.json
+.lighthouseci/
+
+.claude/**
+CLAUDE.md
+
