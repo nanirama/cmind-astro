@@ -402,9 +402,11 @@ var(--space-{4xs|3xs|2xs|xs|sm|md|lg|xl|2xl|3xl|4xl|5xl|6xl})
 
 ## Deployment
 
-Deployed as a fully static site to AWS S3 + CloudFront via GitHub Actions (`.github/workflows/deploy.yml`, triggers on push to `project`).
+Currently hosted on **Vercel** (auto-deploys via its Git integration — no extra config needed beyond `vercel.json`, which sets `buildCommand`/`outputDirectory` and the Cache-Control strategy below; Vercel compresses responses on the fly, no separate gzip/brotli setup required on that side).
 
-**Required GitHub secrets:**
+An AWS S3 + CloudFront + GitHub Actions pipeline (`.github/workflows/deploy.yml`, triggers on push to `project`) is also kept in the repo and available if deployment moves back to AWS.
+
+**Required GitHub secrets (AWS pipeline):**
 ```
 AWS_ACCESS_KEY_ID
 AWS_SECRET_ACCESS_KEY
@@ -417,13 +419,12 @@ AWS_REGION
 S3_BUCKET_NAME
 ```
 
-**Cache strategy:**
+**Cache strategy** (same rules on both platforms — enforced by `vercel.json` on Vercel, by the S3 sync `Cache-Control` flags on AWS):
 - `/_astro/**` and `/fonts/**` — `Cache-Control: max-age=31536000, immutable`
 - All other output (HTML, `robots.txt`, sitemap, images) — `Cache-Control: max-age=0, must-revalidate`
-- CloudFront invalidation `/*` runs after every deploy
+- CloudFront invalidation `/*` runs after every AWS deploy (Vercel needs no equivalent — each deploy gets a fresh, immediately-live edge cache)
 
 **Build-time optimization:**
-- `@playform/compress` minifies HTML/CSS/JS/SVG in `dist/` after build
-- `vite-plugin-compression2` emits pre-compressed `.gz`/`.br` sidecar files for text assets, uploaded to S3 with the matching `Content-Encoding` header
-- For these sidecar files to actually reach browsers, either enable **"Compress objects automatically"** on the CloudFront distribution (recommended — CloudFront then compresses on the fly and the sidecar upload is belt-and-suspenders), or attach a CloudFront Function/Lambda@Edge that negotiates `Content-Encoding` against them
-- Astro's built-in `prefetch` (`defaultStrategy: 'viewport'`) prefetches same-origin links as they scroll into view
+- `@playform/compress` minifies HTML/CSS/JS/SVG in `dist/` after build — applies on both platforms
+- `vite-plugin-compression2` emits pre-compressed `.gz`/`.br` sidecar files for text assets. These are **AWS-only**: the S3 sync uploads them with matching `Content-Encoding` headers, and CloudFront needs **"Compress objects automatically"** enabled (recommended) or a CloudFront Function/Lambda@Edge to actually serve them. On Vercel these sidecar files are just inert extra output — Vercel's edge compresses every response on the fly, so nothing extra is needed there
+- Astro's built-in `prefetch` (`defaultStrategy: 'viewport'`) prefetches same-origin links as they scroll into view — applies on both platforms
