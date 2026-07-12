@@ -5,6 +5,7 @@ import sitemap from '@astrojs/sitemap';
 import partytown from '@astrojs/partytown';
 import tailwind from '@astrojs/tailwind';
 import compress from '@playform/compress';
+import { FontaineTransform } from 'fontaine';
 import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 
@@ -93,6 +94,15 @@ export default defineConfig({
   },
 
   vite: {
+    plugins: [
+      // Generates metric-matched local @font-face fallbacks for every font
+      // declared in global.css, cutting layout shift from the swap to the
+      // self-hosted webfont (font-display: swap already set on all faces).
+      FontaineTransform.vite({
+        fallbacks: {}, // auto-picks serif/sans-serif fallback metrics per font family
+        resolvePath: (id) => new URL(`./public${id}`, import.meta.url),
+      }),
+    ],
     resolve: {
       dedupe: ['react', 'react-dom', 'react-dom/client', 'framer-motion'],
     },
