@@ -10,8 +10,8 @@ if (!homePage) throw new Error('Home content not found: src/content/home/homepag
 const { title, description, seoTitle, seoDescription, sections = [] } = homePage.data;
 const jsonLd = buildOrganizationJsonLd();
 ---
-<SectionRenderer sections={sections as any} />
-<!-- <BaseLayout
+
+<BaseLayout
   title={seoTitle ?? title}
   description={seoDescription ?? description}
   ogType="website"
@@ -19,4 +19,4 @@ const jsonLd = buildOrganizationJsonLd();
   jsonLd={jsonLd}
 >
   <SectionRenderer sections={sections as any} />
-</BaseLayout> -->
+</BaseLayout>
