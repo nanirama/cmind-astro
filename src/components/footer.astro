@@ -29,7 +29,7 @@ const { eyebrow, email, logoImage, socialLinks, linkGroups } = settings.data.foo
 };
 ---
 
-<footer class="relative h-full w-full overflow-hidden bg-[#121B14] bg-[url('/images/ftr-grdnt.png')] bg-cover bg-bottom bg-no-repeat">
+<footer class="relative h-full w-full overflow-hidden bg-[#121B14] bg-[url('/images/ftr-grdnt.avif')] bg-cover bg-bottom bg-no-repeat">
     <div class="container mx-auto px-[16px] pt-20">
         <div class="grid grid-cols-1 gap-10 md:grid-cols-2 lg:gap-8">
             <!-- Contact -->
@@ -48,7 +48,7 @@ const { eyebrow, email, logoImage, socialLinks, linkGroups } = settings.data.foo
                 <nav aria-label="Social media" class="mt-8 flex justify-between gap-3">
                    {socialLinks.map((social) => (
                      <a href={social.href} target="_blank" rel="noopener noreferrer" aria-label={social.label}>
-                       <img src={social.icon} alt="" width={26} height={26} />
+                       <img src={social.icon} alt="" width={26} height={26} loading="lazy" decoding="async" />
                      </a>
                    ))}
                 </nav>
@@ -89,7 +89,7 @@ const { eyebrow, email, logoImage, socialLinks, linkGroups } = settings.data.foo
                 alt={logoImage.alt}
                 width={logoImage.width}
                 height={logoImage.height}
-                loading="eager"
+                loading="lazy"
                 decoding="async"
                 class="pointer-events-none h-auto w-full select-none object-contain"
             />

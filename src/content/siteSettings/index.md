@@ -190,10 +190,10 @@ footer:
   eyebrow: SAY HELLO!
   email: hello@capitalmindwealth.com
   logoImage:
-    src: /images/footer-logo.png
-    alt: Capitalmind Wealth platform dashboard showing investment strategies and portfolio statistics
-    width: 1034
-    height: 1042
+    src: /images/footer-logo.avif
+    alt: Capitalmind
+    width: 2025
+    height: 498
   socialLinks:
     - label: YouTube
       href: https://youtube.com
