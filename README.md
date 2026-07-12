@@ -402,7 +402,7 @@ var(--space-{4xs|3xs|2xs|xs|sm|md|lg|xl|2xl|3xl|4xl|5xl|6xl})
 
 ## Deployment
 
-Deployed as a fully static site to AWS S3 + CloudFront via GitHub Actions.
+Deployed as a fully static site to AWS S3 + CloudFront via GitHub Actions (`.github/workflows/deploy.yml`, triggers on push to `project`).
 
 **Required GitHub secrets:**
 ```
@@ -411,7 +411,19 @@ AWS_SECRET_ACCESS_KEY
 CLOUDFRONT_DISTRIBUTION_ID
 ```
 
+**Required GitHub repository variables:**
+```
+AWS_REGION
+S3_BUCKET_NAME
+```
+
 **Cache strategy:**
 - `/_astro/**` and `/fonts/**` — `Cache-Control: max-age=31536000, immutable`
-- All HTML — `Cache-Control: max-age=0, must-revalidate`
+- All other output (HTML, `robots.txt`, sitemap, images) — `Cache-Control: max-age=0, must-revalidate`
 - CloudFront invalidation `/*` runs after every deploy
+
+**Build-time optimization:**
+- `@playform/compress` minifies HTML/CSS/JS/SVG in `dist/` after build
+- `vite-plugin-compression2` emits pre-compressed `.gz`/`.br` sidecar files for text assets, uploaded to S3 with the matching `Content-Encoding` header
+- For these sidecar files to actually reach browsers, either enable **"Compress objects automatically"** on the CloudFront distribution (recommended — CloudFront then compresses on the fly and the sidecar upload is belt-and-suspenders), or attach a CloudFront Function/Lambda@Edge that negotiates `Content-Encoding` against them
+- Astro's built-in `prefetch` (`defaultStrategy: 'viewport'`) prefetches same-origin links as they scroll into view

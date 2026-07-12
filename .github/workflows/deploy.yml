@@ -1,0 +1,112 @@
+name: Deploy
+
+on:
+  push:
+    branches: [project]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      # Hashed, content-addressed assets: cache forever, never revalidate.
+      - name: Sync immutable assets (/_astro, /fonts)
+        run: |
+          aws s3 sync dist/_astro "s3://${{ vars.S3_BUCKET_NAME }}/_astro" \
+            --cache-control "max-age=31536000, immutable" \
+            --exclude "*.gz" --exclude "*.br" \
+            --delete
+          aws s3 sync dist/fonts "s3://${{ vars.S3_BUCKET_NAME }}/fonts" \
+            --cache-control "max-age=31536000, immutable" \
+            --exclude "*.gz" --exclude "*.br" \
+            --delete
+
+      # Everything else (HTML, robots.txt, sitemap, images, etc.): must
+      # revalidate on every request so deploys are visible immediately.
+      # chunks/ and *.mjs are Astro's internal build artifacts used only to
+      # prerender endpoints (robots.txt, rss.xml, sitemap) — not part of the
+      # served site, so they're excluded from the upload.
+      - name: Sync remaining static output
+        run: |
+          aws s3 sync dist "s3://${{ vars.S3_BUCKET_NAME }}" \
+            --cache-control "max-age=0, must-revalidate" \
+            --exclude "_astro/*" --exclude "fonts/*" \
+            --exclude "chunks/*" --exclude "*.mjs" \
+            --exclude "*.gz" --exclude "*.br" \
+            --delete
+
+      # Pre-compressed sidecar files (from vite-plugin-compression2), uploaded
+      # with the encoding/content-type headers a browser needs to use them
+      # directly. Only reached if a CloudFront Function/Lambda@Edge rewrites
+      # requests to these paths based on Accept-Encoding — otherwise prefer
+      # enabling "Compress objects automatically" on the CloudFront
+      # distribution, which compresses on the fly and makes this step
+      # redundant.
+      - name: Upload pre-compressed assets
+        run: |
+          content_type() {
+            case "$1" in
+              *.html) echo "text/html; charset=utf-8" ;;
+              *.css)  echo "text/css; charset=utf-8" ;;
+              *.js|*.mjs) echo "application/javascript; charset=utf-8" ;;
+              *.svg)  echo "image/svg+xml" ;;
+              *.json) echo "application/json; charset=utf-8" ;;
+              *.xml)  echo "application/xml; charset=utf-8" ;;
+              *.txt)  echo "text/plain; charset=utf-8" ;;
+              *)      echo "application/octet-stream" ;;
+            esac
+          }
+          cache_control() {
+            case "$1" in
+              _astro/*|fonts/*) echo "max-age=31536000, immutable" ;;
+              *) echo "max-age=0, must-revalidate" ;;
+            esac
+          }
+          find dist \( -name "*.gz" -o -name "*.br" \) | while read -r f; do
+            key="${f#dist/}"
+            encoding="gzip"
+            original="${key%.gz}"
+            if [[ "$key" == *.br ]]; then
+              encoding="br"
+              original="${key%.br}"
+            fi
+            aws s3 cp "$f" "s3://${{ vars.S3_BUCKET_NAME }}/$key" \
+              --content-encoding "$encoding" \
+              --content-type "$(content_type "$original")" \
+              --cache-control "$(cache_control "$key")"
+          done
+
+      - name: Invalidate CloudFront
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id "${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}" \
+            --paths "/*"
