@@ -546,30 +546,6 @@ const authors = defineCollection({
   }),
 });
 
-const team = defineCollection({
-  type: 'content',
-  schema: z.object({
-    name:      z.string(),
-    role:      z.string(),
-    bio:       z.string(),
-    avatar:    imageField.optional(),
-    linkedin:  z.string().url().optional(),
-    twitter:   z.string().url().optional(),
-    order:     z.number().default(99),
-    featured:  z.boolean().default(false),
-    expertise: z.array(z.string()).default([]),
-  }),
-});
-
-const legal = defineCollection({
-  type: 'content',
-  schema: z.object({
-    title:       z.string(),
-    description: z.string(),
-    version:     z.string().optional(),
-  }).merge(seoFields).merge(dateFields),
-});
-
 const audiencepages = defineCollection({
   type: 'content',
   schema: z.object({
@@ -680,13 +656,9 @@ const siteSettings = defineCollection({
 
 export const collections = {
   home,
-  pages,
-  strategies,
   insights,
   blogs,
   authors,
-  team,
-  legal,
   audiencepages,
   'portfolio-management-service': portfolioManagementService,
   siteSettings,
