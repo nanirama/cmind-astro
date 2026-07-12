@@ -192,8 +192,8 @@ footer:
   logoImage:
     src: /images/footer-logo.avif
     alt: Capitalmind
-    width: 2025
-    height: 498
+    width: 1280
+    height: 314
   socialLinks:
     - label: YouTube
       href: https://youtube.com
