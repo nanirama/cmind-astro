@@ -20,10 +20,13 @@ sections:
         href: /track-record
         variant: secondary
     image:
-      src: /images/homeheroimg-desktop-2.png
+      src: /images/pages/home/homepageimage.webp
+      mobileSrc: /images/pages/home/homeheroimage-mobile.webp
       alt: Capitalmind wealth management platform dashboard showing systematic investment strategies and portfolio analytics
       width: 903
       height: 453
+      widthMobile: 603
+      heightMobile: 375
       stats:
       - value: 20+
         label: Years of research

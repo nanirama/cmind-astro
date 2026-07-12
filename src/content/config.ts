@@ -18,6 +18,20 @@ const imageField = z.object({
   height: z.number().optional(),
 });
 
+const heroImageField = z.object({
+  src: z.string(),
+  alt: z.string(),
+  width: z.number().optional(),
+  height: z.number().optional(),
+  mobileSrc: z.string().optional(),
+  widthMobile: z.number().optional(),
+  heightMobile: z.number().optional(),
+  stats: z.array(z.object({
+    value: z.string(),
+    label: z.string(),
+  })).optional(),
+});
+
 const dateFields = z.object({
   publishDate: z.coerce.date(),
   updatedDate: z.coerce.date().optional(),
@@ -37,7 +51,7 @@ const heroSectionSchema = z.object({
     variant:  z.enum(['primary', 'secondary', 'ghost']).default('primary'),
     external: z.boolean().default(false),
   })).optional(),
-  image:       imageField.optional(),
+  image:       heroImageField.optional(),
   backgroundVariant: z.enum(['default', 'gradient', 'dark', 'image']).default('default'),
   fullHeight:  z.boolean().default(false),
 });
