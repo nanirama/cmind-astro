@@ -37,7 +37,7 @@ const { eyebrow, heading, subheading, body,  backgroundImage, ctas = [], image }
 
 <div class="relative w-full">
   <section class="relative overflow-x-hidden pb-12 pl-[env(safe-area-inset-left,0px)] pr-[env(safe-area-inset-right,0px)] pt-[80px] lg:pt-[180px]">
-    <div class="relative h-full w-full">
+    <!-- <div class="relative h-full w-full">
      {backgroundImage && (
     <Image
       src={backgroundImage.src}
@@ -50,7 +50,7 @@ const { eyebrow, heading, subheading, body,  backgroundImage, ctas = [], image }
       class="absolute inset-0 z-0 h-full w-full object-cover"
     />
   )}
-  </div>
+  </div> -->
     <div class="mx-auto max-w-7xl px-4">
       <div class="mx-auto max-w-6xl pt-8 text-center">
         {
@@ -69,7 +69,7 @@ const { eyebrow, heading, subheading, body,  backgroundImage, ctas = [], image }
         </h1>
 
         <!-- Mobile-only Hero Image (inserted between heading and description) -->
-        <!-- {
+        {
           image && (
             <div class="my-8 block xl:-mx-4 xl:hidden">
                <Image
@@ -86,7 +86,7 @@ const { eyebrow, heading, subheading, body,  backgroundImage, ctas = [], image }
               />
             </div>
           )
-        } -->
+        }
 
         {
           subheading && (
@@ -131,7 +131,7 @@ const { eyebrow, heading, subheading, body,  backgroundImage, ctas = [], image }
   </section>
 
   <!-- Desktop-only Hero Image -->
-  <!-- {
+  {
     image && (
       <div class="hidden py-6 xl:block">
         <div class="mx-auto flex w-full max-w-7xl items-center justify-center px-4 py-6 md:px-0">
@@ -149,5 +149,5 @@ const { eyebrow, heading, subheading, body,  backgroundImage, ctas = [], image }
         </div>
       </div>
     )
-  } -->
+  }
 </div>
