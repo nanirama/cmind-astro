@@ -1,0 +1,85 @@
+---
+import Button from '@components/ui/Button.astro';
+
+interface BackgroundImage {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+}
+
+interface Step {
+  number: string;
+  title: string;
+  description: string;
+  backgroundImage: BackgroundImage;
+}
+
+interface Props {
+  heading: string;
+  steps: Step[];
+  ctaLabel?: string;
+  ctaHref?: string;
+}
+
+const { heading, steps, ctaLabel, ctaHref } = Astro.props;
+
+const cardStyles = [
+  { bg: 'bg-[#102519]', heading: 'text-white', desc: 'text-white/80' },
+  { bg: 'bg-[#cbd1c2]', heading: 'text-[#0e0e0e]', desc: 'text-[#525252]' },
+  { bg: 'bg-[#dce2c9]', heading: 'text-[#0e0e0e]', desc: 'text-[#525252]' },
+  { bg: 'bg-[#fff1d2]', heading: 'text-[#0e0e0e]', desc: 'text-[#525252]' },
+];
+---
+
+<section
+  class="section md:py-24 py-16 overflow-x-hidden pl-[env(safe-area-inset-left,0px)] pr-[env(safe-area-inset-right,0px)]"
+  aria-labelledby="process-heading "
+>
+  <div class="container">
+    <h2 id="process-heading" class="md:max-w-[22ch] text-center md:text-left">
+      {heading}
+    </h2>
+
+    <ol class="mt-xl grid grid-cols-1 gap-sm md:mt-2xl md:grid-cols-4 md:gap-md">
+      {steps.map((step, index) => {
+        const style = cardStyles[index % cardStyles.length];
+        return (
+          <li
+            class:list={[
+              'relative flex flex-col justify-between overflow-hidden rounded-2xl p-md md:min-h-[13.75rem] md:p-lg',
+              style.bg,
+            ]}
+          >
+            {/* <img
+              src={step.backgroundImage.src}
+              alt=""
+              aria-hidden="true"
+              width={step.backgroundImage.width ?? 194}
+              height={step.backgroundImage.height ?? 210}
+              loading="lazy"
+              decoding="async"
+              class=" pointer-events-none absolute inset-0 h-full w-full object-cover opacity-60"
+            /> */}
+
+            <h3 class:list={['relative font-sans text-body-lg font-semibold', style.heading]}>
+              {step.number}. {step.title}
+            </h3>
+            
+            <p class:list={['relative mt-sm max-w-[26ch] text-body-sm md:mt-0', style.desc]}>
+              {step.description}
+            </p>
+          </li>
+        );
+      })}
+    </ol>
+
+    {ctaLabel && ctaHref && (
+      <div class="mt-lg flex justify-center md:mt-xl md:justify-start">
+        <Button href={ctaHref} variant="primary">
+          {ctaLabel}
+        </Button>
+      </div>
+    )}
+  </div>
+</section>

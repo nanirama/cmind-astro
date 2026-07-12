@@ -1,0 +1,32 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import SectionRenderer from '@components/sections/SectionRenderer.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import { buildOrganizationJsonLd } from '@lib/seo';
+
+export async function getStaticPaths() {
+  const audiencePages = await getCollection('audiencepages');
+
+  return audiencePages.map((page: CollectionEntry<'audiencepages'>) => ({
+    params: { slug: page.slug },
+    props: { page },
+  }));
+}
+
+interface Props {
+  page: CollectionEntry<'audiencepages'>;
+}
+
+const { page } = Astro.props;
+const { title, description, seoTitle, seoDescription, sections = [] } = page.data;
+const jsonLd = buildOrganizationJsonLd();
+---
+
+<BaseLayout
+  title={seoTitle ?? title}
+  description={seoDescription ?? description}
+  ogType="website"
+  jsonLd={jsonLd}
+>
+  <SectionRenderer sections={sections as any} />
+</BaseLayout>

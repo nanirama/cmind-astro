@@ -1,0 +1,98 @@
+---
+import { getEntry } from 'astro:content';
+
+interface SocialLink {
+  label: string;
+  href: string;
+  icon: string;
+}
+
+interface FooterLink {
+  label: string;
+  href: string;
+}
+
+interface LinkGroup {
+  title: string;
+  links: FooterLink[];
+}
+
+const settings = await getEntry('siteSettings', 'index');
+if (!settings) throw new Error('Site settings not found: src/content/siteSettings/index.md');
+
+const { eyebrow, email, logoImage, socialLinks, linkGroups } = settings.data.footer as {
+  eyebrow: string;
+  email: string;
+  logoImage: { src: string; alt: string; width?: number; height?: number };
+  socialLinks: SocialLink[];
+  linkGroups: LinkGroup[];
+};
+---
+
+<footer class="relative h-full w-full overflow-hidden bg-[#121B14] bg-[url('/images/ftr-grdnt.png')] bg-cover bg-bottom bg-no-repeat">
+    <div class="container mx-auto px-[16px] pt-20">
+        <div class="grid grid-cols-1 gap-10 md:grid-cols-2 lg:gap-8">
+            <!-- Contact -->
+            <div class="">
+                <p class="mb-8 text-base tracking-[20%] text-[#EAF5D2]">
+                    {eyebrow}
+                </p>
+                <div class="w-full md:max-w-[25rem]">
+                <a
+                    href={`mailto:${email}`}
+                    class="mt-3 block font-display text-xl font-normal tracking-[-1.9%] text-lime-50 sm:text-[32px]"
+                >
+                    {email}
+                </a>
+
+                <nav aria-label="Social media" class="mt-8 flex justify-between gap-3">
+                   {socialLinks.map((social) => (
+                     <a href={social.href} target="_blank" rel="noopener noreferrer" aria-label={social.label}>
+                       <img src={social.icon} alt="" width={26} height={26} />
+                     </a>
+                   ))}
+                </nav>
+                </div>
+
+            </div>
+            <div
+                class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8"
+            >
+                <!-- Link groups -->
+                {
+                    linkGroups.map((group) => (
+                        <nav aria-label={group.title}>
+                            <h2 class="mb-6 font-sans text-base font-normal uppercase tracking-[20%] text-[#EAF5D2]">
+                                {group.title.toUpperCase()}
+                            </h2>
+                            <ul class="mt-4 space-y-5">
+                                {group.links.map((link) => (
+                                    <li>
+                                        <a
+                                            href={link.href}
+                                            class="text-base text-[#C0C0C0] transition-colors hover:text-lime-100"
+                                        >
+                                            {link.label}
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </nav>
+                    ))
+                }
+            </div>
+        </div>
+
+        <div class="relative overflow-hidden">
+            <img
+                src={logoImage.src}
+                alt={logoImage.alt}
+                width={logoImage.width}
+                height={logoImage.height}
+                loading="eager"
+                decoding="async"
+                class="pointer-events-none h-auto w-full select-none object-contain"
+            />
+        </div>
+    </div>
+</footer>

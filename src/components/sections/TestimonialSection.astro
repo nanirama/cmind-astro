@@ -18,21 +18,34 @@ interface Props {
 const { eyebrow, heading, testimonials } = Astro.props;
 ---
 
-<section class="testimonial-section section" aria-label={heading ?? 'Testimonials'}>
+<section class="section py-16 md:py-24 overflow-x-hidden pl-[env(safe-area-inset-left,0px)] pr-[env(safe-area-inset-right,0px)]" aria-label={heading ?? 'Testimonials'}>
   <div class="container">
     {(eyebrow || heading) && (
       <SectionHeader eyebrow={eyebrow} heading={heading} align="center" />
     )}
-    <div class="testimonial-section__grid" role="list" aria-label="Customer testimonials">
+    <div
+      class="mt-[var(--space-2xl)] grid grid-cols-1 gap-[var(--space-lg)] sm:grid-cols-2 lg:grid-cols-3"
+      role="list"
+      aria-label="Customer testimonials"
+    >
       {testimonials.map((t) => (
-        <article class="testimonial-card card" role="listitem" aria-label={`Testimonial from ${t.author}`}>
-          <svg class="testimonial-card__quote-icon" width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-            <path d="M9.333 20A5.333 5.333 0 004 14.667V9.333A5.333 5.333 0 009.333 4h5.334v5.333a5.333 5.333 0 01-5.334 5.334V20zm13.334 0a5.333 5.333 0 01-5.334-5.333V9.333A5.333 5.333 0 0122.667 4H28v5.333a5.333 5.333 0 01-5.333 5.334V20z" fill="var(--color-gold-400)" />
+        <article
+          class="flex flex-col gap-[var(--space-md)] rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] p-[var(--space-lg)]"
+          role="listitem"
+          aria-label={`Testimonial from ${t.author}`}
+        >
+          <svg class="shrink-0" width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <path
+              d="M9.333 20A5.333 5.333 0 004 14.667V9.333A5.333 5.333 0 009.333 4h5.334v5.333a5.333 5.333 0 01-5.334 5.334V20zm13.334 0a5.333 5.333 0 01-5.334-5.333V9.333A5.333 5.333 0 0122.667 4H28v5.333a5.333 5.333 0 01-5.333 5.334V20z"
+              class="fill-[var(--color-gold-400)]"
+            />
           </svg>
-          <blockquote class="testimonial-card__quote">
-            <p class="body-lg">{t.quote}</p>
+          <blockquote class="m-0 flex-1 border-none bg-none p-0 not-italic">
+            <p class="body-lg m-0 italic text-[color:var(--color-text-secondary)]">
+              {t.quote}
+            </p>
           </blockquote>
-          <footer class="testimonial-card__footer">
+          <footer class="flex items-center gap-[var(--space-sm)] border-t border-[var(--color-border)] pt-[var(--space-md)]">
             {t.avatar && (
               <img
                 src={t.avatar.src}
@@ -41,13 +54,15 @@ const { eyebrow, heading, testimonials } = Astro.props;
                 height="48"
                 loading="lazy"
                 decoding="async"
-                class="testimonial-card__avatar"
+                class="h-12 w-12 shrink-0 rounded-full object-cover"
               />
             )}
-            <div class="testimonial-card__meta">
-              <cite class="testimonial-card__author">{t.author}</cite>
+            <div class="flex flex-col gap-0.5">
+              <cite class="text-[length:var(--fs-body-sm)] font-semibold text-[color:var(--color-text-primary)] not-italic">
+                {t.author}
+              </cite>
               {(t.role || t.company) && (
-                <span class="testimonial-card__role">
+                <span class="text-[length:var(--fs-body-sm)] text-[color:var(--color-text-secondary)]">
                   {[t.role, t.company].filter(Boolean).join(', ')}
                 </span>
               )}
@@ -58,83 +73,3 @@ const { eyebrow, heading, testimonials } = Astro.props;
     </div>
   </div>
 </section>
-
-<style>
-  .testimonial-section__grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-lg);
-    margin-top: var(--space-2xl);
-  }
-
-  @media (min-width: 640px) {
-    .testimonial-section__grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .testimonial-section__grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-
-  .testimonial-card {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-md);
-  }
-
-  .testimonial-card__quote-icon {
-    flex-shrink: 0;
-  }
-
-  .testimonial-card__quote {
-    flex: 1;
-    margin: 0;
-    padding: 0;
-    border: none;
-    background: none;
-    font-style: normal;
-  }
-
-  .testimonial-card__quote p {
-    margin: 0;
-    color: var(--color-text-secondary);
-    font-style: italic;
-  }
-
-  .testimonial-card__footer {
-    display: flex;
-    align-items: center;
-    gap: var(--space-sm);
-    padding-top: var(--space-md);
-    border-top: 1px solid var(--color-border);
-  }
-
-  .testimonial-card__avatar {
-    width: 3rem;
-    height: 3rem;
-    border-radius: var(--radius-full);
-    object-fit: cover;
-    flex-shrink: 0;
-  }
-
-  .testimonial-card__meta {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .testimonial-card__author {
-    font-style: normal;
-    font-weight: 600;
-    font-size: var(--fs-text-sm);
-    color: var(--color-text-primary);
-  }
-
-  .testimonial-card__role {
-    font-size: var(--fs-text-xs);
-    color: var(--color-text-tertiary);
-  }
-</style>

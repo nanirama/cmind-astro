@@ -1,0 +1,67 @@
+---
+import { Image } from 'astro:assets';
+import InvestorJourneyTimeline from './InvestorJourneyTimeline';
+
+interface PersonImage {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+}
+
+interface Milestone {
+  year: string;
+  title: string;
+  quote: string;
+}
+
+interface Props {
+  heading: string;
+  personImage: PersonImage;
+  personName: string;
+  personRole: string;
+  captionBefore?: string;
+  captionAfter?: string;
+  milestones: Milestone[];
+}
+
+const {
+  heading,
+  personImage,
+  personName,
+  personRole,
+  captionBefore = 'Look at what',
+  captionAfter = 'has to say about his journey.',
+  milestones,
+} = Astro.props;
+---
+
+<section
+  class="section overflow-x-hidden md:py-24 py-16 pl-[env(safe-area-inset-left,0px)] pr-[env(safe-area-inset-right,0px)]"
+  aria-labelledby="ij-heading "
+>
+  <div class="container grid grid-cols-1 gap-10 md:grid-cols-[minmax(260px,320px)_1fr] md:gap-20">
+    <div class="flex flex-col gap-md">
+      <h2 id="ij-heading" class="max-w-[16ch] font-serif tracking-[-5%]">{heading}</h2>
+
+      <figure class="m-0 flex flex-row items-center gap-sm md:flex-col md:items-start md:gap-md">
+        <Image
+          src={personImage.src}
+          alt={personImage.alt}
+          width={personImage.width ?? 260}
+          height={personImage.height ?? 190}
+          format="webp"
+          quality={85}
+          loading="lazy"
+          decoding="async"
+          class="h-20 w-20 flex-shrink-0 rounded-lg object-cover md:aspect-[260/190] md:h-auto md:w-full"
+        />
+        <figcaption class="text-body-sm text-text-secondary md:max-w-[30ch]">
+          {captionBefore} <strong class="font-semibold text-text-primary">{personName}, {personRole}</strong> {captionAfter}
+        </figcaption>
+      </figure>
+    </div>
+    
+    <InvestorJourneyTimeline client:visible milestones={milestones} />
+  </div>
+</section>

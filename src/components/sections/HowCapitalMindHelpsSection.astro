@@ -1,0 +1,142 @@
+---
+import { Image } from 'astro:assets';
+
+interface Feature {
+  icon: string;
+  heading: string;
+  description: string;
+}
+
+interface PortfolioImage {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+}
+
+interface Props {
+  heading: string;
+  portfolioImage: PortfolioImage;
+  features: Feature[];
+}
+
+const { heading, portfolioImage, features } = Astro.props;
+
+const beside = features.slice(0, 2);
+const rest = features.slice(2);
+
+const ROW_START_CLASSES = ['md:row-start-1', 'md:row-start-2', 'md:row-start-3', 'md:row-start-4'];
+
+const ICONS: Record<string, string> = {
+  folder:
+    '<path d="M3 7.5C3 6.67 3.67 6 4.5 6h4.4a1.5 1.5 0 0 1 1.06.44L11.5 8H19.5c.83 0 1.5.67 1.5 1.5v8c0 .83-.67 1.5-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5v-10Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>',
+  scales:
+    '<ellipse cx="12" cy="7" rx="7" ry="3" stroke="currentColor" stroke-width="1.5"/><path d="M5 7v4c0 1.66 3.13 3 7 3s7-1.34 7-3V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M5 11v4c0 1.66 3.13 3 7 3s7-1.34 7-3v-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>',
+  'trending-up':
+    '<path d="M4 16l5-5 4 4 7-8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 7h5v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>',
+  'book-open':
+    '<path d="M12 6.5c-1.5-1-4-1.5-6-1.5-.55 0-1 .45-1 1v11c0 .55.45 1 1 1 2 0 4.5.5 6 1.5 1.5-1 4-1.5 6-1.5.55 0 1-.45 1-1V6c0-.55-.45-1-1-1-2 0-4.5.5-6 1.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 6.5V19" stroke="currentColor" stroke-width="1.5"/>',
+  wallet:
+    '<path d="M3 7.5C3 6.67 3.67 6 4.5 6h13c.83 0 1.5.67 1.5 1.5V9h-4.5a2 2 0 0 0 0 4H19v3.5c0 .83-.67 1.5-1.5 1.5h-13A1.5 1.5 0 0 1 3 16.5v-9Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="16" cy="11" r="0.75" fill="currentColor"/>',
+  'eye-off':
+    '<path d="M3 3l18 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M10.6 5.2A10.4 10.4 0 0 1 12 5c5 0 9 4 10 7-.4 1.2-1.4 2.8-2.8 4.1M6.6 6.6C4.6 8 3.3 9.9 2 12c1 3 5 7 10 7 1.3 0 2.6-.3 3.7-.7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.9 10a3 3 0 0 0 4.1 4.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>',
+  gavel:
+    '<path d="M14 5l4 4-2 2-1.3-1.3L10 14.4 8.6 13l4.7-4.7L12 7l2-2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9.5 12.5 3 19M13 4l1.5-1.5M18 9l1.5-1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M4 22l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>',
+    gavelFilled: `
+  <path
+    d="M30.4147 14.5862L28.4147 12.5862C28.0755 12.2474 27.6259 12.0417 27.1477 12.0066C26.6696 11.9715 26.1947 12.1093 25.8097 12.395L19.6047 6.18997C19.8905 5.80507 20.0285 5.33031 19.9937 4.85217C19.9588 4.37403 19.7533 3.92433 19.4147 3.58497L17.4147 1.58497C17.229 1.39921 17.0085 1.25185 16.7658 1.15131C16.5231 1.05077 16.263 0.999023 16.0003 0.999023C15.7376 0.999023 15.4775 1.05077 15.2349 1.15131C14.9922 1.25185 14.7717 1.39921 14.586 1.58497L6.58595 9.58497C6.40019 9.77069 6.25283 9.99119 6.15229 10.2339C6.05175 10.4766 6.00001 10.7367 6.00001 10.9993C6.00001 11.262 6.05175 11.5221 6.15229 11.7648C6.25283 12.0075 6.40019 12.228 6.58595 12.4137L8.58595 14.4137C8.92524 14.752 9.3747 14.9573 9.85255 14.9921C10.3304 15.027 10.8049 14.8892 11.1897 14.6037L12.086 15.5L3.91345 23.6725C3.3705 24.2663 3.07752 25.0466 3.09551 25.8511C3.1135 26.6555 3.44107 27.422 4.01002 27.9909C4.57897 28.5599 5.34545 28.8874 6.14987 28.9054C6.95428 28.9234 7.73464 28.6304 8.32845 28.0875L16.4997 19.915L17.396 20.81C17.1102 21.1949 16.9721 21.6696 17.007 22.1478C17.0419 22.6259 17.2473 23.0756 17.586 23.415L19.586 25.415C19.7717 25.6007 19.9922 25.7481 20.2349 25.8486C20.4775 25.9492 20.7376 26.0009 21.0003 26.0009C21.263 26.0009 21.5231 25.9492 21.7658 25.8486C22.0085 25.7481 22.229 25.6007 22.4147 25.415L30.4147 17.415C30.6005 17.2292 30.7478 17.0088 30.8484 16.7661C30.9489 16.5234 31.0007 16.2633 31.0007 16.0006C31.0007 15.7379 30.9489 15.4778 30.8484 15.2351C30.7478 14.9924 30.6005 14.7719 30.4147 14.5862ZM9.9997 13L7.9997 11L15.9997 2.99997L17.9997 4.99997L9.9997 13ZM6.9147 26.6725C6.70392 26.882 6.41879 26.9996 6.12158 26.9996C5.82437 26.9996 5.53924 26.882 5.32845 26.6725C5.1193 26.4617 5.00193 26.1769 5.00193 25.88C5.00193 25.5831 5.1193 25.2982 5.32845 25.0875L13.4997 16.915L15.086 18.5L6.9147 26.6725ZM12.6247 13.2075L18.2072 7.62497L24.3747 13.7925L18.7935 19.375L12.6247 13.2075ZM20.9997 24L18.9997 22L19.4997 21.5L26.4997 14.5L26.9997 14L28.9997 16L20.9997 24Z"
+    fill="url(#gavelGradient)"
+  />
+  <defs>
+    <linearGradient
+      id="gavelGradient"
+      x1="31.0006"
+      y1="4.32706"
+      x2="3.09381"
+      y2="25.577"
+      gradientUnits="userSpaceOnUse"
+    >
+      <stop stop-color="#FFC65F" />
+      <stop offset="0.466346" stop-color="#8A6426" />
+      <stop offset="1" stop-color="#FFC65F" />
+    </linearGradient>
+  </defs>
+`,
+};
+
+function iconMarkup(icon: string) {
+  return ICONS[icon] ?? ICONS.folder;
+}
+---
+
+<section class="section py-16 md:py-24 overflow-x-hidden bg-[var(--color-dark-green-900)] pl-[env(safe-area-inset-left,0px)] pr-[env(safe-area-inset-right,0px)]" aria-labelledby="hcmh-heading">
+  <div class="container px-4">
+    <h2
+      id="hcmh-heading"
+      class="mx-auto mb-[var(--space-2xl)] max-w-[24ch] text-center text-[color:var(--color-text-inverse)]"
+    >
+      {heading}
+    </h2>
+
+    <div class="grid grid-cols-1 gap-[var(--space-md)] md:grid-cols-2">
+      <div class="w-full overflow-hidden rounded-[var(--radius-xl)] md:col-start-1 md:row-start-1 md:row-span-2">
+        <Image
+          src={portfolioImage.src}
+          alt={portfolioImage.alt}
+          width={portfolioImage.width ?? 628}
+          height={portfolioImage.height ?? 464}
+          format="webp"
+          quality={85}
+          loading="lazy"
+          decoding="async"
+          class="block h-auto w-full md:h-full md:object-cover"
+        />
+      </div>
+
+      {beside.map((feature, index) => (
+        <div
+          class:list={[
+            'rounded-[var(--radius-xl)] bg-[var(--color-dark-green-700)] p-[var(--space-lg)] md:col-start-2',
+            ROW_START_CLASSES[index],
+          ]}
+        >
+          <svg
+            class="mb-[var(--space-md)] text-[color:var(--color-gold-500)]"
+            width="32"
+            height="32"
+            viewBox="0 0 24 24"
+            fill="none"
+            aria-hidden="true"
+            set:html={iconMarkup(feature.icon)}
+          />
+          <h3 class="mb-[var(--space-xs)] text-[color:var(--color-text-inverse)]">{feature.heading}</h3>
+          <p class="m-0 max-w-[22rem] text-[length:var(--fs-body-base)] leading-[var(--lh-body-base)] text-[color:var(--color-beige-300)]">
+            {feature.description}
+          </p>
+        </div>
+      ))}
+
+      {rest.length > 0 && (
+        <div class="grid grid-cols-1 gap-[var(--space-md)] md:col-span-full md:grid-cols-2">
+          {rest.map((feature) => (
+            <div class="rounded-[var(--radius-xl)] bg-[var(--color-dark-green-700)] p-[var(--space-lg)]">
+              <svg
+                class="mb-[var(--space-md)] text-[color:var(--color-gold-500)]"
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="none"
+                aria-hidden="true"
+                set:html={iconMarkup(feature.icon)}
+              />
+              <h3 class="mb-[var(--space-xs)] text-[color:var(--color-text-inverse)]">{feature.heading}</h3>
+              <p class="m-0 max-w-[22rem] text-[length:var(--fs-body-base)] leading-[var(--lh-body-base)] text-[color:var(--color-beige-300)]">
+                {feature.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  </div>
+</section>

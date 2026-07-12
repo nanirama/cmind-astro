@@ -1,0 +1,52 @@
+---
+import Button from '@components/ui/Button.astro';
+import PmsStrategyExplorerTabs from './PmsStrategyExplorerTabs';
+
+interface Item {
+  title: string;
+  description: string;
+  href?: string;
+  linkLabel: string;
+}
+
+interface TabImage {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+}
+
+interface Tab {
+  label: string;
+  items: Item[];
+  image: TabImage;
+}
+
+interface Props {
+  heading: string;
+  defaultTab?: string;
+  tabs: Tab[];
+  ctaLabel?: string;
+  ctaHref?: string;
+}
+
+const { heading, defaultTab, tabs, ctaLabel, ctaHref } = Astro.props;
+---
+
+<section class="section py-16 md:py-24 overflow-x-hidden pl-[env(safe-area-inset-left,0px)] pr-[env(safe-area-inset-right,0px)]" aria-labelledby="pse-heading">
+  <div class="container">
+    <h2 id="pse-heading" class="m-0 mb-[var(--space-2xl)] max-w-[26ch]">
+      {heading}
+    </h2>
+
+    <PmsStrategyExplorerTabs client:visible tabs={tabs} defaultTab={defaultTab} />
+
+    {ctaLabel && ctaHref && (
+      <div class="mt-[var(--space-2xl)]">
+        <Button href={ctaHref} variant="primary" size="lg">
+          {ctaLabel}
+        </Button>
+      </div>
+    )}
+  </div>
+</section>

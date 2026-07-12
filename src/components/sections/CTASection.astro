@@ -16,18 +16,58 @@ interface Props {
 }
 
 const { eyebrow, heading, body, ctas, variant = 'brand' } = Astro.props;
+
+const sectionBgClasses = {
+  default: 'bg-[var(--color-surface-raised)]',
+  dark: 'bg-[var(--color-primary-900)]',
+  brand:
+    'bg-[linear-gradient(135deg,var(--color-primary-800)_0%,var(--color-primary-600)_60%,var(--color-gold-800)_100%)]',
+}[variant];
+
+const headingColorClass =
+  variant === 'default'
+    ? 'text-[color:var(--color-text-primary)]'
+    : 'text-[color:var(--color-text-inverse)]';
+
+const bodyColorClass =
+  variant === 'default'
+    ? 'text-[color:var(--color-text-secondary)]'
+    : 'text-[rgba(255,255,255,0.75)]';
 ---
 
-<section class:list={['cta-section', `cta-section--${variant}`]} aria-label="Call to action">
+<section
+  class:list={['relative overflow-hidden py-16 md:py-24 pl-[env(safe-area-inset-left,0px)] pr-[env(safe-area-inset-right,0px)]', sectionBgClasses]}
+  aria-label="Call to action"
+>
   <div class="container">
-    <div class="cta-section__inner">
-      <div class="cta-section__content">
-        {eyebrow && <p class="eyebrow cta-section__eyebrow">{eyebrow}</p>}
-        <h2 class="cta-section__heading text-balance">{heading}</h2>
-        {body && <p class="cta-section__body text-pretty">{body}</p>}
+    <div class="mx-auto flex max-w-[56rem] flex-col items-center gap-[var(--space-xl)] text-center md:flex-row md:items-center md:justify-between md:text-left">
+      <div class="flex flex-1 flex-col gap-[var(--space-xs)]">
+        {eyebrow && <p class="eyebrow m-0 text-[color:var(--color-gold-400)]">{eyebrow}</p>}
+        <h2
+          class:list={[
+            'm-0 text-balance font-[family-name:var(--font-serif)] text-[length:var(--fs-h2)]',
+            headingColorClass,
+          ]}
+        >
+          {heading}
+        </h2>
+        {body && (
+          <p
+            class:list={[
+              'm-0 max-w-[52ch] text-pretty text-[length:var(--fs-body-lg)]',
+              bodyColorClass,
+            ]}
+          >
+            {body}
+          </p>
+        )}
       </div>
       {ctas.length > 0 && (
-        <div class="cta-section__actions" role="group" aria-label="Call to action buttons">
+        <div
+          class="flex shrink-0 flex-wrap gap-[var(--space-sm)]"
+          role="group"
+          aria-label="Call to action buttons"
+        >
           {ctas.map((cta) => (
             <Button href={cta.href} variant={cta.variant ?? 'gold'} size="lg">
               {cta.label}
@@ -38,83 +78,3 @@ const { eyebrow, heading, body, ctas, variant = 'brand' } = Astro.props;
     </div>
   </div>
 </section>
-
-<style>
-  .cta-section {
-    padding-block: clamp(var(--space-3xl), 8vw, var(--space-5xl));
-    position: relative;
-    overflow: hidden;
-  }
-
-  .cta-section--default {
-    background-color: var(--color-surface-raised);
-  }
-
-  .cta-section--dark {
-    background-color: var(--color-primary-900);
-  }
-
-  .cta-section--brand {
-    background: linear-gradient(135deg, var(--color-primary-800) 0%, var(--color-primary-600) 60%, var(--color-gold-800) 100%);
-  }
-
-  .cta-section__inner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: var(--space-xl);
-    max-width: 56rem;
-    margin-inline: auto;
-  }
-
-  @media (min-width: 768px) {
-    .cta-section__inner {
-      flex-direction: row;
-      text-align: left;
-      align-items: center;
-      justify-content: space-between;
-    }
-  }
-
-  .cta-section__content {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-xs);
-    flex: 1;
-  }
-
-  .cta-section__eyebrow {
-    color: var(--color-gold-400);
-    margin: 0;
-  }
-
-  .cta-section__heading {
-    font-family: var(--font-serif);
-    font-size: var(--fs-display-lg);
-    color: var(--color-text-inverse);
-    margin: 0;
-  }
-
-  .cta-section--default .cta-section__heading {
-    color: var(--color-text-primary);
-  }
-
-  .cta-section__body {
-    font-size: var(--fs-text-lg);
-    color: rgba(255 255 255 / 0.75);
-    margin: 0;
-    max-width: 52ch;
-  }
-
-  .cta-section--default .cta-section__body {
-    color: var(--color-text-secondary);
-  }
-
-  .cta-section__actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-sm);
-    flex-shrink: 0;
-  }
-</style>

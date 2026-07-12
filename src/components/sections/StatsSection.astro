@@ -1,6 +1,4 @@
 ---
-import SectionHeader from '@components/ui/SectionHeader.astro';
-
 interface Stat {
   value: string;
   label: string;
@@ -12,111 +10,131 @@ interface Props {
   eyebrow?: string;
   heading?: string;
   stats: Stat[];
-  variant?: 'default' | 'dark' | 'brand';
 }
 
-const { eyebrow, heading, stats, variant = 'default' } = Astro.props;
+const { eyebrow, heading, stats } = Astro.props;
 ---
 
-<section class:list={['stats-section', `stats-section--${variant}`]} aria-label={heading ?? 'Key statistics'}>
-  <div class="container">
-    {(eyebrow || heading) && (
-      <SectionHeader eyebrow={eyebrow} heading={heading} align="center" />
-    )}
-    <dl class="stats-section__grid">
-      {stats.map((stat) => (
-        <div class="stats-section__item">
-          <dt class="stats-section__label">{stat.label}</dt>
-          <dd class="stats-section__value" data-value={stat.value}>
-            {stat.prefix && <span class="stats-section__prefix">{stat.prefix}</span>}
-            <span class="stats-section__number">{stat.value}</span>
-            {stat.suffix && <span class="stats-section__suffix">{stat.suffix}</span>}
-          </dd>
-        </div>
-      ))}
-    </dl>
+<section
+  class="section overflow-x-hidden bg-[#F4F3EB] py-[30px] pl-[env(safe-area-inset-left,0px)] pr-[env(safe-area-inset-right,0px)]"
+  aria-label={heading ?? "Key statistics"}
+>
+  <div class="container px-4">
+    {
+      eyebrow && (
+        <p class="m-0 mb-[var(--space-lg)] inline-flex w-full items-center justify-center gap-[var(--space-3xs)] font-sans text-[length:var(--fs-h6)] leading-[var(--lh-h6)] tracking-[var(--ls-h6)] font-medium text-[color:var(--color-text-secondary)]">
+          <svg
+            class="shrink-0 text-[color:var(--color-gold-500)]"
+            width="4"
+            height="6"
+            viewBox="0 0 4 6"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path d="M4 3L0 0V6L4 3Z" fill="currentColor" />
+          </svg>
+          <span>{eyebrow}</span>
+          <svg
+            class="shrink-0 text-[color:var(--color-gold-500)]"
+            width="4"
+            height="6"
+            viewBox="0 0 4 6"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path d="M0 3L4 0V6L0 3Z" fill="currentColor" />
+          </svg>
+        </p>
+      )
+    }
+
+    {heading && <h2 class="m-0 mb-[var(--space-2xl)] text-center">{heading}</h2>}
+
+    <ul class="m-0 flex list-none flex-row justify-between gap-[var(--space-sm)] p-0" role="list">
+      {
+        stats.map((stat) => (
+          <li class=" md:text-left">
+            <div class="relative py-[var(--space-md)] px-[var(--space-2xs)] text-center md:text-left">
+              <span
+                class="absolute top-0 left-0 hidden h-2 w-2 md:block"
+                aria-hidden="true"
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M7.5 4V10M7.5 14V20M10.5 12H16.5"
+                    stroke="url(#paint0_linear_5500_6449)"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                  />
+                  <defs>
+                    <linearGradient
+                      id="paint0_linear_5500_6449"
+                      x1="7.5"
+                      y1="5.90806"
+                      x2="19.5145"
+                      y2="11.0543"
+                      gradientUnits="userSpaceOnUse"
+                    >
+                      <stop stop-color="#FFC65F" />
+                      <stop offset="0.466346" stop-color="#8A6426" />
+                      <stop offset="1" stop-color="#FFC65F" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </span>
+              <span
+                class="absolute right-0 bottom-0 hidden h-2 w-2 md:block"
+                aria-hidden="true"
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="rotate-180"
+                >
+                  <path
+                    d="M7.5 4V10M7.5 14V20M10.5 12H16.5"
+                    stroke="url(#paint0_linear_5500_6449)"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                  />
+                  <defs>
+                    <linearGradient
+                      id="paint0_linear_5500_6449"
+                      x1="7.5"
+                      y1="5.90806"
+                      x2="19.5145"
+                      y2="11.0543"
+                      gradientUnits="userSpaceOnUse"
+                    >
+                      <stop stop-color="#FFC65F" />
+                      <stop offset="0.466346" stop-color="#8A6426" />
+                      <stop offset="1" stop-color="#FFC65F" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </span>
+
+              <p class="m-0 mb-[var(--space-2xs)] font-[family-name:var(--font-serif)] text-[56px] font-medium leading-[var(--lh-h3)] text-[#0e0e0e] max-[600px]:text-[20px] max-[767px]:text-[48px]">
+                {stat.prefix}
+                {stat.value}
+                {stat.suffix}
+              </p>
+              <p class="mx-auto max-w-[16ch] font-sans text-[20px] leading-[var(--lh-body-sm)] text-[color:var(--color-text-secondary)] max-[600px]:max-w-full max-[600px]:text-[16px] md:mx-0 md:max-w-none">
+                {stat.label}
+              </p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
   </div>
 </section>
-
-<style>
-  .stats-section {
-    padding-block: clamp(var(--space-3xl), 8vw, var(--space-5xl));
-  }
-
-  .stats-section--default {
-    background-color: var(--color-surface-raised);
-  }
-
-  .stats-section--dark {
-    background-color: var(--color-primary-900);
-  }
-
-  .stats-section--dark .stats-section__label,
-  .stats-section--dark .stats-section__value {
-    color: var(--color-beige-200);
-  }
-
-  .stats-section--dark .stats-section__number {
-    color: var(--color-gold-400);
-  }
-
-  .stats-section--brand {
-    background: linear-gradient(135deg, var(--color-primary-800) 0%, var(--color-primary-600) 100%);
-  }
-
-  .stats-section--brand .stats-section__label { color: var(--color-beige-300); }
-  .stats-section--brand .stats-section__number { color: var(--color-gold-300); }
-
-  .stats-section__grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-xl);
-    margin-top: var(--space-2xl);
-  }
-
-  @media (min-width: 768px) {
-    .stats-section__grid {
-      grid-template-columns: repeat(4, 1fr);
-    }
-  }
-
-  .stats-section__item {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-xs);
-  }
-
-  .stats-section__value {
-    display: flex;
-    align-items: baseline;
-    gap: var(--space-3xs);
-    font-family: var(--font-serif);
-    color: var(--color-primary-700);
-    margin: 0;
-  }
-
-  .stats-section__number {
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    font-weight: 700;
-    line-height: 1;
-    letter-spacing: var(--ls-display);
-  }
-
-  .stats-section__prefix,
-  .stats-section__suffix {
-    font-size: var(--fs-display-sm);
-    font-weight: 600;
-    color: var(--color-gold-600);
-  }
-
-  .stats-section__label {
-    font-size: var(--fs-text-sm);
-    font-weight: 500;
-    color: var(--color-text-secondary);
-    text-align: center;
-    margin: 0;
-    max-width: 20ch;
-  }
-</style>

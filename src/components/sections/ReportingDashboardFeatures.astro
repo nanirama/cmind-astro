@@ -1,0 +1,123 @@
+---
+import { Image } from 'astro:assets';
+
+interface DashboardImage {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+}
+
+interface Feature {
+  title: string;
+  description: string;
+  image: DashboardImage;
+}
+
+interface Props {
+  heading: string;
+  subheading?: string;
+  videoUrl: string;
+  videoPoster: DashboardImage;
+  features: Feature[];
+}
+
+const { heading, subheading, videoUrl, videoPoster, features } = Astro.props;
+
+const videoTitle = heading.replace(/\n/g, ' ').trim();
+---
+
+<section
+  class="section py-16 md:py-24 overflow-x-hidden pl-[env(safe-area-inset-left,0px)] pr-[env(safe-area-inset-right,0px)]"
+  aria-labelledby="rdf-heading"
+>
+  <div class="container">
+    <div class="mb-xl flex flex-col gap-md md:mb-2xl md:flex-row md:items-start md:justify-between md:gap-2xl">
+      <h2 id="rdf-heading" class="max-w-[20ch] whitespace-pre-line">{heading}</h2>
+      {subheading && (
+        <p class="max-w-[48ch] text-body-base text-text-secondary md:mt-2xs">{subheading}</p>
+      )}
+    </div>
+
+    <div
+      class="relative aspect-[848/736] w-full overflow-hidden rounded-xl bg-[#fcfcf7] sm:aspect-[20/10]"
+      data-video-wrapper
+      data-video-url={videoUrl}
+      data-video-title={videoTitle}
+    >
+      <Image
+        src={videoPoster.src}
+        alt={videoPoster.alt}
+        width={videoPoster.width ?? 848}
+        height={videoPoster.height ?? 736}
+        format="webp"
+        quality={85}
+        loading="lazy"
+        decoding="async"
+        class="absolute inset-0 h-full w-full object-contain"
+      />
+
+      <button
+        type="button"
+        data-video-play
+        aria-label={`Play video: ${videoTitle}`}
+        class="group absolute inset-0 flex items-center justify-center focus-visible:outline-none"
+      >
+        <span class="flex h-14 w-14 items-center justify-center rounded-full bg-white/90 shadow-lg motion-safe:transition-transform motion-safe:duration-fast motion-safe:ease-out-quart motion-safe:group-hover:scale-105 motion-safe:group-focus-visible:scale-105 group-focus-visible:ring-2 group-focus-visible:ring-gold-500 group-focus-visible:ring-offset-2 sm:h-16 sm:w-16">
+          <svg width="20" height="24" viewBox="0 0 20 24" fill="none" aria-hidden="true" class="ml-1 text-primary-900">
+            <path d="M19 10.268C20.3333 11.0378 20.3333 12.9622 19 13.732L3.25 22.7818C1.91667 23.5516 0.25 22.5894 0.25 21.0498L0.25 2.95017C0.25 1.4106 1.91667 0.448374 3.25 1.21817L19 10.268Z" fill="currentColor" />
+          </svg>
+        </span>
+      </button>
+    </div>
+
+    <ul class="mt-lg grid grid-cols-1 gap-md sm:mt-xl sm:grid-cols-3">
+      {features.map((feature) => (
+        <li class="rounded-xl bg-[#FCFCF7] p-md">
+          <h3 class="mb-2xs font-serif text-h5 font-semibold text-text-primary">{feature.title}</h3>
+          <p class="text-body-sm text-text-secondary">{feature.description}</p>
+<div class="w-full my-auto min-h-[200px]">
+          <img
+            src={feature.image.src}
+            alt={feature.image.alt}
+            width={feature.image.width ?? 200}
+            height={feature.image.height ?? 180}
+            loading="lazy"
+            decoding="async"
+            class="mt-4 h-auto w-full rounded-lg"
+          />
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<script>
+  function initVideoFacades() {
+    document.querySelectorAll<HTMLElement>('[data-video-wrapper]').forEach((wrapper) => {
+      const button = wrapper.querySelector<HTMLButtonElement>('[data-video-play]');
+      const videoUrl = wrapper.dataset.videoUrl;
+      const videoTitle = wrapper.dataset.videoTitle ?? 'Video';
+
+      button?.addEventListener('click', () => {
+        if (!videoUrl) return;
+
+        const separator = videoUrl.includes('?') ? '&' : '?';
+        const iframe = document.createElement('iframe');
+        iframe.src = `${videoUrl}${separator}autoplay=1`;
+        iframe.title = videoTitle;
+        iframe.className = 'absolute inset-0 h-full w-full';
+        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+        iframe.allowFullscreen = true;
+        iframe.setAttribute('frameborder', '0');
+
+        wrapper.replaceChildren(iframe);
+        iframe.focus();
+      }, { once: true });
+    });
+  }
+
+  initVideoFacades();
+  document.addEventListener('astro:page-load', initVideoFacades);
+</script>

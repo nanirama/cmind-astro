@@ -39,7 +39,7 @@ const {
 } = Astro.props;
 ---
 
-<section class="bg-[#121B14] py-[48px] lg:py-32">
+<section class="overflow-x-hidden bg-[#121B14] py-[48px] pl-[env(safe-area-inset-left,0px)] pr-[env(safe-area-inset-right,0px)] lg:py-32">
 
   <!-- Desktop version -->
   <div class="mx-auto hidden max-w-7xl px-4 lg:block">
@@ -55,11 +55,14 @@ const {
 
         <!-- Image Side -->
         <div class="relative h-[400px] w-full shrink-0 overflow-hidden rounded-[12px] border border-[#232F26] bg-[#162119] p-4 md:h-[490px] md:w-[605px]">
-          <div
-            class="absolute inset-0 bg-cover bg-center opacity-95 mix-blend-screen"
-            style={`background-image: url('${founderBgImage}');`}
+          <img
+            src={founderBgImage}
+            alt=""
             aria-hidden="true"
-          ></div>
+            loading="lazy"
+            decoding="async"
+            class="absolute inset-0 h-full w-full object-cover opacity-95 mix-blend-screen"
+          />
           <Image
             src={founderImage}
             alt={founderName}
@@ -164,7 +167,7 @@ const {
 
   <!-- Mobile version -->
   <div class="block lg:hidden">
-    <div class="mx-auto flex w-full max-w-[402px] flex-col items-center px-4 text-center">
+    <div class="mx-auto flex w-full lg:max-w-[402px] sm:max-w-[600px] flex-col items-center px-4 text-center">
 
       <h2 class="mb-6 font-noto font-serif text-[24px] tracking-[-0.02em] text-white">
         Meet Our Founder
@@ -172,11 +175,14 @@ const {
 
       <!-- Founder Image -->
       <div class="relative mb-6 aspect-[5/4] w-full overflow-hidden rounded-b-none rounded-t-[12px] bg-[#0E1511]">
-        <div
-          class="absolute inset-0 bg-cover bg-center opacity-80 mix-blend-screen"
-          style={`background-image: url('${founderBgImage}');`}
+        <img
+          src={founderBgImage}
+          alt=""
           aria-hidden="true"
-        ></div>
+          loading="lazy"
+          decoding="async"
+          class="absolute inset-0 h-full w-full object-cover opacity-80 mix-blend-screen"
+        />
         <Image
           src={founderImage}
           alt={founderName}
@@ -195,7 +201,7 @@ const {
         {founderQuote}
       </blockquote>
 
-      <h3 class="mb-1 font-noto text-[16px] font-medium text-[#F9F9F9]" style="font-stretch: condensed;">
+      <h3 class="mb-1 font-noto text-[16px] font-medium text-[#F9F9F9] [font-stretch:condensed]">
         {founderName}
       </h3>
       <p class="font-inter text-[16px] font-normal text-[#A3A3A3]">
@@ -217,8 +223,7 @@ const {
         </div>
 
         <h3
-          class="mb-8 font-noto text-[20px] font-medium leading-[1.2] tracking-[-0.02em] text-[#F9F9F9]"
-          style="font-stretch: condensed;"
+          class="mb-8 font-noto text-[20px] font-medium leading-[1.2] tracking-[-0.02em] text-[#F9F9F9] [font-stretch:condensed]"
         >
           {bookHeading.split(':')[0]}:<br />{bookHeading.split(':').slice(1).join(':').trim()}
         </h3>
@@ -251,11 +256,13 @@ const {
         </div>
       </div>
 
-      <!-- Podcast Carousel -->
       <div class="relative -ml-4 -mr-4 w-[calc(100%+32px)]">
         <div
           data-podcast-carousel
-          class="no-scrollbar flex w-full snap-x snap-mandatory gap-4 overflow-x-auto pb-4 pl-4"
+          role="region"
+          aria-label="Leadership team"
+          tabindex="0"
+          class="flex w-full snap-x snap-mandatory gap-4 overflow-x-auto pb-4 pl-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           {team.map((member) => (
             <div class="relative h-[300px] min-w-[250px] shrink-0 snap-center overflow-hidden rounded-[12px]">
@@ -296,11 +303,6 @@ const {
   </div>
 
 </section>
-
-<style>
-  .no-scrollbar::-webkit-scrollbar { display: none; }
-  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-</style>
 
 <script>
   const carousel = document.querySelector('[data-podcast-carousel]') as HTMLElement | null;

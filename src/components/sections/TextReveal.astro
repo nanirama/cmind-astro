@@ -1,0 +1,76 @@
+---
+interface Props {
+  text: string;
+  as?: keyof HTMLElementTagNameMap;
+  class?: string;
+  delay?: number;
+}
+
+const { text, as: Tag = 'p', class: className = '', delay = 0 } = Astro.props;
+const words = text.split(' ');
+---
+
+<Tag class={`text-reveal ${className}`} style={`--reveal-delay: ${delay}s`}>
+  {words.map((word, i) => (
+    <span class="text-reveal__mask">
+      <span class="text-reveal__word" style={`--word-delay: ${i * 0.03}s`}>
+        {word}{i !== words.length - 1 ? '\u00A0' : ''}
+      </span>
+    </span>
+  ))}
+</Tag>
+
+<style>
+  .text-reveal__mask {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+    padding-bottom: 0.15em;
+    margin-bottom: -0.15em;
+  }
+
+  .text-reveal__word {
+    display: inline-block;
+    transform: translateY(100%);
+    opacity: 0;
+    will-change: transform, opacity;
+    transition:
+      transform 0.5s cubic-bezier(0.33, 1, 0.68, 1),
+      opacity 0.5s ease-out;
+    transition-delay: calc(var(--reveal-delay) + var(--word-delay));
+  }
+
+  .text-reveal.is-visible .text-reveal__word {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .text-reveal__word {
+      transform: none;
+      opacity: 1;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const reveals = document.querySelectorAll<HTMLElement>('.text-reveal:not(.is-observed)');
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      }
+    },
+    { threshold: 0.8 }
+  );
+
+  reveals.forEach((el) => {
+    el.classList.add('is-observed');
+    observer.observe(el);
+  });
+</script>

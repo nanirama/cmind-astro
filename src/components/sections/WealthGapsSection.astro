@@ -1,0 +1,63 @@
+---
+import WealthGapsAccordion from './WealthGapsAccordion';
+import WealthGapsCountryTabs from './WealthGapsCountryTabs';
+
+interface HeroImage {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+}
+
+interface AccordionItem {
+  title: string;
+  description: string;
+  image: HeroImage;
+}
+
+interface CountryIssue {
+  title: string;
+  description: string;
+}
+
+interface Country {
+  label: string;
+  mapImage?: HeroImage;
+  issues: CountryIssue[];
+}
+
+interface Props {
+  layout?: 'accordion' | 'countries';
+  eyebrow?: string;
+  heading: string;
+  items?: AccordionItem[];
+  defaultOpenIndex?: number;
+  badgeLabel?: string;
+  defaultCountry?: string;
+  countries?: Country[];
+}
+
+const {
+  layout = 'accordion',
+  heading,
+  items = [],
+  defaultOpenIndex = 0,
+  badgeLabel,
+  defaultCountry,
+  countries = [],
+} = Astro.props;
+---
+
+<section class="section py-16 md:py-24 overflow-x-hidden pl-[env(safe-area-inset-left,0px)] pr-[env(safe-area-inset-right,0px)]" aria-labelledby="wealthgaps-heading">
+  <div class="container px-4">
+    <h2 id="wealthgaps-heading" class="m-0 mb-[var(--space-2xl)] max-w-[24ch]">
+      {heading}
+    </h2>
+
+    {layout === 'countries' ? (
+      <WealthGapsCountryTabs client:visible countries={countries} defaultCountry={defaultCountry} />
+    ) : (
+      <WealthGapsAccordion client:visible items={items} defaultOpenIndex={defaultOpenIndex} badgeLabel={badgeLabel} />
+    )}
+  </div>
+</section>

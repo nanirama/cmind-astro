@@ -1,0 +1,44 @@
+---
+// Statically prerendered at build time (site-wide `output: 'static'`), so every
+// page generated here is served as a cached, pre-built HTML file — no per-request
+// rendering cost. Declared explicitly for clarity.
+export const prerender = true;
+
+import BaseLayout from '@layouts/BaseLayout.astro';
+import SectionRenderer from '@components/sections/SectionRenderer.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import { buildOrganizationJsonLd } from '@lib/seo';
+
+type PmsPage = CollectionEntry<'portfolio-management-service'>;
+
+export async function getStaticPaths() {
+  const pages: PmsPage[] = await getCollection('portfolio-management-service');
+
+  // `index` already has its own dedicated route at /portfolio-management-service
+  // (src/pages/portfolio-management-service/index.astro) — skip it here so we
+  // don't generate a redundant /portfolio-management-service/index page.
+  const routablePages: PmsPage[] = pages.filter((page) => page.slug !== 'index');
+
+  return routablePages.map((page) => ({
+    params: { slug: page.slug },
+    props: { page },
+  }));
+}
+
+interface Props {
+  page: PmsPage;
+}
+
+const { page } = Astro.props;
+const { title, description, seoTitle, seoDescription, sections = [] } = page.data;
+const jsonLd = buildOrganizationJsonLd();
+---
+
+<BaseLayout
+  title={seoTitle ?? title}
+  description={seoDescription ?? description}
+  ogType="website"
+  jsonLd={jsonLd}
+>
+  <SectionRenderer sections={sections as any} />
+</BaseLayout>

@@ -1,11 +1,31 @@
 import { useState, useCallback, useEffect } from "react";
-import WhoWeServeMenu from "./WhoWeServeMenu";
-import StrategiesMenu from "./StrategiesMenu";
-import InsightsMenu from "./InsightsMenu";
-import AboutMenu from "./AboutMenu";
+import WhoWeServeMenu, { type Persona } from "./WhoWeServeMenu";
+import StrategiesMenu, { type StrategiesMenuData } from "./StrategiesMenu";
+import InsightsMenu, { type InsightsMenuData } from "./InsightsMenu";
+import AboutMenu, { type AboutMenuData } from "./AboutMenu";
 import MobileNavMenu from "./MobileNavMenu";
 
-export default function SiteHeaderIsland() {
+export interface Link {
+  label: string;
+  href: string;
+}
+
+export interface HeaderData {
+  logo: { src: string; alt: string; width?: number; height?: number };
+  homeLabel: string;
+  getStartedCta: Link;
+  mobileNavLinks: Link[];
+  strategiesMenu: StrategiesMenuData;
+  whoWeServeMenu: { triggerLabel: string; personas: Persona[] };
+  insightsMenu: InsightsMenuData;
+  aboutMenu: AboutMenuData;
+}
+
+interface Props {
+  header: HeaderData;
+}
+
+export default function SiteHeaderIsland({ header }: Props) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [morphedMenu, setMorphedMenu] = useState<"strategies" | "who-we-serve" | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -34,7 +54,7 @@ export default function SiteHeaderIsland() {
 
   return (
     <header
-      className={`fixed left-0 z-[100] flex w-full justify-center px-0 transition-all duration-300 lg:px-[80px] ${
+      className={`fixed left-0 z-[100] flex lg:w-full w-[100%] justify-center lg:px-4 transition-all duration-300 xl:px-[80px] ${
         isScrolled && !morphedMenu ? "top-0 lg:top-4" : "top-0 lg:top-[48px]"
       }`}
       role="banner"
@@ -55,6 +75,7 @@ export default function SiteHeaderIsland() {
               : "h-[56px] rounded-none lg:h-[80px] lg:rounded-[16px]"
           }`}
         >
+          
           {/* Logo */}
           <div className={`flex items-center ${morphedMenu ? "w-[200px]" : ""}`}>
             <a
@@ -64,10 +85,10 @@ export default function SiteHeaderIsland() {
               onClick={handleHomeClick}
             >
               <img
-                src="/images/logo.svg"
-                alt="Capitalmind"
-                width={170}
-                height={32}
+                src={header.logo.src}
+                alt={header.logo.alt}
+                width={header.logo.width ?? 170}
+                height={header.logo.height ?? 32}
                 loading="eager"
                 fetchPriority="high"
               />
@@ -87,7 +108,7 @@ export default function SiteHeaderIsland() {
                 morphedMenu ? "hidden" : "block"
               }`}
             >
-              Home
+              {header.homeLabel}
             </a>
 
             <div
@@ -99,7 +120,7 @@ export default function SiteHeaderIsland() {
                   : ""
               }`}
             >
-              <StrategiesMenu onMorphChange={handleStrategiesMorph} />
+              <StrategiesMenu data={header.strategiesMenu} onMorphChange={handleStrategiesMorph} />
             </div>
 
             <div
@@ -111,15 +132,19 @@ export default function SiteHeaderIsland() {
                   : ""
               }`}
             >
-              <WhoWeServeMenu onMorphChange={handleWhoWeServeMorph} />
+              <WhoWeServeMenu
+                triggerLabel={header.whoWeServeMenu.triggerLabel}
+                personas={header.whoWeServeMenu.personas}
+                onMorphChange={handleWhoWeServeMorph}
+              />
             </div>
 
             <div className={morphedMenu ? "hidden" : "block"}>
-              <InsightsMenu />
+              <InsightsMenu data={header.insightsMenu} />
             </div>
 
             <div className={morphedMenu ? "hidden" : "block"}>
-              <AboutMenu />
+              <AboutMenu data={header.aboutMenu} />
             </div>
           </nav>
 
@@ -146,10 +171,10 @@ export default function SiteHeaderIsland() {
               </button>
             ) : (
               <a
-                href="/get-started"
+                href={header.getStartedCta.href}
                 className="inline-flex h-[56px] w-[137px] items-center justify-center rounded-[8px] bg-[#0E100F] font-inter text-[16px] font-normal text-white transition-opacity hover:opacity-90"
               >
-                Get Started
+                {header.getStartedCta.label}
               </a>
             )}
           </div>
@@ -193,12 +218,7 @@ export default function SiteHeaderIsland() {
         >
           <div className="rounded-2xl border border-[var(--color-border)] bg-white p-4 shadow-[var(--shadow-sm)]">
             <nav className="flex flex-col gap-1" role="navigation" aria-label="Mobile navigation">
-              {[
-                { label: "Home", href: "/" },
-                { label: "Strategies", href: "/strategies" },
-                { label: "Insights", href: "/insights" },
-                { label: "About Capitalmind", href: "/about-us" },
-              ].map((item) => (
+              {header.mobileNavLinks.map((item) => (
                 <a
                   key={item.href}
                   href={item.href}
@@ -208,14 +228,18 @@ export default function SiteHeaderIsland() {
                   {item.label}
                 </a>
               ))}
-              <MobileNavMenu onSelect={() => setMobileOpen(false)} />
+              <MobileNavMenu
+                triggerLabel={header.whoWeServeMenu.triggerLabel}
+                personas={header.whoWeServeMenu.personas}
+                onSelect={() => setMobileOpen(false)}
+              />
             </nav>
             <a
-              href="/get-started"
+              href={header.getStartedCta.href}
               onClick={() => setMobileOpen(false)}
               className="mt-4 flex w-full items-center justify-center rounded-xl bg-[var(--color-primary-900)] px-6 py-3 text-sm font-medium text-white"
             >
-              Get Started
+              {header.getStartedCta.label}
             </a>
           </div>
         </div>

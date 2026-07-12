@@ -1,0 +1,82 @@
+---
+import { Image } from 'astro:assets';
+
+interface Item {
+  title: string;
+  description: string;
+  column: 'left' | 'right';
+}
+
+interface HeroImage {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+}
+
+interface Props {
+  heading: string;
+  items: Item[];
+  image: HeroImage;
+}
+
+const { heading, items, image } = Astro.props;
+
+const leftItems = items.filter((item) => item.column === 'left');
+const rightItems = items.filter((item) => item.column === 'right');
+---
+
+<section class="section py-16 md:py-24 overflow-x-hidden bg-[var(--color-beige-300)] pl-[env(safe-area-inset-left,0px)] pr-[env(safe-area-inset-right,0px)]" aria-labelledby="pmsfit-heading">
+  <div class="container px-4">
+    <h2
+      id="pmsfit-heading"
+      class="mx-auto max-w-[24ch] text-center font-[family-name:var(--font-serif)] md:mr-0 md:ml-auto md:mb-[30px] md:w-full md:max-w-[24ch] md:text-left"
+    >
+      {heading}
+    </h2>
+
+    <div
+      class="flex flex-col gap-[var(--space-2xl)]
+        md:grid md:items-start md:gap-x-[var(--space-md)] md:gap-y-[var(--space-lg)]
+        md:grid-cols-[repeat(3,minmax(200px,1fr))]
+        md:[grid-template-areas:'left_image_heading'_'left_image_right'_'left_image_right']
+        min-[900px]:grid-cols-[repeat(3,minmax(300px,1fr))]"
+    >
+      <div class="flex justify-center md:[grid-area:image] md:self-center">
+        <Image
+          src={image.src}
+          alt={image.alt}
+          width={image.width ?? 410}
+          height={image.height ?? 702}
+          format="webp"
+          quality={85}
+          loading="lazy"
+          decoding="async"
+          class="h-auto w-full"
+        />
+      </div>
+
+      <div class="flex flex-col gap-[var(--space-xl)] text-center md:[grid-area:left] md:text-left">
+        {leftItems.map((item) => (
+          <div>
+            <h3 class="m-0 mb-[var(--space-2xs)]">{item.title}</h3>
+            <p class="m-0 mx-auto max-w-[40ch] text-[length:var(--fs-body-base)] leading-[var(--lh-body-base)] text-[color:var(--color-text-secondary)] md:mx-0">
+              {item.description}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      <div class="flex flex-col gap-[var(--space-xl)] text-center md:mt-[var(--space-3xl)] md:[grid-area:right] md:text-left">
+        {rightItems.map((item) => (
+          <div>
+            <h3 class="m-0 mb-[var(--space-2xs)]">{item.title}</h3>
+            <p class="m-0 mx-auto max-w-[40ch] text-[length:var(--fs-body-base)] leading-[var(--lh-body-base)] text-[color:var(--color-text-secondary)] md:mx-0">
+              {item.description}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

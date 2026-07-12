@@ -1,84 +1,153 @@
 ---
-import { Image } from 'astro:assets';
-// import HeroImageSection from './HeroImageSection';
+import { Image } from "astro:assets";
+
+interface Cta {
+  label: string;
+  href: string;
+  variant?: "primary" | "secondary" | "ghost";
+  external?: boolean;
+}
+
+interface HeroImage {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+}
+interface BackgroundImage {
+  src: string;
+  alt?: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  heading: string;
+  subheading?: string;
+  body?: string;
+  ctas?: Cta[];
+  image?: HeroImage;
+  backgroundImage?: BackgroundImage;
+}
+
+const { eyebrow, heading, subheading, body,  backgroundImage, ctas = [], image } = Astro.props;
 ---
 
-<div class="w-full">
-  <section class="relative overflow-hidden pt-[80px] md:pt-[180px]">
-    <div class="mx-auto max-w-7xl px-4 pt-6">
-      <div class="mx-auto max-w-3xl text-center">
+<div class="w-full relative">
+  <section class="relative overflow-x-hidden pl-[env(safe-area-inset-left,0px)] pr-[env(safe-area-inset-right,0px)] pt-[80px] pb-12 lg:pt-[180px]">
+    <div class="relative w-full h-full">
+     {backgroundImage && (
+    <Image
+      src={backgroundImage.src}
+      alt=""
+      width={1600}
+      height={500}
+      aria-hidden="true"
+      loading="eager"
+      decoding="async"
+      class="absolute inset-0 z-0 h-full w-full object-cover"
+    />
+  )}
+  </div>
+    <div class="mx-auto max-w-7xl px-4">
+      <div class="mx-auto max-w-6xl text-center pt-8">
+        {
+          eyebrow && (
+            <p class="mb-4 font-inter text-[14px] font-medium uppercase tracking-wide text-[#6F6F6F]">
+              {eyebrow}
+            </p>
+          )
+        }
+
         <!-- Heading -->
         <h1
-          class="mx-auto font-noto text-[28px] font-medium leading-[1.2] tracking-tighter text-[#111111] sm:leading-[1.1] md:text-[48px] lg:text-[60px]"
-          style="font-stretch: condensed;"
+          class="mx-auto font-noto text-[28px] font-medium leading-[1.2] tracking-tighter text-[#111111] [font-stretch:condensed] sm:leading-[1.1] md:text-[48px] lg:text-[60px]"
         >
-          <span>Invest Like Capital Should Be Managed, Not Sold.</span>
+          <span>{heading}</span>
         </h1>
 
         <!-- Mobile-only Hero Image (inserted between heading and description) -->
-        <div class="-mx-4 my-8 block md:hidden">
-          <Image
-          src="/images/homeheroimage-mobile.png"
-          alt="Capitalmind wealth management platform dashboard showing systematic investment strategies and portfolio analytics"
-          width={603}
-          height={375}
-          format="webp"
-          loading="eager"
-          fetchpriority="high"
-          decoding="async"
-          class="pointer-events-none h-auto w-full select-none object-contain"
-        />
-        </div>
+        {
+          image && (
+            <div class="xl:-mx-4 my-8 block xl:hidden">
+              <Image
+                src={image.src}
+                alt={image.alt}
+                width={image.width ?? 1280}
+                height={image.height ?? 453}
+                format="webp"
+                loading="eager"
+                fetchpriority="high"
+                decoding="async"
+                class="pointer-events-none h-auto w-full select-none object-contain"
+              />
+            </div>
+          )
+        }
+
+        {
+          subheading && (
+            <p class="mx-auto mt-4 max-w-2xl font-inter text-[18px] font-medium leading-[1.5] text-[#111111] md:text-[22px]">
+              {subheading}
+            </p>
+          )
+        }
 
         <!-- Description -->
-        <p class="mx-auto mt-4 max-w-2xl font-inter text-[16px] font-normal leading-[1.5] text-[#6F6F6F] md:mt-10 md:text-[20px]">
-          Capitalmind builds portfolios the way institutions do, where
-          allocation is deliberate, decisions are systematic, and portfolios
-          are built to endure across market cycles.
-        </p>
+        {
+          body && (
+            <p class="mx-auto mt-4 max-w-2xl font-inter text-[16px] font-normal leading-[1.5] text-[#6F6F6F] md:mt-10 md:text-[20px]">
+              {body}
+            </p>
+          )
+        }
 
         <!-- Buttons -->
-        <div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <button class="rounded-[8px] bg-[#0E100F] px-8 py-3.5 font-inter text-[16px] font-medium text-white">
-            <span class="md:hidden">Manage My Wealth</span>
-            <span class="hidden md:inline">Manage My Investments</span>
-          </button>
-        </div>
+        {
+          ctas.length > 0 && (
+            <div class="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row">
+              {ctas.map((cta) => (
+                <a
+                  href={cta.href}
+                  target={cta.external ? "_blank" : undefined}
+                  rel={cta.external ? "noopener noreferrer" : undefined}
+                  class={
+                    cta.variant === "secondary"
+                      ? "rounded-[8px] border border-[#0E100F] px-8 py-3.5 font-inter text-[16px] font-medium text-[#0E100F] sm:w-auto min-w-[250px]"
+                      : "rounded-[8px] bg-[#0E100F] px-8 py-3.5 font-inter text-[16px] font-medium text-white sm:w-auto min-w-[250px]"
+                  }
+                >
+                  {cta.label}
+                </a>
+              ))}
+            </div>
+          )
+        }
       </div>
     </div>
   </section>
 
   <!-- Desktop-only Hero Image -->
-  <div class="hidden md:block">
-    <div class="flex w-full items-center justify-center px-4 md:px-0">
-      <div class="relative mx-auto w-full max-w-[923px]">
-        <Image
-          src="/images/homeheroimg-desktop-2.png"
-          alt="Capitalmind wealth management platform dashboard showing systematic investment strategies and portfolio analytics"
-          width={903}
-          height={453}
-          format="webp"
-          loading="eager"
-          fetchpriority="high"
-          decoding="async"
-          class="pointer-events-none h-auto w-full select-none object-contain"
-        />
+  {
+    image && (
+      <div class="hidden xl:block py-6">
+        <div class="flex w-full items-center justify-center px-4 md:px-0 max-w-7xl mx-auto">
+          <div
+            class="relative mx-auto w-auto !min-w-auto xl:max-w-min"
+          >
+            <Image
+              src={image.src}
+              alt={image.alt}
+              width={image.width ?? 923}
+              height={image.height ?? 453}
+              format="webp"
+              loading="eager"
+              fetchpriority="high"
+              decoding="async"
+              class="pointer-events-none h-auto w-auto select-none object-cover"
+            />
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-
-  <div class="mx-auto flex max-w-7xl flex-row items-start justify-between gap-2 px-4 py-12 md:items-center md:gap-0 md:py-16">
-    <div class="flex w-1/3 flex-col items-center gap-1 text-center md:gap-2">
-      <h3 class="font-noto text-[20px] font-medium leading-none tracking-tight text-[#0E0E0E] md:text-[56px]">900+</h3>
-      <p class="font-inter text-[13px] leading-tight text-[#6F6F6F] md:text-[16px] md:leading-normal">Entrepreneurs<br class="block md:hidden" /> Assisted</p>
-    </div>
-    <div class="flex w-1/3 flex-col items-center gap-1 text-center md:gap-2">
-      <h3 class="font-noto text-[20px] font-medium leading-none tracking-tight text-[#0E0E0E] md:text-[56px]">1400+</h3>
-      <p class="font-inter text-[13px] leading-tight text-[#6F6F6F] md:text-[16px] md:leading-normal">UHNI Wealth<br class="block md:hidden" /> Managed</p>
-    </div>
-    <div class="flex w-1/3 flex-col items-center gap-1 text-center md:gap-2">
-      <h3 class="font-noto text-[20px] font-medium leading-none tracking-tight text-[#0E0E0E] md:text-[56px]">10Cr+</h3>
-      <p class="font-inter text-[13px] leading-tight text-[#6F6F6F] md:text-[16px] md:leading-normal">Average HNI<br class="block md:hidden" /> Portfolio</p>
-    </div>
-  </div>
+    )
+  }
 </div>

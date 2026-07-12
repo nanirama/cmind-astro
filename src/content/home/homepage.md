@@ -19,6 +19,31 @@ sections:
       - label: See Track Record
         href: /track-record
         variant: secondary
+    image:
+      src: /images/homeheroimg-desktop-2.png
+      alt: Capitalmind wealth management platform dashboard showing systematic investment strategies and portfolio analytics
+      width: 903
+      height: 453
+      stats:
+      - value: 20+
+        label: Years of research
+      - value: Quant-based
+        label: strategies
+      - value: SEBI
+        label: registered PMS
+      - value: Monthly
+        label: Fund Manager reports
+  - type: stats
+    stats:
+      - value: "900"
+        suffix: "+"
+        label: Entrepreneurs Assisted
+      - value: "1400"
+        suffix: "+"
+        label: UHNI Wealth Managed
+      - value: 10Cr
+        suffix: "+"
+        label: Average HNI Portfolio
 
   - type: whoweserve
     eyebrow: Who We Serve

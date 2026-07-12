@@ -37,10 +37,10 @@ const mobileHeadingHtml = mobileHeading
   .replace('Latest offerings', 'Latest<br/>offerings');
 
 const smallCards = [
-  { article: left1,  col: 1, row: 1 },
-  { article: left2,  col: 1, row: 2 },
-  { article: right1, col: 3, row: 1 },
-  { article: right2, col: 3, row: 2 },
+  { article: left1,  gridClass: 'lg:col-start-1 lg:row-start-1' },
+  { article: left2,  gridClass: 'lg:col-start-1 lg:row-start-2' },
+  { article: right1, gridClass: 'lg:col-start-3 lg:row-start-1' },
+  { article: right2, gridClass: 'lg:col-start-3 lg:row-start-2' },
 ];
 
 const avatarImages = [
@@ -52,33 +52,31 @@ const avatarImages = [
 ---
 
 <section
-  class="w-full py-[48px] lg:py-24 overflow-hidden"
-  style="background: var(--color-primary-900);"
+  class="w-full overflow-x-hidden bg-primary-900 py-[48px] pl-[env(safe-area-inset-left,0px)] pr-[env(safe-area-inset-right,0px)] lg:py-24"
   aria-labelledby="market-updates-heading"
 >
-  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+  <div class="mx-auto max-w-7xl px-4">
 
     <!-- Desktop heading -->
-    <div class="hidden lg:block mb-10 text-center lg:mb-14">
+    <div class="mb-10 hidden text-center lg:mb-14 lg:block">
       <h2
         id="market-updates-heading"
-        class="mx-auto max-w-2xl text-white"
-        style="font-family: 'Noto Serif', serif; font-stretch: condensed; font-size: 48px; font-weight: 400; line-height: 120%; letter-spacing: -0.05em;"
+        class="mx-auto max-w-2xl font-serif text-[48px] font-normal leading-[120%] tracking-[-0.05em] text-white [font-stretch:condensed]"
       >
         {heading}
       </h2>
     </div>
 
     <!-- Mobile version -->
-    <div class="block lg:hidden w-full max-w-[402px] mx-auto flex flex-col items-center">
+    <div class="mx-auto flex w-full max-w-[402px] flex-col items-center lg:hidden">
       <h2
-        class="text-[24px] font-medium font-noto tracking-[-0.02em] text-[#F4F2EA] text-center mb-8 px-2 leading-[1.2]"
+        class="mb-8 px-2 text-center font-noto text-[24px] font-medium leading-[1.2] tracking-[-0.02em] text-[#F4F2EA]"
         set:html={mobileHeadingHtml}
       />
 
-      <div class="w-full px-4 flex flex-col gap-3">
+      <div class="flex w-full flex-col gap-3 px-4">
         <!-- Featured image -->
-        <div class="relative w-full aspect-[370/481] rounded-[16px] overflow-hidden">
+        <div class="relative w-full aspect-[370/481] overflow-hidden rounded-[16px]">
           <Image
             src={featured.image}
             alt={featured.imageAlt}
@@ -88,38 +86,38 @@ const avatarImages = [
             quality={85}
             loading="lazy"
             decoding="async"
-            class="absolute inset-0 w-full h-full object-cover"
+            class="absolute inset-0 h-full w-full object-cover"
           />
         </div>
 
         <!-- Tag -->
-        <div class="bg-[#051501] rounded-lg px-3 py-1.5 w-fit">
-          <span class="text-[#AEDD84] text-[14px] font-normal font-inter">
+        <div class="w-fit rounded-lg bg-[#051501] px-3 py-1.5">
+          <span class="font-inter text-[14px] font-normal text-[#AEDD84]">
             {featured.category}
           </span>
         </div>
 
         <!-- Title -->
-        <h3 class="text-[#F4F2EA] text-[24px] font-medium font-noto tracking-tight leading-[1.2]">
+        <h3 class="font-noto text-[24px] font-medium leading-[1.2] tracking-tight text-[#F4F2EA]">
           {featured.title}
         </h3>
 
         <!-- Description -->
-        <p class="text-[#989898] text-[16px] font-normal font-inter leading-[1.5]">
+        <p class="font-inter text-[16px] font-normal leading-[1.5] text-[#989898]">
           {featured.description}
         </p>
 
         <!-- Author -->
-        <span class="text-[#F4F2EA] text-[16px] font-medium font-inter">
+        <span class="font-inter text-[16px] font-medium text-[#F4F2EA]">
           {featured.author}
         </span>
       </div>
 
       <!-- CTA button -->
-      <div class="w-full flex justify-center mt-8 pb-0">
+      <div class="mt-8 flex w-full justify-center pb-0">
         <a
           href={ctaHref}
-          class="w-[200px] border border-[rgba(244,242,234,0.3)] hover:border-[#F4F2EA] transition-colors rounded-[8px] py-2.5 flex items-center justify-center text-[#F4F2EA] text-[16px] font-medium font-inter"
+          class="flex w-[200px] items-center justify-center rounded-[8px] border border-[rgba(244,242,234,0.3)] py-2.5 font-inter text-[16px] font-medium text-[#F4F2EA] transition-colors hover:border-[#F4F2EA] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500"
         >
           {ctaLabel}
         </a>
@@ -127,17 +125,11 @@ const avatarImages = [
     </div>
 
     <!-- Desktop grid: 3-col, featured center card spans 2 rows -->
-    <div
-      class="hidden lg:grid lg:h-[860px] lg:gap-4"
-      style="grid-template-columns: 1fr 1.3fr 1fr; grid-template-rows: 1fr 1fr;"
-    >
+    <div class="hidden lg:grid lg:h-[860px] lg:grid-cols-[1fr_1.3fr_1fr] lg:grid-rows-2 lg:gap-4">
       <!-- 4 small cards -->
-      {smallCards.map(({ article, col, row }) => (
-        <div class="h-full" style={`grid-column: ${col}; grid-row: ${row};`}>
-          <article
-            class="bg-[#121b14] group flex h-full flex-col overflow-hidden rounded-2xl transition-colors duration-300"
-            style="border: 1px solid rgba(174, 221, 132, 0.08);"
-          >
+      {smallCards.map(({ article, gridClass }) => (
+        <div class:list={['h-full', gridClass]}>
+          <article class="group flex h-full flex-col overflow-hidden rounded-2xl border border-[rgba(174,221,132,0.08)] bg-[#121b14] transition-colors duration-300">
             <div class="relative h-[185px] w-full shrink-0 overflow-hidden">
               <Image
                 src={article.image}
@@ -148,29 +140,20 @@ const avatarImages = [
                 quality={85}
                 loading="lazy"
                 decoding="async"
-                class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
             </div>
             <div class="flex flex-1 flex-col gap-3 p-4">
-              <span
-                class="inline-flex items-center rounded-lg px-3 py-1.5"
-                style="background: #051501; color: var(--color-primary-100); font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 400; line-height: 1.4; letter-spacing: 0;"
-              >
+              <span class="inline-flex w-fit items-center rounded-lg bg-[#051501] px-3 py-1.5 font-inter text-[14px] font-normal leading-[1.4] text-primary-100">
                 {article.category}
               </span>
-              <h3
-                class="line-clamp-2 leading-snug"
-                style="color: var(--color-text-inverse); font-family: 'Noto Serif', serif; font-size: 24px; font-weight: 500; letter-spacing: -0.02em;"
-              >
+              <h3 class="line-clamp-2 font-serif text-[24px] font-medium leading-snug tracking-[-0.02em] text-text-inverse">
                 {article.title}
               </h3>
-              <p
-                class="line-clamp-2 flex-1 leading-relaxed"
-                style="color: var(--color-beige-600); font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 400;"
-              >
+              <p class="line-clamp-2 flex-1 font-inter text-[16px] font-normal leading-relaxed text-beige-600">
                 {article.description}
               </p>
-              <p style="color: var(--color-beige-700); font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 500;">
+              <p class="font-inter text-[16px] font-medium text-beige-700">
                 {article.author}
               </p>
             </div>
@@ -179,11 +162,8 @@ const avatarImages = [
       ))}
 
       <!-- Featured card: center column, spans both rows -->
-      <div class="h-full" style="grid-column: 2; grid-row: 1 / 3;">
-        <article
-          class="bg-[#121b14] group flex h-full flex-col overflow-hidden rounded-2xl transition-colors duration-300"
-          style="border: 1px solid rgba(174, 221, 132, 0.08);"
-        >
+      <div class="h-full lg:col-start-2 lg:row-start-1 lg:row-span-2">
+        <article class="group flex h-full flex-col overflow-hidden rounded-2xl border border-[rgba(174,221,132,0.08)] bg-[#121b14] transition-colors duration-300">
           <div class="relative min-h-52 flex-1 overflow-hidden sm:min-h-64">
             <Image
               src={featured.image}
@@ -194,29 +174,20 @@ const avatarImages = [
               quality={85}
               loading="lazy"
               decoding="async"
-              class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
             />
           </div>
           <div class="flex shrink-0 flex-col gap-3 p-5">
-            <span
-              class="inline-flex items-center rounded-lg px-3 py-1.5"
-              style="background: #051501; color: var(--color-primary-100); font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 400; line-height: 1.4; letter-spacing: 0;"
-            >
+            <span class="inline-flex w-fit items-center rounded-lg bg-[#051501] px-3 py-1.5 font-inter text-[14px] font-normal leading-[1.4] text-primary-100">
               {featured.category}
             </span>
-            <h3
-              class="leading-snug"
-              style="color: var(--color-text-inverse); font-family: 'Noto Serif', serif; font-size: 24px; font-weight: 500; letter-spacing: -0.02em;"
-            >
+            <h3 class="font-serif text-[24px] font-medium leading-snug tracking-[-0.02em] text-text-inverse">
               {featured.title}
             </h3>
-            <p
-              class="line-clamp-3 leading-relaxed"
-              style="color: var(--color-beige-600); font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 400;"
-            >
+            <p class="line-clamp-3 font-inter text-[16px] font-normal leading-relaxed text-beige-600">
               {featured.description}
             </p>
-            <p style="color: var(--color-beige-700); font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 500;">
+            <p class="font-inter text-[16px] font-medium text-beige-700">
               {featured.author}
             </p>
           </div>
@@ -225,100 +196,84 @@ const avatarImages = [
     </div>
 
     <!-- Newsletter CTA (desktop only) -->
-    <div
-      class="hidden lg:flex flex-col lg:flex-row items-start relative"
-      style="margin-top: 80px; padding-top: 80px; border-top: 1px solid rgba(255,255,255,0.1); gap: 48px;"
-    >
+    <div class="relative mt-20 hidden items-start gap-12 border-t border-[rgba(255,255,255,0.1)] pt-20 lg:flex lg:flex-row">
       <!-- Radial glow -->
       <div
         aria-hidden="true"
-        style="position: absolute; right: -80px; top: 50%; transform: translateY(-50%); width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(30,80,35,0.25) 0%, rgba(18,27,20,0) 70%); pointer-events: none;"
+        class="pointer-events-none absolute right-[-80px] top-1/2 h-[600px] w-[600px] -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(30,80,35,0.25)_0%,rgba(18,27,20,0)_70%)]"
       ></div>
 
       <!-- Left: copy -->
-      <div class="flex-1 flex flex-col gap-6">
-        <h2 style="font-family: 'Noto Serif', serif; font-stretch: condensed; font-size: clamp(2rem, 4vw, 48px); font-weight: 500; line-height: 110%; letter-spacing: -0.04em; color: #FFFFFF;">
+      <div class="flex flex-1 flex-col gap-6">
+        <h2 class="font-serif text-[clamp(2rem,4vw,48px)] font-medium leading-[110%] tracking-[-0.04em] text-white [font-stretch:condensed]">
           {newsletterHeading}
         </h2>
-        <p style="font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 400; line-height: 160%; color: rgba(255,255,255,0.6); max-width: 420px;">
+        <p class="max-w-[420px] font-inter text-[16px] font-normal leading-[160%] text-white/60">
           {newsletterBody}
         </p>
 
         <!-- Social proof -->
-        <div class="flex items-center gap-3 mt-2">
+        <div class="mt-2 flex items-center gap-3">
           <div class="flex -space-x-3">
             {avatarImages.map((src) => (
-              <div
-                class="relative w-10 h-10 rounded-full overflow-hidden border-2"
-                style="border-color: var(--color-primary-900);"
-              >
-                <img src={src} alt="" aria-hidden="true" class="w-full h-full object-cover" />
+              <div class="relative h-10 w-10 overflow-hidden rounded-full border-2 border-primary-900">
+                <img src={src} alt="" aria-hidden="true" width={40} height={40} loading="lazy" decoding="async" class="h-full w-full object-cover" />
               </div>
             ))}
           </div>
-          <p style="font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.75);">
+          <p class="font-inter text-[14px] font-medium text-white/75">
             30K+ Daily Readers Subscribed
           </p>
         </div>
       </div>
 
       <!-- Right: newsletter form -->
-      <div class="w-full lg:w-[480px] flex flex-col gap-4 shrink-0">
+      <div class="flex w-full shrink-0 flex-col gap-4 lg:w-[480px]">
         <!-- Full Name -->
         <div class="flex flex-col gap-1.5">
-          <label
-            for="newsletter-name"
-            style="font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 400; color: rgba(255,255,255,0.8);"
-          >
+          <label for="newsletter-name" class="font-inter text-[14px] font-normal text-white/80">
             Full Name
           </label>
           <input
             id="newsletter-name"
             type="text"
             placeholder="Enter your full name"
-            class="w-full rounded-xl px-4 py-4 outline-none transition-colors"
-            style="background: #0C1E10; border: 1px solid rgba(100, 180, 100, 0.2); color: #E8F5E9; font-family: 'Inter', sans-serif; font-size: 15px;"
+            class="w-full rounded-xl border border-[rgba(100,180,100,0.2)] bg-[#0C1E10] px-4 py-4 font-inter text-[15px] text-[#E8F5E9] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500"
           />
         </div>
 
         <!-- Email -->
         <div class="flex flex-col gap-1.5">
-          <label
-            for="newsletter-email"
-            style="font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 400; color: rgba(255,255,255,0.8);"
-          >
+          <label for="newsletter-email" class="font-inter text-[14px] font-normal text-white/80">
             Email Address
           </label>
           <input
             id="newsletter-email"
             type="email"
             placeholder="Enter your email address"
-            class="w-full rounded-xl px-4 py-4 outline-none transition-colors"
-            style="background: #0C1E10; border: 1px solid rgba(100, 180, 100, 0.2); color: #E8F5E9; font-family: 'Inter', sans-serif; font-size: 15px;"
+            class="w-full rounded-xl border border-[rgba(100,180,100,0.2)] bg-[#0C1E10] px-4 py-4 font-inter text-[15px] text-[#E8F5E9] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500"
           />
         </div>
 
         <!-- Subscribe button -->
         <button
           type="button"
-          class="w-full rounded-lg py-3.5 font-medium transition-opacity hover:opacity-90"
-          style="background: #FEF9E7; color: #121B14; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 500; margin-top: 4px;"
+          class="mt-1 w-full rounded-lg bg-[#FEF9E7] py-3.5 font-inter text-[15px] font-medium text-[#121B14] transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500"
         >
           Subscribe to Newsletter
         </button>
 
         <!-- OR divider -->
         <div class="flex items-center gap-3">
-          <div class="flex-1 h-px" style="background: rgba(100,180,100,0.2);"></div>
-          <span style="font-family: 'Inter', sans-serif; font-size: 13px; color: rgba(100,180,100,0.5);">OR</span>
-          <div class="flex-1 h-px" style="background: rgba(100,180,100,0.2);"></div>
+          <div class="h-px flex-1 bg-[rgba(100,180,100,0.2)]"></div>
+          <span class="font-inter text-[13px] text-[rgba(100,180,100,0.5)]">OR</span>
+          <div class="h-px flex-1 bg-[rgba(100,180,100,0.2)]"></div>
         </div>
 
         <!-- Google sign-up button -->
         <button
           type="button"
-          class="w-full rounded-xl py-4 flex items-center justify-center gap-3 transition-opacity hover:opacity-80"
-          style="background: transparent; border: 1px solid rgba(201, 169, 110, 0.4); color: #FFFFFF; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 500;"
+          class="flex w-full items-center justify-center gap-3 rounded-xl border border-[rgba(201,169,110,0.4)] py-4 font-inter text-[15px] font-medium text-white transition-opacity hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M21.805 10.023H12v3.977h5.617c-.242 1.242-.976 2.296-2.078 3l3.164 2.461C20.34 17.773 22 15.114 22 12c0-.68-.067-1.34-.195-1.977z" fill="#FFFFFF"/>

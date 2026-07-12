@@ -2,20 +2,42 @@ import { useState, memo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSimpleDropdown } from "./useSimpleDropdown";
 
-// ── Data ──────────────────────────────────────────────────────────────────────
+// ── Types ─────────────────────────────────────────────────────────────────────
 
-const INSIGHTS_LINKS = [
-  { id: "all", label: "All Insights", href: "/insights" },
-  { id: "analysis", label: "Analysis & Commentary", href: "/insights/analysis" },
-  { id: "investment", label: "Investment Information", href: "/insights/investment" },
-  { id: "media", label: "Videos & Podcast", href: "/insights/media" },
-  { id: "aplenty", label: "Aplenty", href: "/insights/aplenty" },
-  { id: "archives", label: "Archives", href: "/insights/archives" },
-];
+interface InsightsNavLink {
+  id: string;
+  label: string;
+  href: string;
+}
+
+interface AnalysisCollection {
+  title: string;
+  bg: string;
+  icon: string;
+}
+
+interface AnalysisAuthor {
+  name: string;
+  image: string;
+}
+
+export interface InsightsMenuData {
+  triggerLabel: string;
+  navLinks: InsightsNavLink[];
+  allInsightsPanel: { heading: string; description: string; image: string };
+  analysisCollections: AnalysisCollection[];
+  analysisAuthors: AnalysisAuthor[];
+}
 
 // ── Sub-components ────────────────────────────────────────────────────────────
 
-const AllInsightsPanel = memo(function AllInsightsPanel({ onClose }: { onClose: () => void }) {
+const AllInsightsPanel = memo(function AllInsightsPanel({
+  onClose,
+  panel,
+}: {
+  onClose: () => void;
+  panel: InsightsMenuData["allInsightsPanel"];
+}) {
   return (
     <a
       href="/insights"
@@ -24,15 +46,15 @@ const AllInsightsPanel = memo(function AllInsightsPanel({ onClose }: { onClose: 
     >
       <div className="flex h-full w-[230px] shrink-0 flex-col justify-between">
         <h3 className="font-serif text-[24px] font-normal leading-[120%] tracking-[-5%] text-[var(--color-beige-50)]">
-          Keep Track of Latest Investment News
+          {panel.heading}
         </h3>
         <p className="font-sans text-[16px] leading-[150%] text-[var(--color-beige-50)]">
-          Description
+          {panel.description}
         </p>
       </div>
       <div className="relative flex-1 overflow-hidden rounded-[8px]">
         <img
-          src="/images/Rectangle%205641.png"
+          src={panel.image}
           alt="Investment News"
           className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
           loading="lazy"
@@ -43,20 +65,15 @@ const AllInsightsPanel = memo(function AllInsightsPanel({ onClose }: { onClose: 
   );
 });
 
-const AnalysisPanel = memo(function AnalysisPanel({ onClose }: { onClose: () => void }) {
-  const collections = [
-    { title: "Title", bg: "bg-[#C9D6C4]", icon: "/images/svgs/Feature_!.svg" },
-    { title: "Title", bg: "bg-[#DFE5C2]", icon: "/images/svgs/feature_2.svg" },
-    { title: "Title", bg: "bg-[#AEAD75]", icon: "/images/svgs/feature_3.svg" },
-    { title: "Title", bg: "bg-[#C6D0BC]", icon: "/images/svgs/feature_4.svg" },
-  ];
-  const authors = [
-    { name: "Name", image: "/images/author-pic-1.png" },
-    { name: "Name", image: "/images/author-pic-2.png" },
-    { name: "Name", image: "/images/person-img1.png" },
-    { name: "Name", image: "/images/person-img2.png" },
-  ];
-
+const AnalysisPanel = memo(function AnalysisPanel({
+  onClose,
+  collections,
+  authors,
+}: {
+  onClose: () => void;
+  collections: AnalysisCollection[];
+  authors: AnalysisAuthor[];
+}) {
   return (
     <div className="flex h-full flex-col justify-between">
       <div className="flex flex-col gap-4">
@@ -67,7 +84,8 @@ const AnalysisPanel = memo(function AnalysisPanel({ onClose }: { onClose: () => 
               key={idx}
               href="/insights/collection"
               onClick={onClose}
-              className={`group relative h-[150px] overflow-hidden rounded-[8px] p-5 transition-transform hover:scale-[1.02] ${col.bg}`}
+              style={{ backgroundColor: col.bg }}
+              className="group relative h-[150px] overflow-hidden rounded-[8px] p-5 transition-transform hover:scale-[1.02]"
             >
               <h5 className="relative z-10 font-serif text-[18px] font-medium text-[var(--color-text-primary)]">{col.title}</h5>
               <div className="pointer-events-none absolute bottom-0 right-0 h-[80px] w-[80px] transition-transform duration-500 group-hover:scale-110">
@@ -109,10 +127,12 @@ const InsightsDropdown = memo(function InsightsDropdown({
   isOpen,
   onClose,
   dropdownRef,
+  data,
 }: {
   isOpen: boolean;
   onClose: () => void;
   dropdownRef: React.MutableRefObject<HTMLDivElement | null>;
+  data: InsightsMenuData;
 }) {
   const [activeTab, setActiveTab] = useState("all");
 
@@ -134,7 +154,7 @@ const InsightsDropdown = memo(function InsightsDropdown({
           <div className="flex w-[1280px] shrink-0 gap-[16px] rounded-[8px] border-2 border-[#E5E5E5] bg-[var(--color-beige-200)] p-[24px] shadow-[var(--shadow-xl)]">
             {/* Left: link list */}
             <div className="flex w-[264px] shrink-0 flex-col gap-[24px] rounded-[8px] border border-[var(--color-border-subtle)] bg-[var(--color-surface-raised)] p-[16px]">
-              {INSIGHTS_LINKS.map((link) => {
+              {data.navLinks.map((link) => {
                 const isActive = activeTab === link.id;
                 return (
                   <a
@@ -168,9 +188,9 @@ const InsightsDropdown = memo(function InsightsDropdown({
             {/* Right: dynamic panel */}
             <div className="flex-1 overflow-hidden">
               {activeTab === "analysis" ? (
-                <AnalysisPanel onClose={onClose} />
+                <AnalysisPanel onClose={onClose} collections={data.analysisCollections} authors={data.analysisAuthors} />
               ) : (
-                <AllInsightsPanel onClose={onClose} />
+                <AllInsightsPanel onClose={onClose} panel={data.allInsightsPanel} />
               )}
             </div>
           </div>
@@ -182,7 +202,7 @@ const InsightsDropdown = memo(function InsightsDropdown({
 
 // ── Main export ───────────────────────────────────────────────────────────────
 
-export default function InsightsMenu() {
+export default function InsightsMenu({ data }: { data: InsightsMenuData }) {
   const { isOpen, openDropdown, collapse, triggerRef, menuRef } = useSimpleDropdown();
 
   return (
@@ -201,7 +221,7 @@ export default function InsightsMenu() {
             : "text-[#111111] hover:bg-[var(--color-beige-100)] hover:text-[#000000]",
         ].join(" ")}
       >
-        Insights
+        {data.triggerLabel}
         <img
           src={isOpen ? "/images/svgs/caret-up.svg" : "/images/svgs/caret-down.svg"}
           alt=""
@@ -211,7 +231,7 @@ export default function InsightsMenu() {
           className="transition-transform duration-200 motion-reduce:transition-none"
         />
       </button>
-      <InsightsDropdown dropdownRef={menuRef} isOpen={isOpen} onClose={collapse} />
+      <InsightsDropdown dropdownRef={menuRef} isOpen={isOpen} onClose={collapse} data={data} />
     </>
   );
 }

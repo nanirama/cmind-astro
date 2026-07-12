@@ -1,0 +1,91 @@
+---
+import Button from '@components/ui/Button.astro';
+
+interface BackgroundImage {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+}
+
+interface Step {
+  number: string;
+  title: string;
+  description: string;
+  backgroundImage: BackgroundImage;
+  dark?: boolean;
+}
+
+interface Props {
+  heading: string;
+  steps: Step[];
+  ctaLabel?: string;
+  ctaHref?: string;
+}
+
+const { heading, steps, ctaLabel, ctaHref } = Astro.props;
+
+const STEP_BACKGROUNDS = ['bg-[#102519]', 'bg-[#B3BCA6]', 'bg-[#DCE2C9]', 'bg-[#FFF1D2]'];
+---
+
+<section
+  class="section overflow-x-hidden py-16 pl-[env(safe-area-inset-left,0px)] pr-[env(safe-area-inset-right,0px)] md:py-24"
+  aria-labelledby="wjs-heading"
+>
+  <div class="container">
+    <h2 id="wjs-heading" class="mb-2xl max-w-[26ch]">{heading}</h2>
+
+    <ol
+      class="m-0 flex list-none flex-col gap-md p-0 md:grid md:grid-rows-[auto_auto_auto] md:items-stretch md:gap-x-lg md:gap-y-lg md:[grid-template-columns:repeat(var(--wjs-count),1fr)]"
+      style={`--wjs-count: ${steps.length}`}
+    >
+      <li
+        class="hidden md:col-[1/-1] md:row-start-2 md:block md:h-px md:self-center md:bg-border-strong"
+        aria-hidden="true"
+      ></li>
+      {steps.map((step, index) => {
+        const position = index % 2 === 0 ? 'top' : 'bottom';
+        const bgClass = STEP_BACKGROUNDS[index % STEP_BACKGROUNDS.length];
+        return (
+          <li
+            class:list={[
+              'relative overflow-hidden rounded-xl p-md text-text-primary md:m-0 md:min-h-[10.5rem] md:[grid-column:var(--wjs-col)]',
+              bgClass,
+              position === 'top' ? 'md:row-start-1 md:self-end' : 'md:row-start-3 md:self-start',
+              step.dark && 'text-white',
+            ]}
+            style={`--wjs-col: ${index + 1}`}
+          >
+            <img
+              src={step.backgroundImage.src}
+              alt=""
+              aria-hidden="true"
+              width={step.backgroundImage.width ?? 194}
+              height={step.backgroundImage.height ?? 210}
+              loading="lazy"
+              decoding="async"
+              class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-30"
+            />
+            <h3 class="relative mb-2xs font-serif text-h5 font-medium text-inherit">{step.number}. {step.title}</h3>
+            <p class="relative m-0 max-w-[32ch] text-body-base text-inherit opacity-[0.85]">{step.description}</p>
+            <span
+              aria-hidden="true"
+              class:list={[
+                'hidden md:absolute md:left-1/2 md:block md:h-3.5 md:w-3.5 md:-translate-x-1/2 md:rounded-full md:bg-gold-500 md:shadow-[0_0_0_6px_rgba(231,171,74,0.25)]',
+                position === 'top' ? 'md:bottom-[-19%] md:translate-y-1/2' : 'md:top-[-19%] md:-translate-y-1/2',
+              ]}
+            ></span>
+          </li>
+        );
+      })}
+    </ol>
+
+    {ctaLabel && ctaHref && (
+      <div class="mt-2xl">
+        <Button href={ctaHref} variant="primary" size="lg">
+          {ctaLabel}
+        </Button>
+      </div>
+    )}
+  </div>
+</section>

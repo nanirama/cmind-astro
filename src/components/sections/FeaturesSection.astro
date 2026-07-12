@@ -18,33 +18,38 @@ interface Props {
   columns?: 2 | 3 | 4;
 }
 
-const { eyebrow, heading, body, features, layout = 'grid', columns = 3 } = Astro.props;
+const { eyebrow, heading, body, features, columns = 3 } = Astro.props;
 
 const colClass = {
-  2: 'features-grid--2',
-  3: 'features-grid--3',
-  4: 'features-grid--4',
+  2: 'sm:grid-cols-2 lg:grid-cols-2',
+  3: 'sm:grid-cols-2 lg:grid-cols-3',
+  4: 'sm:grid-cols-2 lg:grid-cols-4',
 }[columns];
 ---
 
-<section class="features-section section" aria-label={heading ?? 'Features'}>
+<section class="section py-16 md:py-24 overflow-x-hidden pl-[env(safe-area-inset-left,0px)] pr-[env(safe-area-inset-right,0px)]" aria-label={heading ?? 'Features'}>
   <div class="container">
     {(eyebrow || heading || body) && (
       <SectionHeader eyebrow={eyebrow} heading={heading} body={body} align="center" />
     )}
 
-    <div class:list={['features-grid', colClass, `features-grid--${layout}`]}>
+    <div class:list={['mt-[var(--space-2xl)] grid grid-cols-1 gap-[var(--space-lg)]', colClass]}>
       {features.map((feature) => (
-        <article class="feature-card">
+        <article class="group flex flex-col gap-[var(--space-sm)] rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] p-[var(--space-lg)] transition-[border-color,box-shadow] duration-[var(--duration-base)] ease-[var(--ease-out-quart)] hover:border-[var(--color-primary-300)] hover:shadow-[var(--shadow-md)]">
           {feature.icon && (
-            <div class="feature-card__icon" aria-hidden="true">
-              <span class="feature-card__icon-inner" set:html={feature.icon} />
+            <div
+              class="flex h-12 w-12 shrink-0 items-center justify-center rounded-[var(--radius-md)] bg-[var(--color-primary-50)] text-[color:var(--color-primary-600)]"
+              aria-hidden="true"
+            >
+              <span set:html={feature.icon} />
             </div>
           )}
-          <h3 class="feature-card__heading">{feature.heading}</h3>
-          <p class="feature-card__desc body-base">{feature.description}</p>
+          <h3 class="m-0 text-[length:var(--fs-body-lg)] font-semibold text-[color:var(--color-text-primary)]">
+            {feature.heading}
+          </h3>
+          <p class="body-base m-0 flex-1">{feature.description}</p>
           {feature.link && (
-            <Button href={feature.link.href} variant="ghost" size="sm" class="feature-card__link">
+            <Button href={feature.link.href} variant="ghost" size="sm" class="self-start px-0">
               {feature.link.label}
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
                 <path d="M3 7h8M8 4l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -56,70 +61,3 @@ const colClass = {
     </div>
   </div>
 </section>
-
-<style>
-  .features-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-lg);
-    margin-top: var(--space-2xl);
-  }
-
-  @media (min-width: 640px) {
-    .features-grid--2  { grid-template-columns: repeat(2, 1fr); }
-    .features-grid--3  { grid-template-columns: repeat(2, 1fr); }
-    .features-grid--4  { grid-template-columns: repeat(2, 1fr); }
-  }
-
-  @media (min-width: 1024px) {
-    .features-grid--2  { grid-template-columns: repeat(2, 1fr); }
-    .features-grid--3  { grid-template-columns: repeat(3, 1fr); }
-    .features-grid--4  { grid-template-columns: repeat(4, 1fr); }
-  }
-
-  .feature-card {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-sm);
-    padding: var(--space-lg);
-    background-color: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    transition: border-color var(--duration-base) var(--ease-out-quart),
-                box-shadow var(--duration-base) var(--ease-out-quart);
-  }
-
-  .feature-card:hover {
-    border-color: var(--color-primary-300);
-    box-shadow: var(--shadow-md);
-  }
-
-  .feature-card__icon {
-    width: 3rem;
-    height: 3rem;
-    border-radius: var(--radius-md);
-    background-color: var(--color-primary-50);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--color-primary-600);
-    flex-shrink: 0;
-  }
-
-  .feature-card__heading {
-    font-size: var(--fs-text-lg);
-    font-weight: 600;
-    margin: 0;
-    color: var(--color-text-primary);
-  }
-
-  .feature-card__desc {
-    margin: 0;
-    flex: 1;
-  }
-
-  .feature-card__link {
-    align-self: flex-start;
-    padding-inline: 0;
-  }
-</style>

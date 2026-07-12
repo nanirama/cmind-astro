@@ -275,6 +275,180 @@ const testimonialsSectionSchema = z.object({
   })),
 });
 
+const audiencepageHeroSectionSchema = z.object({
+  type:       z.literal('audiencepage_hero'),
+  eyebrow:    z.string().optional(),
+  heading:    z.string(),
+  body:       z.string().optional(),
+  cta:        z.object({
+    label:   z.string(),
+    href:    z.string(),
+    variant: z.enum(['primary', 'secondary', 'ghost']).default('primary'),
+  }).optional(),
+  heroImage:  imageField.optional(),
+  stats:      z.array(z.object({
+    value: z.string(),
+    label: z.string(),
+  })).optional(),
+});
+
+const wealthGapsSectionSchema = z.object({
+  type:             z.literal('wealthgaps'),
+  layout:           z.enum(['accordion', 'countries']).default('accordion'),
+  eyebrow:          z.string().optional(),
+  heading:          z.string(),
+  // layout: accordion
+  items:            z.array(z.object({
+    title:       z.string(),
+    description: z.string(),
+    image:       imageField,
+  })).optional(),
+  defaultOpenIndex: z.number().default(0),
+  badgeLabel:       z.string().optional(),
+  // layout: countries
+  defaultCountry:   z.string().optional(),
+  countries:        z.array(z.object({
+    label:    z.string(),
+    mapImage: imageField.optional(),
+    issues:   z.array(z.object({
+      title:       z.string(),
+      description: z.string(),
+    })),
+  })).optional(),
+});
+
+const howCapitalMindHelpsSectionSchema = z.object({
+  type:          z.literal('howcapitalmindshelps'),
+  heading:       z.string(),
+  portfolioImage: imageField,
+  features:      z.array(z.object({
+    icon:        z.string(),
+    heading:     z.string(),
+    description: z.string(),
+  })),
+});
+
+const pmsFitSectionSchema = z.object({
+  type:    z.literal('pmsfit'),
+  heading: z.string(),
+  items:   z.array(z.object({
+    title:       z.string(),
+    description: z.string(),
+    column:      z.enum(['left', 'right']),
+  })),
+  image:   imageField,
+});
+
+const processSectionSchema = z.object({
+  type:     z.literal('process'),
+  heading:  z.string(),
+  steps:    z.array(z.object({
+    number:          z.string(),
+    title:           z.string(),
+    description:     z.string(),
+    backgroundImage: imageField,
+  })),
+  ctaLabel: z.string().optional(),
+  ctaHref:  z.string().optional(),
+});
+
+const wealthJourneyStepsSectionSchema = z.object({
+  type:     z.literal('wealthjourneysteps'),
+  heading:  z.string(),
+  steps:    z.array(z.object({
+    number:          z.string(),
+    title:           z.string(),
+    description:     z.string(),
+    backgroundImage: imageField,
+    dark:            z.boolean().default(false),
+  })),
+  ctaLabel: z.string().optional(),
+  ctaHref:  z.string().optional(),
+});
+
+const reportingDashboardFeaturesSectionSchema = z.object({
+  type:        z.literal('reportingdashboardfeatures'),
+  heading:     z.string(),
+  subheading:  z.string().optional(),
+  videoUrl:    z.string(),
+  videoPoster: imageField,
+  features:    z.array(z.object({
+    title:       z.string(),
+    description: z.string(),
+    image:       imageField,
+  })),
+});
+
+const strategyPillarsSectionSchema = z.object({
+  type:       z.literal('strategypillars'),
+  heading:    z.string(),
+  subheading: z.string().optional(),
+  pillars:    z.array(z.object({
+    icon:        z.string(),
+    title:       z.string(),
+    description: z.string(),
+  })),
+});
+
+const performanceComparisonChartSectionSchema = z.object({
+  type:       z.literal('performancecomparisonchart'),
+  eyebrow:    z.string().optional(),
+  heading:    z.string(),
+  subheading: z.string().optional(),
+  chartImage: imageField,
+  ctas:       z.array(z.object({
+    label:   z.string(),
+    href:    z.string(),
+    variant: z.enum(['primary', 'secondary', 'ghost']).default('primary'),
+  })).optional(),
+});
+
+const strategyThemesShowcaseSectionSchema = z.object({
+  type:       z.literal('strategythemesshowcase'),
+  eyebrow:    z.string().optional(),
+  heading:    z.string(),
+  subheading: z.string().optional(),
+  themes:     z.array(z.object({
+    title:       z.string(),
+    description: z.string(),
+    variant:     z.enum(['dark', 'gold', 'light']).default('light'),
+    image:       imageField.optional(),
+  })),
+});
+
+const investorJourneySectionSchema = z.object({
+  type:          z.literal('investorjourney'),
+  heading:       z.string(),
+  personImage:   imageField,
+  personName:    z.string(),
+  personRole:    z.string(),
+  captionBefore: z.string().default('Look at what'),
+  captionAfter:  z.string().default('has to say about his journey.'),
+  milestones:    z.array(z.object({
+    year:  z.string(),
+    title: z.string(),
+    quote: z.string(),
+  })),
+});
+
+const pmsStrategyExplorerSectionSchema = z.object({
+  type:       z.literal('pmsstrategyexplorer'),
+  heading:    z.string(),
+  defaultTab: z.string().optional(),
+  tabs:       z.array(z.object({
+    label: z.string(),
+    items: z.array(z.object({
+      title:       z.string(),
+      description: z.string(),
+      href:        z.string().optional(),
+      linkLabel:   z.string().default('Learn More'),
+    })),
+    image: imageField,
+  })),
+  ctaLabel:   z.string().optional(),
+  ctaHref:    z.string().optional(),
+});
+
 const sectionSchema = z.discriminatedUnion('type', [
   heroSectionSchema,
   statsSectionSchema,
@@ -294,6 +468,18 @@ const sectionSchema = z.discriminatedUnion('type', [
   meetOurFounderSectionSchema,
   testimonialsSectionSchema,
   latestMarketUpdatesSectionSchema,
+  audiencepageHeroSectionSchema,
+  wealthGapsSectionSchema,
+  howCapitalMindHelpsSectionSchema,
+  pmsFitSectionSchema,
+  processSectionSchema,
+  investorJourneySectionSchema,
+  pmsStrategyExplorerSectionSchema,
+  wealthJourneyStepsSectionSchema,
+  reportingDashboardFeaturesSectionSchema,
+  strategyPillarsSectionSchema,
+  strategyThemesShowcaseSectionSchema,
+  performanceComparisonChartSectionSchema,
 ]);
 
 // ── Collections ───────────────────────────────────────────────────────────────
@@ -307,31 +493,13 @@ const home = defineCollection({
   }).merge(seoFields),
 });
 
-const pages = defineCollection({
+const portfolioManagementService = defineCollection({
   type: 'content',
   schema: z.object({
-    title:          z.string(),
-    description:    z.string(),
-    featuredImage:  imageField.optional(),
-    sections:       z.array(sectionSchema).optional(),
-    showBreadcrumb: z.boolean().default(true),
-  }).merge(seoFields).merge(dateFields.partial()),
-});
-
-const strategies = defineCollection({
-  type: 'content',
-  schema: z.object({
-    title:         z.string(),
-    description:   z.string(),
-    featuredImage: imageField.optional(),
-    category:      z.string().optional(),
-    riskLevel:     z.enum(['low', 'moderate', 'high', 'very-high']).optional(),
-    targetReturns: z.string().optional(),
-    minInvestment: z.string().optional(),
-    horizon:       z.string().optional(),
-    tags:          z.array(z.string()).default([]),
-    draft:         z.boolean().default(false),
-  }).merge(seoFields).merge(dateFields),
+    title:       z.string(),
+    description: z.string(),
+    sections:    z.array(sectionSchema).optional(),
+  }).merge(seoFields),
 });
 
 const insights = defineCollection({
@@ -402,6 +570,114 @@ const legal = defineCollection({
   }).merge(seoFields).merge(dateFields),
 });
 
+const audiencepages = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title:       z.string(),
+    description: z.string(),
+    sections:    z.array(sectionSchema).optional(),
+  }).merge(seoFields),
+});
+
+const linkField = z.object({
+  label: z.string(),
+  href:  z.string(),
+});
+
+const siteSettings = defineCollection({
+  type: 'content',
+  schema: z.object({
+    header: z.object({
+      logo:          imageField,
+      homeLabel:     z.string().default('Home'),
+      getStartedCta: linkField,
+      mobileNavLinks: z.array(linkField),
+
+      strategiesMenu: z.object({
+        triggerLabel: z.string(),
+        pmsCard: z.object({
+          title:       z.string(),
+          href:        z.string(),
+          description: z.string(),
+          icon:        z.string(),
+        }),
+        strategyCards: z.array(z.object({
+          id:          z.string(),
+          title:       z.string(),
+          href:        z.string(),
+          alignCenter: z.boolean().default(false),
+          subLabels:   z.array(z.string()).default([]),
+        })),
+        mutualFundsCard: z.object({
+          title:       z.string(),
+          href:        z.string(),
+          description: z.string(),
+          image:       z.string(),
+        }),
+        morphPmsLabel: z.string(),
+      }),
+
+      whoWeServeMenu: z.object({
+        triggerLabel: z.string(),
+        personas: z.array(z.object({
+          id:          z.string(),
+          title:       z.string(),
+          description: z.string(),
+          image:       z.string(),
+          links:       z.array(z.string()),
+        })),
+      }),
+
+      insightsMenu: z.object({
+        triggerLabel: z.string(),
+        navLinks: z.array(z.object({
+          id:    z.string(),
+          label: z.string(),
+          href:  z.string(),
+        })),
+        allInsightsPanel: z.object({
+          heading:     z.string(),
+          description: z.string(),
+          image:       z.string(),
+        }),
+        analysisCollections: z.array(z.object({
+          title: z.string(),
+          bg:    z.string(),
+          icon:  z.string(),
+        })),
+        analysisAuthors: z.array(z.object({
+          name:  z.string(),
+          image: z.string(),
+        })),
+      }),
+
+      aboutMenu: z.object({
+        triggerLabel: z.string(),
+        columns: z.array(z.object({
+          title: z.string(),
+          href:  z.string(),
+          sections: z.array(linkField),
+        })),
+      }),
+    }),
+
+    footer: z.object({
+      eyebrow: z.string(),
+      email:   z.string(),
+      logoImage: imageField,
+      socialLinks: z.array(z.object({
+        label: z.string(),
+        href:  z.string(),
+        icon:  z.string(),
+      })),
+      linkGroups: z.array(z.object({
+        title: z.string(),
+        links: z.array(linkField),
+      })),
+    }),
+  }),
+});
+
 export const collections = {
   home,
   pages,
@@ -411,4 +687,7 @@ export const collections = {
   authors,
   team,
   legal,
+  audiencepages,
+  'portfolio-management-service': portfolioManagementService,
+  siteSettings,
 };

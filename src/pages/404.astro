@@ -7,41 +7,37 @@ import BaseLayout from '@layouts/BaseLayout.astro';
   description="The page you're looking for doesn't exist. Return to the CapitalMind homepage."
   noIndex={true}
 >
-  <div class="not-found section">
-    <div class="container-narrow" style="text-align:center;">
-      <p class="eyebrow">404 Error</p>
-      <h1 class="not-found__heading">Page Not Found</h1>
-      <p class="body-lg not-found__body">
-        The page you're looking for has moved or doesn't exist.
+  <section
+    class="section my-36 py-16 pl-[env(safe-area-inset-left,0px)] pr-[env(safe-area-inset-right,0px)] md:py-24"
+    aria-labelledby="notfound-heading"
+  >
+    <div class="container flex flex-col items-center text-center">
+      <p class="mb-4 inline-flex items-center justify-center gap-2 font-sans text-h6 font-medium text-text-secondary md:mb-6">
+        <svg class="h-1.5 w-1 flex-shrink-0 text-gold-500" viewBox="0 0 4 6" fill="none" aria-hidden="true" focusable="false">
+          <path d="M4 3L0 0V6L4 3Z" fill="currentColor" />
+        </svg>
+        <span>404 Error</span>
+        <svg class="h-1.5 w-1 flex-shrink-0 text-gold-500" viewBox="0 0 4 6" fill="none" aria-hidden="true" focusable="false">
+          <path d="M0 3L4 0V6L0 3Z" fill="currentColor" />
+        </svg>
       </p>
-      <div class="not-found__actions">
-        <a href="/" class="btn btn-primary btn-lg">Back to Home</a>
-        <a href="/strategies" class="btn btn-secondary btn-lg">View Strategies</a>
+
+      <h2 id="notfound-heading" class="mx-auto max-w-2xl">
+        Page Not Found
+      </h2>
+
+      <p class="mx-auto mt-4 max-w-md font-sans text-body-base text-text-secondary md:mt-6 md:max-w-lg">
+        The page you were looking for has moved, been renamed, or never existed. Let's get your wealth journey back on track.
+      </p>
+
+      <div class="mt-8 flex w-full flex-col items-center justify-center gap-3 sm:w-auto sm:flex-row md:mt-10">
+        <a href="/" class="min-w-[250px] rounded-[8px] bg-[#0E100F] px-8 py-3.5 font-inter text-[16px] font-medium text-white sm:w-auto">
+          Back to Home
+        </a>
+        <a href="/strategies" class="min-w-[250px] rounded-[8px] border border-[#0E100F] px-8 py-3.5 font-inter text-[16px] font-medium text-[#0E100F] sm:w-auto">
+          Explore Strategies
+        </a>
       </div>
     </div>
-  </div>
+  </section>
 </BaseLayout>
-
-<style>
-  .not-found {
-    min-height: 60dvh;
-    display: flex;
-    align-items: center;
-  }
-
-  .not-found__heading {
-    margin: var(--space-sm) 0 var(--space-md);
-  }
-
-  .not-found__body {
-    margin: 0 auto var(--space-xl);
-    max-width: 44ch;
-  }
-
-  .not-found__actions {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: var(--space-sm);
-  }
-</style>

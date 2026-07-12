@@ -25,29 +25,29 @@ const mobileTestimonials = testimonials.filter(t => t.showOnMobile !== false);
 const mobileHeading = heading.replace('look at what our', 'look at what<br />our');
 ---
 
-<section class="w-full py-[48px] lg:py-28 relative overflow-hidden">
+<section class="relative w-full overflow-hidden py-[48px] pl-[env(safe-area-inset-left,0px)] pr-[env(safe-area-inset-right,0px)] lg:py-28">
 
   <!-- Desktop version -->
   <div class="hidden lg:block">
 
     <!-- Decorative SVG top-right -->
     <div
-      class="absolute top-0 right-0 w-[38%] h-[200px] overflow-hidden pointer-events-none select-none"
-      style="opacity: 0.25;"
+      class="pointer-events-none absolute right-0 top-0 h-[200px] w-[38%] select-none overflow-hidden opacity-25"
       aria-hidden="true"
     >
       <img
         src="/images/Clip path group.svg"
         alt=""
         aria-hidden="true"
+        loading="lazy"
+        decoding="async"
         class="w-full h-full object-cover object-left-top"
       />
     </div>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <h2
-        class="mb-10 lg:mb-14 max-w-[720px] relative z-10 font-serif font-normal leading-[120%] tracking-[-0.05em] text-[#121B14]"
-        style="font-size: 48px; font-stretch: condensed;"
+        class="relative z-10 mb-10 max-w-[720px] font-serif text-[48px] font-normal leading-[120%] tracking-[-0.05em] text-[#121B14] [font-stretch:condensed] lg:mb-14"
       >
         {heading}
       </h2>
@@ -55,10 +55,9 @@ const mobileHeading = heading.replace('look at what our', 'look at what<br />our
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
         {testimonials.map((testimonial) => (
           <div
-            class={`bg-white rounded-xl p-6 lg:p-8 flex flex-col ${testimonial.wide ? 'lg:col-span-2' : 'lg:col-span-1'}`}
-            style="box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.05);"
+            class={`flex flex-col rounded-xl bg-white p-6 shadow-[0_0_24px_0_rgba(0,0,0,0.05)] lg:p-8 ${testimonial.wide ? 'lg:col-span-2' : 'lg:col-span-1'}`}
           >
-            <p class="text-[#121B14] leading-[1.6]" style="font-size: var(--fs-body-base);">
+            <p class="text-body-base leading-[1.6] text-[#121B14]">
               &ldquo;{testimonial.quote}&rdquo;
             </p>
 
@@ -77,10 +76,10 @@ const mobileHeading = heading.replace('look at what our', 'look at what<br />our
                 />
               </div>
               <div class="flex flex-col gap-0.5">
-                <span class="text-[#121B14] font-medium leading-tight" style="font-size: var(--fs-body-sm);">
+                <span class="text-body-sm font-medium leading-tight text-[#121B14]">
                   {testimonial.name}
                 </span>
-                <span class="text-[#777162] leading-tight" style="font-size: var(--fs-body-sm);">
+                <span class="text-body-sm leading-tight text-beige-700">
                   {testimonial.role}
                 </span>
               </div>
@@ -101,7 +100,10 @@ const mobileHeading = heading.replace('look at what our', 'look at what<br />our
     <div class="relative w-[calc(100%+32px)] -ml-4 -mr-4">
       <div
         data-testimonials-carousel
-        class="w-full pl-4 overflow-x-auto no-scrollbar flex items-stretch gap-4 pb-4 snap-x snap-mandatory"
+        role="region"
+        aria-label="Client testimonials"
+        tabindex="0"
+        class="flex w-full snap-x snap-mandatory items-stretch gap-4 overflow-x-auto pb-4 pl-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {mobileTestimonials.map((testimonial) => (
           <div class="w-[270px] shrink-0 bg-white rounded-[16px] p-6 flex flex-col snap-center shadow-sm">
@@ -122,7 +124,7 @@ const mobileHeading = heading.replace('look at what our', 'look at what<br />our
               />
               <div class="flex flex-col">
                 <span class="text-[#121B14] text-[18px] font-medium font-noto tracking-tight">{testimonial.name}</span>
-                <span class="text-[#7A7A7A] text-[14px] font-normal font-inter">{testimonial.role}</span>
+                <span class="text-[14px] font-normal font-inter text-text-secondary">{testimonial.role}</span>
               </div>
             </div>
           </div>
@@ -149,11 +151,6 @@ const mobileHeading = heading.replace('look at what our', 'look at what<br />our
   </div>
 
 </section>
-
-<style>
-  .no-scrollbar::-webkit-scrollbar { display: none; }
-  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-</style>
 
 <script>
   const carousel = document.querySelector('[data-testimonials-carousel]') as HTMLElement | null;

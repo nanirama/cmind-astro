@@ -2,37 +2,18 @@ import { memo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSimpleDropdown } from "./useSimpleDropdown";
 
-// ── Data ──────────────────────────────────────────────────────────────────────
+// ── Types ─────────────────────────────────────────────────────────────────────
 
-const ABOUT_COLUMNS = [
-  {
-    title: "Capitalmind",
-    href: "/about-us/capitalmind",
-    sections: [
-      { label: "Section", href: "/about-us/capitalmind/1" },
-      { label: "Section", href: "/about-us/capitalmind/2" },
-      { label: "Section", href: "/about-us/capitalmind/3" },
-    ],
-  },
-  {
-    title: "Business Updates",
-    href: "/about-us/business",
-    sections: [
-      { label: "Section", href: "/about-us/business/1" },
-      { label: "Section", href: "/about-us/business/2" },
-      { label: "Section", href: "/about-us/business/3" },
-    ],
-  },
-  {
-    title: "Notice Board",
-    href: "/about-us/notice",
-    sections: [
-      { label: "Section", href: "/about-us/notice/1" },
-      { label: "Section", href: "/about-us/notice/2" },
-      { label: "Section", href: "/about-us/notice/3" },
-    ],
-  },
-];
+interface AboutColumn {
+  title: string;
+  href: string;
+  sections: { label: string; href: string }[];
+}
+
+export interface AboutMenuData {
+  triggerLabel: string;
+  columns: AboutColumn[];
+}
 
 // ── Sub-component ─────────────────────────────────────────────────────────────
 
@@ -40,10 +21,12 @@ const AboutDropdown = memo(function AboutDropdown({
   isOpen,
   onClose,
   dropdownRef,
+  columns,
 }: {
   isOpen: boolean;
   onClose: () => void;
   dropdownRef: React.MutableRefObject<HTMLDivElement | null>;
+  columns: AboutColumn[];
 }) {
   return (
     <AnimatePresence>
@@ -62,7 +45,7 @@ const AboutDropdown = memo(function AboutDropdown({
         >
           <div className="w-full rounded-[8px] border-2 border-[#E5E5E5] bg-[var(--color-beige-200)] p-[24px] shadow-[var(--shadow-xl)]">
             <div className="grid grid-cols-3 gap-[16px]">
-              {ABOUT_COLUMNS.map((column, idx) => (
+              {columns.map((column, idx) => (
                 <div
                   key={idx}
                   className="flex h-[243px] flex-col rounded-[8px] border border-[var(--color-border-subtle)] bg-[var(--color-surface-raised)] p-[24px]"
@@ -119,7 +102,7 @@ const AboutDropdown = memo(function AboutDropdown({
 
 // ── Main export ───────────────────────────────────────────────────────────────
 
-export default function AboutMenu() {
+export default function AboutMenu({ data }: { data: AboutMenuData }) {
   const { isOpen, openDropdown, collapse, triggerRef, menuRef } = useSimpleDropdown();
 
   return (
@@ -138,7 +121,7 @@ export default function AboutMenu() {
             : "text-[#111111] hover:bg-[var(--color-beige-100)] hover:text-[#000000]",
         ].join(" ")}
       >
-        About Capitalmind
+        {data.triggerLabel}
         <img
           src={isOpen ? "/images/svgs/caret-up.svg" : "/images/svgs/caret-down.svg"}
           alt=""
@@ -148,7 +131,7 @@ export default function AboutMenu() {
           className="transition-transform duration-200 motion-reduce:transition-none"
         />
       </button>
-      <AboutDropdown dropdownRef={menuRef} isOpen={isOpen} onClose={collapse} />
+      <AboutDropdown dropdownRef={menuRef} isOpen={isOpen} onClose={collapse} columns={data.columns} />
     </>
   );
 }

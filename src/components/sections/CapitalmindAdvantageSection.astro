@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import { Image } from "astro:assets";
 
 interface Row {
   title: string;
@@ -16,31 +16,100 @@ interface Props {
 }
 
 const {
-  eyebrow = 'Capitalmind vs Traditional PMS',
-  ctaLabel = 'Get Started Today',
-  ctaHref = '/get-started',
+  eyebrow = "Capitalmind vs Traditional PMS",
+  ctaLabel = "Get Started Today",
+  ctaHref = "/get-started",
   rows,
 } = Astro.props;
 ---
 
-<section aria-label="Capitalmind Advantage">
-
+<section class="section py-16 md:py-24 overflow-x-hidden pl-[env(safe-area-inset-left,0px)] pr-[env(safe-area-inset-right,0px)]" aria-label="Capitalmind Advantage">
   <!-- Desktop version -->
   <div class="hidden lg:block">
     <div class="w-full py-24">
       <div class="mx-auto w-full max-w-7xl px-4">
-        <span class="mb-[32px] inline-block text-sm text-[#0D3B36]">{eyebrow}</span>
-        <h2 class="font-noto text-[120px] font-light capitalize leading-[90%] tracking-[-4%] text-[#0E0E0E] xl:text-[150px]">
+        <span
+          class="mb-[32px] inline-flex text-sm text-[#0D3B36] flex-row gap-1 items-center"
+        >
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M7.5 4V10M7.5 14V20M10.5 12H16.5"
+              stroke="url(#paint0_linear_5500_6449)"
+              stroke-width="1.5"
+              stroke-linecap="round"></path>
+            <defs>
+              <linearGradient
+                id="paint0_linear_5500_6449"
+                x1="7.5"
+                y1="5.90806"
+                x2="19.5145"
+                y2="11.0543"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stop-color="#FFC65F"></stop>
+                <stop offset="0.466346" stop-color="#8A6426"></stop>
+                <stop offset="1" stop-color="#FFC65F"></stop>
+              </linearGradient>
+            </defs>
+          </svg>
+          {eyebrow}
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            class="rotate-180"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M7.5 4V10M7.5 14V20M10.5 12H16.5"
+              stroke="url(#paint0_linear_5500_6449)"
+              stroke-width="1.5"
+              stroke-linecap="round"></path>
+            <defs>
+              <linearGradient
+                id="paint0_linear_5500_6449"
+                x1="7.5"
+                y1="5.90806"
+                x2="19.5145"
+                y2="11.0543"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stop-color="#FFC65F"></stop>
+                <stop offset="0.466346" stop-color="#8A6426"></stop>
+                <stop offset="1" stop-color="#FFC65F"></stop>
+              </linearGradient>
+            </defs>
+          </svg>
+        </span>
+        <h2
+          class="font-noto text-[120px] font-light capitalize leading-[90%] tracking-[-4%] text-[#0E0E0E] xl:text-[150px]"
+        >
           Not only different,<br />
           But also better
         </h2>
         <div class="mt-[48px] grid grid-cols-3 justify-between gap-4">
           <div class="">
-            <h3 class="text-2xl font-medium leading-[150%] text-[#0E0E0E]">Portfolio Management Service</h3>
-            <p class="text-base leading-[150%] text-[#737373]">Here's what our customers experience through their PMS journey with Capitalmind Wealth Management</p>
+            <h3 class="text-2xl font-medium leading-[150%] text-[#0E0E0E]">
+              Portfolio Management Service
+            </h3>
+            <p class="text-base leading-[150%] text-[#737373]">
+              Here's what our customers experience through their PMS journey
+              with Capitalmind Wealth Management
+            </p>
           </div>
           <div class="flex flex-col items-center justify-center gap-5">
-            <h3 class="text-2xl font-medium leading-[150%] text-[#0E0E0E]">Capitalmind</h3>
+            <h3 class="text-2xl font-medium leading-[150%] text-[#0E0E0E]">
+              Capitalmind
+            </h3>
             <Image
               src="/images/capital-img.png"
               alt="Capitalmind"
@@ -54,7 +123,9 @@ const {
             />
           </div>
           <div class="flex flex-col items-center justify-center gap-5">
-            <h3 class="text-2xl font-medium leading-[150%] text-[#0E0E0E]">Capitalmind</h3>
+            <h3 class="text-2xl font-medium leading-[150%] text-[#0E0E0E]">
+              Capitalmind
+            </h3>
             <Image
               src="/images/other-pms.png"
               alt="Capitalmind"
@@ -70,73 +141,119 @@ const {
         </div>
       </div>
 
-      <div class="mx-auto mt-16 w-full max-w-7xl border-t border-[#E0E0E0] px-4">
-        {rows.map((row, i) => (
-          <div class={`flex flex-row gap-10 ${i === 0 ? 'mt-20' : 'mt-10'} justify-between`}>
-            <div class="w-1/3">
-              <h4 class="text-2xl font-medium text-[#0E0E0E]">{row.title}</h4>
-            </div>
-            <div class="grid w-2/3 grid-cols-2 items-center gap-20">
-              <div class="inline-flex flex-col gap-4 rounded-[8px] bg-white p-4">
-                <div>
-                  <img
-                    src={row.icon}
-                    alt=""
-                    width="50"
-                    height="50"
-                    loading="lazy"
-                    decoding="async"
-                    aria-hidden="true"
-                    class="h-auto w-auto"
-                  />
-                </div>
-                <p class="text-base leading-[150%] text-[#737373]">{row.cardText}</p>
+      <div
+        class="mx-auto mt-16 w-full max-w-7xl border-t border-[#E0E0E0] px-4"
+      >
+        {
+          rows.map((row, i) => (
+            <div
+              class={`flex flex-row gap-10 ${i === 0 ? "mt-20" : "mt-10"} justify-between`}
+            >
+              <div class="w-1/3">
+                <h4 class="text-2xl font-medium text-[#0E0E0E]">{row.title}</h4>
               </div>
-              <p class="text-base leading-[150%] text-[#737373]">{row.rightText}</p>
+              <div class="grid w-2/3 grid-cols-2 items-center gap-20">
+                <div class="inline-flex flex-col gap-4 rounded-[8px] bg-white p-4">
+                  <div>
+                    <img
+                      src={row.icon}
+                      alt=""
+                      width="50"
+                      height="50"
+                      loading="lazy"
+                      decoding="async"
+                      aria-hidden="true"
+                      class="h-auto w-auto"
+                    />
+                  </div>
+                  <p class="text-base leading-[150%] text-[#737373]">
+                    {row.cardText}
+                  </p>
+                </div>
+                <p class="text-base leading-[150%] text-[#737373]">
+                  {row.rightText}
+                </p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        }
       </div>
     </div>
   </div>
 
   <!-- Mobile version -->
   <div class="block lg:hidden">
-    <div class="w-full bg-[#F4F2EA] pb-[48px] pt-[48px] md:pb-[120px] md:pt-[120px]">
+    <div
+      class="w-full bg-[#F4F2EA] pb-[48px] pt-[48px] md:pb-[120px] md:pt-[120px]"
+    >
       <div class="mx-auto w-full max-w-[1440px] px-4 lg:px-[80px]">
-
         <div class="flex w-full flex-col items-start text-left">
           <div class="mb-4 flex w-full justify-center lg:justify-start">
-            <span class="flex items-center gap-2 font-inter text-[12px] font-normal tracking-wide text-[#D4B384] md:text-[14px]">
-              <svg width="4" height="6" viewBox="0 0 4 6" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path d="M4 3L0 0V6L4 3Z" fill="currentColor"/>
+            <span
+              class="flex items-center gap-2 font-inter text-[12px] font-normal tracking-wide text-[#D4B384] md:text-[14px]"
+            >
+              <svg
+                width="4"
+                height="6"
+                viewBox="0 0 4 6"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+              >
+                <path d="M4 3L0 0V6L4 3Z" fill="currentColor"></path>
               </svg>
               {eyebrow}
-              <svg width="4" height="6" viewBox="0 0 4 6" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path d="M0 3L4 0V6L0 3Z" fill="currentColor"/>
+              <svg
+                width="4"
+                height="6"
+                viewBox="0 0 4 6"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+              >
+                <path d="M0 3L4 0V6L0 3Z" fill="currentColor"></path>
               </svg>
             </span>
           </div>
           <h2
-            class="mb-[32px] max-w-full font-noto text-[36px] font-light leading-[1] tracking-tight text-[#0E0E0E] min-[400px]:text-[42px] md:mb-16 lg:text-[10vw] lg:leading-[90%] xl:text-[150px]"
-            style="font-stretch: condensed;"
+            class="mb-[32px] max-w-full font-noto text-[36px] font-light leading-[1] tracking-tight text-[#0E0E0E] [font-stretch:condensed] min-[400px]:text-[42px] md:mb-16 lg:text-[10vw] lg:leading-[90%] xl:text-[150px]"
           >
-            <span class="whitespace-nowrap lg:whitespace-normal">Not Only Different,</span><br class="block lg:hidden" /><span class="hidden lg:inline"> </span>
-            <span class="whitespace-nowrap lg:whitespace-normal">But Also Better</span>
+            <span class="whitespace-nowrap lg:whitespace-normal"
+              >Not Only Different,</span
+            ><br class="block lg:hidden" /><span class="hidden lg:inline">
+            </span>
+            <span class="whitespace-nowrap lg:whitespace-normal"
+              >But Also Better</span
+            >
           </h2>
         </div>
 
-        <div class="mt-0 flex flex-col items-start justify-between gap-12 lg:mt-8 lg:flex-row lg:gap-0">
+        <div
+          class="mt-0 flex flex-col items-start justify-between gap-12 lg:mt-8 lg:flex-row lg:gap-0"
+        >
           <div class="hidden w-full flex-col lg:flex lg:w-[45%]">
-            <h3 class="mb-[24px] font-inter text-[24px] font-medium text-[#0E0E0E]">Portfolio Management Service</h3>
-            <p class="max-w-sm font-inter text-[16px] font-normal leading-[1.5] text-[#555555]">
-              Here's what our customers experience through their PMS journey with Capitalmind Wealth Management
+            <h3
+              class="mb-[24px] font-inter text-[24px] font-medium text-[#0E0E0E]"
+            >
+              Portfolio Management Service
+            </h3>
+            <p
+              class="max-w-sm font-inter text-[16px] font-normal leading-[1.5] text-[#555555]"
+            >
+              Here's what our customers experience through their PMS journey
+              with Capitalmind Wealth Management
             </p>
           </div>
 
-          <div class="grid w-full grid-cols-2 gap-4 lg:flex lg:w-[55%] lg:flex-row lg:justify-around">
+          <div
+            class="grid w-full grid-cols-2 gap-4 lg:flex lg:w-[55%] lg:flex-row lg:justify-around"
+          >
             <div class="flex flex-col items-start gap-3 md:gap-6">
-              <h4 class="font-inter text-[16px] font-medium text-[#0E0E0E] md:text-[20px]">Capitalmind</h4>
+              <h4
+                class="font-inter text-[16px] font-medium text-[#0E0E0E] md:text-[20px]"
+              >
+                Capitalmind
+              </h4>
               <div class="flex flex-row items-center -space-x-3 md:-space-x-4">
                 <Image
                   src="/images/person-img1.png"
@@ -160,15 +277,26 @@ const {
                   decoding="async"
                   class="relative z-20 h-[40px] w-[40px] rounded-full border-2 border-[#F4F2EA] object-cover md:h-[56px] md:w-[56px] md:border-[3px]"
                 />
-                <div class="relative z-30 flex h-[40px] w-[40px] items-center justify-center rounded-full border-2 border-[#F4F2EA] bg-[#EBD8C3] md:h-[56px] md:w-[56px] md:border-[3px]">
-                  <span class="font-noto text-[14px] font-bold text-[#3A1014] md:text-[20px]">C.</span>
+                <div
+                  class="relative z-30 flex h-[40px] w-[40px] items-center justify-center rounded-full border-2 border-[#F4F2EA] bg-[#EBD8C3] md:h-[56px] md:w-[56px] md:border-[3px]"
+                >
+                  <span
+                    class="font-noto text-[14px] font-bold text-[#3A1014] md:text-[20px]"
+                    >C.</span
+                  >
                 </div>
               </div>
             </div>
 
             <div class="flex flex-col items-end gap-3 md:gap-6 lg:items-start">
-              <h4 class="text-right font-inter text-[16px] font-medium text-[#0E0E0E] md:text-[20px] lg:text-left">Traditional PMS</h4>
-              <div class="flex flex-row items-center -space-x-3 opacity-80 grayscale md:-space-x-4">
+              <h4
+                class="text-right font-inter text-[16px] font-medium text-[#0E0E0E] md:text-[20px] lg:text-left"
+              >
+                Traditional PMS
+              </h4>
+              <div
+                class="flex flex-row items-center -space-x-3 opacity-80 grayscale md:-space-x-4"
+              >
                 <Image
                   src="/images/person-img1.png"
                   alt="person"
@@ -191,61 +319,70 @@ const {
                   decoding="async"
                   class="relative z-20 h-[40px] w-[40px] rounded-full border-2 border-[#F4F2EA] object-cover md:h-[56px] md:w-[56px] md:border-[3px]"
                 />
-                <div class="relative z-30 flex h-[40px] w-[40px] items-center justify-center rounded-full border-2 border-[#F4F2EA] bg-[#FFFFFF] md:h-[56px] md:w-[56px] md:border-[3px]">
-                  <span class="font-noto text-[18px] font-bold text-[#888888] md:text-[24px]">?</span>
+                <div
+                  class="relative z-30 flex h-[40px] w-[40px] items-center justify-center rounded-full border-2 border-[#F4F2EA] bg-[#FFFFFF] md:h-[56px] md:w-[56px] md:border-[3px]"
+                >
+                  <span
+                    class="font-noto text-[18px] font-bold text-[#888888] md:text-[24px]"
+                    >?</span
+                  >
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="mt-10 flex w-full flex-col border-t border-[#E0E0E0] md:mt-24 md:pt-24">
-          {rows.map((row) => (
-            <div class="flex min-h-[160px] flex-col items-start gap-[16px] border-b border-[#E0E0E0] py-6 last:border-0 md:grid md:min-h-[220px] md:grid-cols-[1fr_368px_1fr] md:items-center md:gap-[40px] md:border-0 md:py-0">
-              <div class="flex h-full w-full md:w-auto md:pt-6">
-                <h4 class="font-noto text-[20px] font-medium text-[#0E0E0E] md:text-[24px]">{row.title}</h4>
-              </div>
+        <div
+          class="mt-10 flex w-full flex-col border-t border-[#E0E0E0] md:mt-24 md:pt-24"
+        >
+          {
+            rows.map((row) => (
+              <div class="flex min-h-[160px] flex-col items-start gap-[16px] border-b border-[#E0E0E0] py-6 last:border-0 md:grid md:min-h-[220px] md:grid-cols-[1fr_368px_1fr] md:items-center md:gap-[40px] md:border-0 md:py-0">
+                <div class="flex h-full w-full md:w-auto md:pt-6">
+                  <h4 class="font-noto text-[20px] font-medium text-[#0E0E0E] md:text-[24px]">
+                    {row.title}
+                  </h4>
+                </div>
 
-              <div class="grid w-full grid-cols-[1.5fr_1fr] gap-4 md:contents">
-                <div class="flex h-full w-full flex-col justify-start rounded-[12px] border border-[#E0E0E0]/50 bg-[#FCFCF9] p-4 shadow-sm md:w-[368px] md:p-6">
-                  <div class="mb-3">
-                    <img
-                      src={row.icon}
-                      alt=""
-                      width="32"
-                      height="32"
-                      loading="lazy"
-                      decoding="async"
-                      aria-hidden="true"
-                      class="h-[24px] w-[24px] object-contain md:h-[48px] md:w-[48px]"
-                    />
+                <div class="grid w-full grid-cols-[1.5fr_1fr] gap-4 md:contents">
+                  <div class="flex h-full w-full flex-col justify-start rounded-[12px] border border-[#E0E0E0]/50 bg-[#FCFCF9] p-4 shadow-sm md:w-[368px] md:p-6">
+                    <div class="mb-3">
+                      <img
+                        src={row.icon}
+                        alt=""
+                        width="32"
+                        height="32"
+                        loading="lazy"
+                        decoding="async"
+                        aria-hidden="true"
+                        class="h-[24px] w-[24px] object-contain md:h-[48px] md:w-[48px]"
+                      />
+                    </div>
+                    <p class="whitespace-pre-line font-inter text-[16px] font-normal leading-[1.5] text-[#555555]">
+                      {row.cardText}
+                    </p>
                   </div>
-                  <p class="whitespace-pre-line font-inter text-[16px] font-normal leading-[1.5] text-[#555555]">
-                    {row.cardText}
-                  </p>
-                </div>
 
-                <div class="flex h-full items-center">
-                  <p class="font-inter text-[16px] font-normal leading-[1.5] text-[#555555]">
-                    {row.rightText}
-                  </p>
+                  <div class="flex h-full items-center">
+                    <p class="font-inter text-[16px] font-normal leading-[1.5] text-[#555555]">
+                      {row.rightText}
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))
+          }
         </div>
 
         <div class="mt-8 flex justify-center md:mt-[60px]">
           <a
             href={ctaHref}
-            class="rounded-[12px] bg-[#0E0E0E] px-8 py-4 font-inter text-[16px] font-medium text-white shadow-lg transition-colors hover:bg-black"
+            class="rounded-[12px] bg-[#0E0E0E] px-8 py-4 font-inter text-[16px] font-medium text-white shadow-lg transition-colors hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500"
           >
             {ctaLabel}
           </a>
         </div>
-
       </div>
     </div>
   </div>
-
 </section>

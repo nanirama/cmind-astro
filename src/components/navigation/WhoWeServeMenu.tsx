@@ -13,53 +13,6 @@ export interface Persona {
 
 type MenuState = "closed" | "dropdown" | "morph";
 
-// ── Data ──────────────────────────────────────────────────────────────────────
-
-export const personas: Persona[] = [
-  {
-    id: "aspiring-hnis",
-    title: "Aspiring HNIs",
-    links: ["How Capitalmind Helps", "Insights for wealth building", "Entrepreneur Testimonials"],
-    image: "/images/serve-img.png",
-    description: "Build your wealth journey with expert guidance tailored for aspiring high-net-worth individuals.",
-  },
-  {
-    id: "delegating-hnis",
-    title: "Delegating HNIs",
-    links: ["How Capitalmind Helps", "Insights for wealth building", "Entrepreneur Testimonials"],
-    image: "/images/serve-img2.png",
-    description: "Back companies driving India's energy independence, advancing clean alternatives and reducing reliance on fossil fuel imports.",
-  },
-  {
-    id: "business-owners",
-    title: "Business Owners",
-    links: ["How Capitalmind Helps", "Insights for wealth building", "Entrepreneur Testimonials"],
-    image: "/images/hero-img.png",
-    description: "Manage business and personal wealth with strategies crafted for entrepreneurs at every stage.",
-  },
-  {
-    id: "windfall-gains",
-    title: "Windfall Gains",
-    links: ["How Capitalmind Helps", "Insights for wealth building", "Entrepreneur Testimonials"],
-    image: "/images/capital-img.png",
-    description: "Navigate sudden wealth with careful planning and expert investment strategies.",
-  },
-  {
-    id: "retirees",
-    title: "Retirees",
-    links: ["How Capitalmind Helps", "Insights for wealth building", "Entrepreneur Testimonials"],
-    image: "/images/aum-img.png",
-    description: "Secure your retirement with income-generating strategies built to last a lifetime.",
-  },
-  {
-    id: "nris",
-    title: "NRIs",
-    links: ["How Capitalmind Helps", "Insights for wealth building", "Entrepreneur Testimonials"],
-    image: "/images/globe.png",
-    description: "Expert wealth management for Non-Resident Indians navigating cross-border investments.",
-  },
-];
-
 // ── Hook ──────────────────────────────────────────────────────────────────────
 
 function useWhoWeServeMenuState(scrollThreshold = 80) {
@@ -363,8 +316,12 @@ const WhoWeServeMorphBar = memo(function WhoWeServeMorphBar({
 // ── Main export ───────────────────────────────────────────────────────────────
 
 export default function WhoWeServeMenu({
+  triggerLabel,
+  personas,
   onMorphChange,
 }: {
+  triggerLabel: string;
+  personas: Persona[];
   onMorphChange: (isMorphed: boolean) => void;
 }) {
   const {
@@ -413,7 +370,7 @@ export default function WhoWeServeMenu({
             : "text-[#111111] hover:bg-[var(--color-beige-100)] hover:text-[#000000]",
         ].join(" ")}
       >
-        Who we serve?
+        {triggerLabel}
         <img
           src={isOpen ? "/images/svgs/caret-up.svg" : "/images/svgs/caret-down.svg"}
           alt=""

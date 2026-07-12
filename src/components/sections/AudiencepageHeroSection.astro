@@ -1,0 +1,176 @@
+---
+import { Image } from "astro:assets";
+import Button from "@components/ui/Button.astro";
+
+interface Cta {
+  label: string;
+  href: string;
+  variant?: "primary" | "secondary" | "ghost" | "gold";
+}
+
+interface HeroImage {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+}
+
+interface Stat {
+  value: string;
+  label: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  heading: string;
+  body?: string;
+  cta?: Cta;
+  heroImage?: HeroImage;
+  stats?: Stat[];
+}
+
+const { eyebrow, heading, body, cta, heroImage, stats } = Astro.props;
+---
+
+<section class="section py-16 md:py-24 overflow-hidden pl-[env(safe-area-inset-left,0px)] pr-[env(safe-area-inset-right,0px)]" aria-labelledby="ahero-heading">
+  <div
+    class="container grid grid-cols-1 px-4 pt-12 text-center
+      gap-y-[var(--space-sm)]
+      [grid-template-areas:'eyebrow'_'heading'_'image'_'body'_'cta'_'stats']
+      md:grid-cols-2 md:items-start lg:pt-24 md:text-left
+      md:gap-x-[var(--space-xl)] md:gap-y-[var(--space-md)]
+      md:[grid-template-areas:'eyebrow_image'_'heading_image'_'body_image'_'cta_image'_'stats_stats']"
+  >
+    {
+      eyebrow && (
+        <p class="[grid-area:eyebrow] m-0 inline-flex items-center justify-self-center gap-[var(--space-3xs)] font-sans text-[length:var(--fs-h6)] leading-[var(--lh-h6)] tracking-[var(--ls-h6)] font-medium text-[#0d3b36] md:justify-self-start">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M7.5 4V10M7.5 14V20M10.5 12H16.5"
+              stroke="url(#paint0_linear_5500_6449)"
+              stroke-width="1.5"
+              stroke-linecap="round"
+            />
+            <defs>
+              <linearGradient
+                id="paint0_linear_5500_6449"
+                x1="7.5"
+                y1="5.90806"
+                x2="19.5145"
+                y2="11.0543"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stop-color="#FFC65F" />
+                <stop offset="0.466346" stop-color="#8A6426" />
+                <stop offset="1" stop-color="#FFC65F" />
+              </linearGradient>
+            </defs>
+          </svg>
+          <span>{eyebrow}</span>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            class="rotate-180"
+            aria-hidden="true"
+          >
+            <path
+              d="M7.5 4V10M7.5 14V20M10.5 12H16.5"
+              stroke="url(#paint0_linear_5500_6449)"
+              stroke-width="1.5"
+              stroke-linecap="round"
+            />
+            <defs>
+              <linearGradient
+                id="paint0_linear_5500_6449"
+                x1="7.5"
+                y1="5.90806"
+                x2="19.5145"
+                y2="11.0543"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stop-color="#FFC65F" />
+                <stop offset="0.466346" stop-color="#8A6426" />
+                <stop offset="1" stop-color="#FFC65F" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </p>
+      )
+    }
+
+    <h1
+      id="ahero-heading"
+      class="[grid-area:heading] mx-auto max-w-[22ch] md:mx-0 md:max-w-[18ch]"
+    >
+      {heading}
+    </h1>
+
+    {
+      heroImage && (
+        <div class="[grid-area:image] md:self-center">
+          <Image
+            src={heroImage.src}
+            alt={heroImage.alt}
+            width={heroImage.width ?? 600}
+            height={heroImage.height ?? 659}
+            format="webp"
+            quality={85}
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+            class="mx-auto block h-auto w-full max-w-[22rem] md:mx-0 md:max-w-none"
+          />
+        </div>
+      )
+    }
+
+    {
+      body && (
+        <p class="[grid-area:body] body-lg mx-auto max-w-[40ch] text-[color:var(--color-text-secondary)] md:mx-0">
+          {body}
+        </p>
+      )
+    }
+
+    {
+      cta && (
+        <div class="[grid-area:cta]">
+          <Button
+            href={cta.href}
+            variant={cta.variant ?? "primary"}
+            size="md"
+          >
+            {cta.label}
+          </Button>
+        </div>
+      )
+    }
+
+    {
+      stats && stats.length > 0 && (
+        <div class="[grid-area:stats] grid grid-cols-2 gap-x-[var(--space-md)] gap-y-[var(--space-lg)] max-[600px]:grid-cols-1 lg:grid-cols-4 mt-[var(--space-2xl)]">
+          {stats.map((stat) => (
+            <div class="flex flex-row gap-[30px]">
+              <p class="m-0 mb-[var(--space-4xs)] font-[var(--fs-body-base)] text-[length:var(--fs-body-base)] font-medium text-[color:var(--color-text-primary)]">
+                {stat.value}
+              </p>
+              <p class="m-0 text-[length:var(--fs-body-xl)] text-[color:var(--color-text-secondary)]">
+                {stat.label}
+              </p>
+            </div>
+          ))}
+        </div>
+      )
+    }
+  </div>
+</section>

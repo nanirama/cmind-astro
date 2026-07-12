@@ -1,0 +1,21 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import SectionRenderer from '@components/sections/SectionRenderer.astro';
+import { getEntry } from 'astro:content';
+import { buildOrganizationJsonLd } from '@lib/seo';
+
+const pmsPage = await getEntry('portfolio-management-service', 'index');
+if (!pmsPage) throw new Error('Portfolio Management Service content not found: src/content/portfolio-management-service/index.md');
+
+const { title, description, seoTitle, seoDescription, sections = [] } = pmsPage.data;
+const jsonLd = buildOrganizationJsonLd();
+---
+
+<BaseLayout
+  title={seoTitle ?? title}
+  description={seoDescription ?? description}
+  ogType="website"
+  jsonLd={jsonLd}
+>
+  <SectionRenderer sections={sections as any} />
+</BaseLayout>

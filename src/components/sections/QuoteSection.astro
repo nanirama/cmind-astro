@@ -7,94 +7,71 @@ interface Props {
 }
 
 const { quote, author, role, variant = 'default' } = Astro.props;
+
+const isBranded = variant === 'branded';
+const isLarge = variant === 'large';
+
+const sectionBgClasses = isBranded
+  ? 'bg-[linear-gradient(135deg,var(--color-primary-900)_0%,var(--color-primary-700)_100%)]'
+  : 'bg-[var(--color-beige-50)]';
+
+const markColorClass = isBranded
+  ? 'text-[color:var(--color-gold-400)]'
+  : 'text-[color:var(--color-gold-400)]';
+
+const quoteTextColorClass = isBranded
+  ? 'text-[color:var(--color-beige-100)]'
+  : 'text-[color:var(--color-text-primary)]';
+
+const quoteTextSizeClass = isLarge
+  ? 'text-[clamp(1.5rem,3vw,2.25rem)]'
+  : 'text-[clamp(1.25rem,2.5vw,1.875rem)]';
+
+const authorColorClass = isBranded
+  ? 'text-[color:var(--color-gold-300)]'
+  : 'text-[color:var(--color-text-primary)]';
+
+const roleColorClass = isBranded
+  ? 'text-[color:var(--color-beige-400)]'
+  : 'text-[color:var(--color-text-tertiary)]';
 ---
 
-<section class:list={['quote-section', `quote-section--${variant}`]} aria-label="Featured quote">
+<section
+  class:list={['overflow-x-hidden py-[clamp(var(--space-3xl),8vw,var(--space-5xl))] pl-[env(safe-area-inset-left,0px)] pr-[env(safe-area-inset-right,0px)]', sectionBgClasses]}
+  aria-label="Featured quote"
+>
   <div class="container">
-    <figure class="quote-section__figure">
-      <svg class="quote-section__mark" width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-        <path d="M14 30A8 8 0 016 22V14a8 8 0 018-8h8v8a8 8 0 01-8 8v8zm20 0a8 8 0 01-8-8V14a8 8 0 018-8h8v8a8 8 0 01-8 8v8z" fill="currentColor" />
+    <figure class="mx-auto flex max-w-[48rem] flex-col items-center gap-[var(--space-lg)] text-center">
+      <svg
+        class={`shrink-0 ${markColorClass}`}
+        width="48"
+        height="48"
+        viewBox="0 0 48 48"
+        fill="none"
+        aria-hidden="true"
+      >
+        <path
+          d="M14 30A8 8 0 016 22V14a8 8 0 018-8h8v8a8 8 0 01-8 8v8zm20 0a8 8 0 01-8-8V14a8 8 0 018-8h8v8a8 8 0 01-8 8v8z"
+          fill="currentColor"
+        />
       </svg>
-      <blockquote class="quote-section__text">
-        <p>{quote}</p>
+      <blockquote class="m-0 border-none bg-none p-0 not-italic">
+        <p
+          class={`m-0 font-[family-name:var(--font-serif)] italic leading-[1.5] ${quoteTextSizeClass} ${quoteTextColorClass}`}
+        >
+          {quote}
+        </p>
       </blockquote>
-      <figcaption class="quote-section__caption">
-        <span class="quote-section__author">{author}</span>
-        {role && <span class="quote-section__role">{role}</span>}
+      <figcaption class="flex flex-col items-center gap-[var(--space-3xs)]">
+        <span class={`text-[length:var(--fs-body-sm)] font-semibold ${authorColorClass}`}>
+          {author}
+        </span>
+        {role && (
+          <span class={`text-[length:var(--fs-body-sm)] ${roleColorClass}`}>
+            {role}
+          </span>
+        )}
       </figcaption>
     </figure>
   </div>
 </section>
-
-<style>
-  .quote-section {
-    padding-block: clamp(var(--space-3xl), 8vw, var(--space-5xl));
-  }
-
-  .quote-section--default {
-    background-color: var(--color-beige-50);
-  }
-
-  .quote-section--branded {
-    background: linear-gradient(135deg, var(--color-primary-900) 0%, var(--color-primary-700) 100%);
-  }
-
-  .quote-section--branded .quote-section__mark { color: var(--color-gold-400); }
-  .quote-section--branded .quote-section__text p { color: var(--color-beige-100); }
-  .quote-section--branded .quote-section__author { color: var(--color-gold-300); }
-  .quote-section--branded .quote-section__role { color: var(--color-beige-400); }
-
-  .quote-section__figure {
-    max-width: 48rem;
-    margin-inline: auto;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-lg);
-  }
-
-  .quote-section__mark {
-    color: var(--color-gold-400);
-    flex-shrink: 0;
-  }
-
-  .quote-section__text {
-    margin: 0;
-    padding: 0;
-    border: none;
-    background: none;
-    font-style: normal;
-  }
-
-  .quote-section__text p {
-    font-family: var(--font-serif);
-    font-size: clamp(1.25rem, 2.5vw, 1.875rem);
-    line-height: 1.5;
-    color: var(--color-text-primary);
-    font-style: italic;
-    margin: 0;
-  }
-
-  .quote-section--large .quote-section__text p {
-    font-size: clamp(1.5rem, 3vw, 2.25rem);
-  }
-
-  .quote-section__caption {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-3xs);
-  }
-
-  .quote-section__author {
-    font-weight: 600;
-    font-size: var(--fs-text-sm);
-    color: var(--color-text-primary);
-  }
-
-  .quote-section__role {
-    font-size: var(--fs-text-xs);
-    color: var(--color-text-tertiary);
-  }
-</style>

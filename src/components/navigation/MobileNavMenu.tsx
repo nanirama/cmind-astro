@@ -1,7 +1,13 @@
 import { useState } from "react";
-import { personas } from "./WhoWeServeMenu";
+import type { Persona } from "./WhoWeServeMenu";
 
-export default function MobileNavMenu({ onSelect }: { onSelect: () => void }) {
+interface Props {
+  triggerLabel: string;
+  personas: Persona[];
+  onSelect: () => void;
+}
+
+export default function MobileNavMenu({ triggerLabel, personas, onSelect }: Props) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -11,10 +17,10 @@ export default function MobileNavMenu({ onSelect }: { onSelect: () => void }) {
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
         aria-controls="mobile-who-we-serve-menu"
-        aria-label={open ? "Collapse Who we serve menu" : "Expand Who we serve menu"}
+        aria-label={open ? `Collapse ${triggerLabel} menu` : `Expand ${triggerLabel} menu`}
         className="flex w-full items-center justify-between rounded-lg px-3 py-3 text-sm text-[var(--color-text-secondary)] hover:bg-[var(--color-beige-100)]"
       >
-        <span>Who we serve?</span>
+        <span>{triggerLabel}</span>
         <img
           src={open ? "/images/svgs/caret-up.svg" : "/images/svgs/caret-down.svg"}
           alt=""

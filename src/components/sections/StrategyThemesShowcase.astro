@@ -1,0 +1,139 @@
+---
+import { Image } from 'astro:assets';
+
+interface ThemeImage {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+}
+
+interface Theme {
+  title: string;
+  description: string;
+  variant: 'dark' | 'gold' | 'light';
+  image?: ThemeImage;
+}
+
+interface Props {
+  eyebrow?: string;
+  heading: string;
+  subheading?: string;
+  themes: Theme[];
+}
+
+const { eyebrow, heading, subheading, themes } = Astro.props;
+
+const firstRow = themes.slice(0, 3);
+const secondRow = themes.slice(3);
+
+const CARD_BASE = 'relative  flex min-h-[14rem] flex-col overflow-hidden rounded-lg lg:p-lg p-4';
+
+const VARIANT_CLASSES: Record<Theme['variant'], string> = {
+  dark: 'bg-[#102519]',
+  gold: 'bg-[#FFF1D2] text-text-primary',
+  light: 'bg-beige-100 text-text-primary',
+};
+
+/**
+ * Decorative background-pattern layers, keyed by card position.
+ * Only the two grid-line cards fade via a radial-gradient mask; the
+ * dark card's pattern is intentionally unmasked per design.
+ */
+const FIRST_ROW_PATTERNS: Array<string | null> = [
+  'bg-[url(/images/pages/surgeindia/grill-bg.png)] bg-repeat bg-right-top bg-[length:500px_300px] opacity-40',
+  'bg-[url(/images/pages/surgeindia/how-help-bg.png)] bg-no-repeat bg-right-top bg-[#FFF1D2] bg-[length:150px_150px] [mask-image:radial-gradient(circle_at_top_right,black_0%,black_30%,transparent_70%)] [-webkit-mask-image:radial-gradient(circle_at_top_right,black_0%,black_30%,transparent_70%)] [mask-repeat:no-repeat] [-webkit-mask-repeat:no-repeat] [mask-size:cover] [-webkit-mask-size:cover]',
+  'bg-[url(/images/pages/surgeindia/how-help-bg3.png)] bg-no-repeat bg-right-top bg-[length:120px_120px] [mask-image:radial-gradient(circle_at_top_right,black_0%,black_30%,transparent_70%)] [-webkit-mask-image:radial-gradient(circle_at_top_right,black_0%,black_30%,transparent_70%)] [mask-repeat:no-repeat] [-webkit-mask-repeat:no-repeat] [mask-size:cover] [-webkit-mask-size:cover]',
+];
+
+const SECOND_ROW_PATTERNS: Array<string | null> = [
+  'bg-[url(/images/pages/surgeindia/how-help-bg4.png)] bg-repeat bg-left-top bg-[length:100px_100px] [mask-image:radial-gradient(circle_at_top_left,black_0%,black_30%,transparent_70%)] [-webkit-mask-image:radial-gradient(circle_at_top_left,black_0%,black_30%,transparent_70%)] [mask-repeat:no-repeat] [-webkit-mask-repeat:no-repeat] [mask-size:cover] [-webkit-mask-size:cover]',
+  null,
+];
+---
+
+
+<section
+  class="section overflow-x-hidden py-16 md:py-24 pl-[env(safe-area-inset-left,0px)] pr-[env(safe-area-inset-right,0px)]"
+  aria-labelledby="sts-heading"
+>
+  <div class="container px-4">
+    {eyebrow && (
+      <p class="mb-md inline-flex items-center gap-3xs font-sans text-h6 font-medium text-text-secondary">
+        <svg class="flex-shrink-0 text-gold-500" width="4" height="6" viewBox="0 0 4 6" fill="none" aria-hidden="true">
+          <path d="M4 3L0 0V6L4 3Z" fill="currentColor" />
+        </svg>
+        <span>{eyebrow}</span>
+        <svg class="flex-shrink-0 text-gold-500" width="4" height="6" viewBox="0 0 4 6" fill="none" aria-hidden="true">
+          <path d="M0 3L4 0V6L0 3Z" fill="currentColor" />
+        </svg>
+      </p>
+    )}
+
+    <h2 id="sts-heading" class="mb-md max-w-[20ch] lg:text-[140px] text-[60px] tracking-[-5%] font-[300]">{heading}</h2>
+
+    {subheading && (
+      <p class="mb-2xl max-w-[56ch] font-sans text-body-base text-text-secondary">{subheading}</p>
+    )}
+
+    <div class="grid grid-cols-1 gap-md md:grid-cols-[40%_30%_30%]">
+      {firstRow.map((theme, index) => (
+        <div
+          class:list={[
+            CARD_BASE,
+            VARIANT_CLASSES[theme.variant],
+            index === 0 && 'text-white',
+          ]}
+        >
+          {FIRST_ROW_PATTERNS[index] && (
+            <span aria-hidden="true" class:list={['pointer-events-none absolute inset-0', FIRST_ROW_PATTERNS[index]]} />
+          )}
+
+          <h3 class:list={['relative mb-sm font-serif text-h5 font-medium', index === 0 && 'text-white']}>{theme.title}</h3>
+          <p class:list={['relative mt-auto max-w-[36ch] font-sans text-body-base opacity-[0.85]', index === 0 && 'text-white']}>{theme.description}</p>
+          {theme.image && (
+            <Image
+              src={theme.image.src}
+              alt={theme.image.alt}
+              width={theme.image.width ?? 200}
+              height={theme.image.height ?? 160}
+              format="webp"
+              quality={85}
+              loading="lazy"
+              decoding="async"
+              class="absolute bottom-lg right-lg h-20 w-auto"
+            />
+          )}
+        </div>
+      ))}
+    </div>
+
+    {secondRow.length > 0 && (
+      <div class="mt-md grid grid-cols-1 gap-md md:grid-cols-[40%_60%]">
+        {secondRow.map((theme, index) => (
+          <div class:list={[CARD_BASE, VARIANT_CLASSES[theme.variant]]}>
+            {SECOND_ROW_PATTERNS[index] && (
+              <span aria-hidden="true" class:list={['pointer-events-none absolute inset-0', SECOND_ROW_PATTERNS[index]]} />
+            )}
+
+            <h3 class="relative mb-sm font-serif text-h5 font-medium">{theme.title}</h3>
+            <p class="relative mt-auto xl:max-w-[36ch] lg:max-w-[23ch] max-w-[16ch] font-sans text-body-base opacity-[0.85]">{theme.description}</p>
+            {theme.image && (
+              <Image
+                src={theme.image.src}
+                alt={theme.image.alt}
+                width={theme.image.width ?? 200}
+                height={theme.image.height ?? 160}
+                format="webp"
+                quality={85}
+                loading="lazy"
+                decoding="async"
+                class="md:absolute bottom-lg xl:right-lg right-0 h-full w-auto"
+              />
+            )}
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+</section>

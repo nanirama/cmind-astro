@@ -1,0 +1,94 @@
+---
+import { Image } from 'astro:assets';
+import Button from '@components/ui/Button.astro';
+
+interface ChartImage {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+}
+
+interface Cta {
+  label: string;
+  href: string;
+  variant?: 'primary' | 'secondary' | 'ghost';
+}
+
+interface Props {
+  eyebrow?: string;
+  heading: string;
+  subheading?: string;
+  chartImage: ChartImage;
+  ctas?: Cta[];
+}
+
+const { eyebrow, heading, subheading, chartImage, ctas = [] } = Astro.props;
+---
+
+<section
+  class="section overflow-x-hidden pl-[env(safe-area-inset-left,0px)] pr-[env(safe-area-inset-right,0px)] py-16 md:py-24"
+  aria-labelledby="pcc-heading"
+>
+  <div class="container px-4">
+    {eyebrow && (
+      <p class="m-0 mb-[var(--space-md)] inline-flex items-center gap-[var(--space-3xs)] font-sans text-[length:var(--fs-h6)] leading-[var(--lh-h6)] tracking-[var(--ls-h6)] font-medium text-[color:var(--color-text-secondary)]">
+        <svg
+          class="shrink-0 text-[color:var(--color-gold-500)]"
+          width="4"
+          height="6"
+          viewBox="0 0 4 6"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path d="M4 3L0 0V6L4 3Z" fill="currentColor" />
+        </svg>
+        <span>{eyebrow}</span>
+        <svg
+          class="shrink-0 text-[color:var(--color-gold-500)]"
+          width="4"
+          height="6"
+          viewBox="0 0 4 6"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path d="M0 3L4 0V6L0 3Z" fill="currentColor" />
+        </svg>
+      </p>
+    )}
+
+    <h2 id="pcc-heading" class="m-0 mb-[var(--space-sm)] max-w-[24ch]">
+      {heading}
+    </h2>
+
+    {subheading && (
+      <p class="m-0 mb-[var(--space-2xl)] max-w-[56ch] font-sans text-[length:var(--fs-body-base)] leading-[var(--lh-body-base)] text-[color:var(--color-text-secondary)]">
+        {subheading}
+      </p>
+    )}
+
+    <figure class="m-0 mb-[var(--space-xl)]">
+      <Image
+        src={chartImage.src}
+        alt={chartImage.alt}
+        width={chartImage.width ?? 900}
+        height={chartImage.height ?? 620}
+        format="webp"
+        quality={90}
+        loading="lazy"
+        decoding="async"
+        class="block h-auto w-full rounded-[var(--radius-lg)] motion-reduce:transition-none"
+      />
+    </figure>
+
+    {ctas.length > 0 && (
+      <div class="flex flex-wrap gap-[var(--space-sm)]">
+        {ctas.map((cta) => (
+          <Button href={cta.href} variant={cta.variant ?? 'primary'} size="md">
+            {cta.label}
+          </Button>
+        ))}
+      </div>
+    )}
+  </div>
+</section>

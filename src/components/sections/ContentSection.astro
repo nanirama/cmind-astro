@@ -20,17 +20,35 @@ const {
   imagePosition = 'right',
   cta,
 } = Astro.props;
+
+const innerLayoutClasses =
+  layout === 'centered'
+    ? 'mx-auto max-w-[52rem] text-center'
+    : layout === 'left'
+      ? 'max-w-[52rem]'
+      : '';
+
+const innerImageClasses = image
+  ? 'grid grid-cols-1 items-center gap-[var(--space-2xl)] md:grid-cols-2'
+  : '';
 ---
 
-<section class:list={['content-section section', `content-section--${layout}`]} aria-label={heading ?? 'Content section'}>
+<section
+  class:list={['overflow-x-hidden py-16 md:py-24 pl-[env(safe-area-inset-left,0px)] pr-[env(safe-area-inset-right,0px)]']}
+  aria-label={heading ?? 'Content section'}
+>
   <div class="container">
-    <div class:list={['content-section__inner', image && `content-section__inner--image-${imagePosition}`]}>
-      <div class="content-section__text">
+    <div class:list={['flex flex-col', innerLayoutClasses, innerImageClasses]}>
+      <div class="flex flex-col gap-[var(--space-sm)]">
         {eyebrow && <p class="eyebrow">{eyebrow}</p>}
-        {heading && <h2 class="text-balance">{heading}</h2>}
-        <div class="body-lg content-section__body" set:html={body} />
+        {heading && <h2 class="m-0 text-balance">{heading}</h2>}
+        <div class="body-lg m-0" set:html={body} />
         {cta && (
-          <Button href={cta.href} variant={cta.variant ?? 'primary'} class="content-section__cta">
+          <Button
+            href={cta.href}
+            variant={cta.variant ?? 'primary'}
+            class:list={[layout === 'centered' && 'mt-[var(--space-md)]']}
+          >
             {cta.label}
           </Button>
         )}
@@ -38,7 +56,12 @@ const {
       </div>
 
       {image && (
-        <div class="content-section__image-wrapper">
+        <div
+          class:list={[
+            'aspect-[4/3] overflow-hidden rounded-[var(--radius-xl)]',
+            imagePosition === 'left' && 'md:order-first',
+          ]}
+        >
           <img
             src={image.src}
             alt={image.alt}
@@ -46,67 +69,10 @@ const {
             height={image.height ?? 450}
             loading="lazy"
             decoding="async"
-            class="content-section__image"
+            class="h-full w-full object-cover"
           />
         </div>
       )}
     </div>
   </div>
 </section>
-
-<style>
-  .content-section--centered .content-section__inner {
-    max-width: 52rem;
-    margin-inline: auto;
-    text-align: center;
-  }
-
-  .content-section--centered .content-section__cta {
-    margin-top: var(--space-md);
-  }
-
-  .content-section--left .content-section__inner {
-    max-width: 52rem;
-  }
-
-  .content-section__inner--image-right,
-  .content-section__inner--image-left {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-2xl);
-    align-items: center;
-  }
-
-  @media (min-width: 768px) {
-    .content-section__inner--image-right {
-      grid-template-columns: 1fr 1fr;
-    }
-    .content-section__inner--image-left {
-      grid-template-columns: 1fr 1fr;
-    }
-    .content-section__inner--image-left .content-section__image-wrapper {
-      order: -1;
-    }
-  }
-
-  .content-section__text {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-sm);
-  }
-
-  .content-section__text h2 { margin: 0; }
-  .content-section__body { margin: 0; }
-
-  .content-section__image-wrapper {
-    border-radius: var(--radius-xl);
-    overflow: hidden;
-    aspect-ratio: 4 / 3;
-  }
-
-  .content-section__image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-</style>

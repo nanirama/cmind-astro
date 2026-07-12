@@ -5,7 +5,7 @@
  * All sections are defined in content collection frontmatter; never hardcoded in page layouts.
  */
 // import HeroSection from './HeroSection.astro';
-// import StatsSection from './StatsSection.astro';
+import StatsSection from './StatsSection.astro';
 // import CTASection from './CTASection.astro';
 import FAQSection from './FAQSection.astro';
 // import TestimonialSection from './TestimonialSection.astro';
@@ -21,6 +21,18 @@ import CapitalmindAdvantageSection from './CapitalmindAdvantageSection.astro';
 import MeetOurFounderSection from './MeetOurFounderSection.astro';
 import TestimonialsSection from './TestimonialsSection.astro';
 import LatestMarketUpdatesSection from './LatestMarketUpdatesSection.astro';
+import AudiencepageHeroSection from './AudiencepageHeroSection.astro';
+import WealthGapsSection from './WealthGapsSection.astro';
+import HowCapitalMindHelpsSection from './HowCapitalMindHelpsSection.astro';
+import PmsFitSection from './PmsFitSection.astro';
+import PmsStrategyExplorerSection from './PmsStrategyExplorerSection.astro';
+import WealthJourneySteps from './WealthJourneySteps.astro';
+import ReportingDashboardFeatures from './ReportingDashboardFeatures.astro';
+import StrategyPillars from './StrategyPillars.astro';
+import StrategyThemesShowcase from './StrategyThemesShowcase.astro';
+import PerformanceComparisonChart from './PerformanceComparisonChart.astro';
+import InvestorJourney from './InvestorJourney.astro';
+import Process from './Process.astro';
 
 type Section = Record<string, unknown> & { type: string };
 
@@ -49,8 +61,32 @@ const { sections } = Astro.props;
       return <TestimonialsSection {...section as any} />;
     case 'latestmarketupdates':
       return <LatestMarketUpdatesSection {...section as any} />;
-    // case 'stats':
-    //   return <StatsSection {...section as any} />;
+    case 'audiencepage_hero':
+      return <AudiencepageHeroSection {...section as any} />;
+    case 'stats':
+      return <StatsSection {...section as any} />;
+    case 'wealthgaps':
+      return <WealthGapsSection {...section as any} />;
+    case 'howcapitalmindshelps':
+      return <HowCapitalMindHelpsSection {...section as any} />;
+    case 'pmsfit':
+      return <PmsFitSection {...section as any} />;
+    case 'pmsstrategyexplorer':
+      return <PmsStrategyExplorerSection {...section as any} />;
+    case 'wealthjourneysteps':
+      return <WealthJourneySteps {...section as any} />;
+    case 'reportingdashboardfeatures':
+      return <ReportingDashboardFeatures {...section as any} />;
+    case 'strategypillars':
+      return <StrategyPillars {...section as any} />;
+    case 'strategythemesshowcase':
+      return <StrategyThemesShowcase {...section as any} />;
+    case 'performancecomparisonchart':
+      return <PerformanceComparisonChart {...section as any} />;
+    case 'investorjourney':
+      return <InvestorJourney {...section as any} />;
+    case 'process':
+      return <Process {...section as any} />;
     // case 'cta':
     //   return <CTASection {...section as any} />;
     case 'faq':

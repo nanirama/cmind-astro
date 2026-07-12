@@ -3,10 +3,11 @@ import { Image } from 'astro:assets';
 ---
 
 <section
-  class="bg-[#121B14] pt-[48px] md:pt-[120px] pb-[48px] md:pb-[120px] w-full"
+  class="w-full overflow-x-hidden bg-[#121B14] pb-[48px] pl-[env(safe-area-inset-left,0px)] pr-[env(safe-area-inset-right,0px)] pt-[48px] md:pb-[120px] md:pt-[120px]"
   aria-label="Who We Serve"
 >
-  <div class="max-w-[1440px] mx-auto px-4 lg:px-[80px]">
+
+  <div class="max-w-[1440px] mx-auto xl:px-[80px] px-4">
     <div
       class="flex flex-col lg:flex-row gap-4 lg:gap-10 justify-between items-start lg:items-center"
     >
@@ -14,14 +15,70 @@ import { Image } from 'astro:assets';
         class="flex flex-col gap-3 w-full lg:w-[60%] items-center lg:items-start text-center lg:text-left"
       >
         <p
-          class="text-[12px] md:text-[14px] font-normal font-inter text-[#EAF5D2] tracking-wide"
+          class="text-[12px] md:text-[14px] font-normal font-inter text-[#EAF5D2] tracking-wide flex flex-row gap-1 items-center"
           aria-hidden="true"
         >
-          - Who we serve -
+          <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M7.5 4V10M7.5 14V20M10.5 12H16.5"
+                    stroke="url(#paint0_linear_5500_6449)"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                  />
+                  <defs>
+                    <linearGradient
+                      id="paint0_linear_5500_6449"
+                      x1="7.5"
+                      y1="5.90806"
+                      x2="19.5145"
+                      y2="11.0543"
+                      gradientUnits="userSpaceOnUse"
+                    >
+                      <stop stop-color="#FFC65F" />
+                      <stop offset="0.466346" stop-color="#8A6426" />
+                      <stop offset="1" stop-color="#FFC65F" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+           Who we serve 
+          <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  class="rotate-180"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M7.5 4V10M7.5 14V20M10.5 12H16.5"
+                    stroke="url(#paint0_linear_5500_6449)"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                  />
+                  <defs>
+                    <linearGradient
+                      id="paint0_linear_5500_6449"
+                      x1="7.5"
+                      y1="5.90806"
+                      x2="19.5145"
+                      y2="11.0543"
+                      gradientUnits="userSpaceOnUse"
+                    >
+                      <stop stop-color="#FFC65F" />
+                      <stop offset="0.466346" stop-color="#8A6426" />
+                      <stop offset="1" stop-color="#FFC65F" />
+                    </linearGradient>
+                  </defs>
+                </svg>
         </p>
         <h2
-          class="text-[28px] md:text-[48px] text-[#F9F9F9] font-medium font-noto leading-[1.1] tracking-tight max-w-[700px] mt-2 mb-0"
-          style="font-stretch: condensed;"
+          class="text-[28px] md:text-[48px] text-[#F9F9F9] font-medium font-noto leading-[1.1] tracking-tight max-w-[700px] mt-2 mb-0 [font-stretch:condensed]"
         >
           Built for People who believe in Long Term Investment &amp; Wealth
           Creation.
@@ -49,6 +106,11 @@ import { Image } from 'astro:assets';
         <article
           class="bg-[#0B2415] border border-[#1B3B26] rounded-[16px] p-6 md:p-5 relative overflow-hidden min-h-[224px] h-auto md:h-[295px] flex flex-col justify-between group cursor-pointer transition-colors hover:border-[#2C523A]"
         >
+          <a
+            href="/who-we-serve/salaried-hnis"
+            aria-label="Learn more about Salaried HNIs"
+            class="absolute inset-0 z-20 hidden rounded-[16px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500 md:block"
+          ></a>
           {/* Desktop */}
           <div class="hidden md:flex flex-col h-full justify-between">
             <div>
@@ -170,6 +232,11 @@ import { Image } from 'astro:assets';
         <article
           class="bg-[#0B2415] border border-[#1B3B26] rounded-[16px] p-6 md:p-5 relative overflow-hidden min-h-[224px] h-auto md:h-[295px] flex flex-col justify-between group cursor-pointer transition-colors hover:border-[#2C523A]"
         >
+          <a
+            href="/who-we-serve/delegating-hnis"
+            aria-label="Learn more about Delegating HNIs"
+            class="absolute inset-0 z-20 hidden rounded-[16px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500 md:block"
+          ></a>
           {/* Desktop */}
           <div class="hidden md:flex flex-col h-full justify-between">
             <div>
@@ -243,6 +310,11 @@ import { Image } from 'astro:assets';
         <article
           class="bg-[#0B2415] border border-[#1B3B26] rounded-[16px] p-6 md:p-5 relative overflow-hidden min-h-[224px] h-auto md:h-full md:min-h-[610px] flex flex-col justify-between group cursor-pointer transition-colors hover:border-[#2C523A]"
         >
+          <a
+            href="/who-we-serve/business-owners"
+            aria-label="Learn more about Entrepreneurs"
+            class="absolute inset-0 z-20 hidden rounded-[16px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500 md:block"
+          ></a>
           {/* Desktop */}
           <div class="hidden md:flex flex-col h-full justify-between relative z-10">
             <div>
@@ -343,6 +415,11 @@ import { Image } from 'astro:assets';
         <article
           class="bg-[#0B2415] border border-[#1B3B26] rounded-[16px] p-6 md:p-5 relative overflow-hidden min-h-[224px] h-auto md:h-[295px] flex flex-col justify-between group cursor-pointer transition-colors hover:border-[#2C523A]"
         >
+          <a
+            href="/who-we-serve/retirees"
+            aria-label="Learn more about Retirees"
+            class="absolute inset-0 z-20 hidden rounded-[16px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500 md:block"
+          ></a>
           {/* Desktop */}
           <div class="hidden md:flex flex-col h-full justify-between">
             <div>
@@ -417,6 +494,11 @@ import { Image } from 'astro:assets';
         <article
           class="bg-[#0B2415] border border-[#1B3B26] rounded-[16px] p-6 md:p-5 relative overflow-hidden min-h-[224px] h-auto md:h-[295px] flex flex-col justify-between group cursor-pointer transition-colors hover:border-[#2C523A]"
         >
+          <a
+            href="/who-we-serve/windfall-gains"
+            aria-label="Learn more about Windfall Gains"
+            class="absolute inset-0 z-20 hidden rounded-[16px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500 md:block"
+          ></a>
           {/* Desktop */}
           <div class="hidden md:flex flex-col h-full justify-between relative z-10">
             <div>
@@ -522,6 +604,11 @@ import { Image } from 'astro:assets';
         <article
           class="bg-[#FDF1D5] border border-[#EAD3AE] rounded-[16px] p-6 md:p-5 relative overflow-hidden min-h-[224px] h-auto md:h-full md:min-h-[610px] flex flex-col justify-between group cursor-pointer transition-colors hover:border-[#E8D9BB]"
         >
+          <a
+            href="/who-we-serve/nris"
+            aria-label="Learn more about NRIs"
+            class="absolute inset-0 z-20 hidden rounded-[16px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500 md:block"
+          ></a>
           {/* Desktop */}
           <div class="hidden md:flex flex-col h-full justify-between relative z-10">
             <div>

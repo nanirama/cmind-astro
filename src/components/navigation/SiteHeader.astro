@@ -1,6 +1,12 @@
 ---
 import SiteHeaderIsland from './SiteHeaderIsland';
+import { getEntry } from 'astro:content';
+
+const settings = await getEntry('siteSettings', 'index');
+if (!settings) throw new Error('Site settings not found: src/content/siteSettings/index.md');
+
+const { header } = settings.data;
 ---
 
 <a href="#main-content" class="skip-nav">Skip to main content</a>
-<SiteHeaderIsland client:load />
+<SiteHeaderIsland client:load header={header} />
