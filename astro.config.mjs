@@ -19,6 +19,16 @@ export default defineConfig({
     prefetchAll: false,
   },
 
+  build: {
+    // The site's Tailwind/global.css bundle is one shared chunk across every
+    // page (~15KB gzipped). Linking it externally makes every page wait on
+    // an extra render-blocking round trip before first paint. Inlining it
+    // into each page's <head> removes that request from the critical path;
+    // the trade-off is losing cross-page cache reuse of those bytes, which
+    // costs less here than the blocking round trip did.
+    inlineStylesheets: 'always',
+  },
+
   integrations: [
     react({
       include: ['**/components/**/*.tsx', '**/islands/**/*.tsx'],
