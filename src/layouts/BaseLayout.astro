@@ -1,9 +1,9 @@
 ---
 import '@styles/global.css';
 //import SeoHead from '@components/layout/SeoHead.astro';
-//import SiteHeader from '@components/navigation/SiteHeader.astro';
+import SiteHeader from '@components/navigation/SiteHeader.astro';
 //import type { SeoProps } from '@lib/seo';
-//import Footer from '@/components/footer.astro';
+import Footer from '@/components/footer.astro';
 
 // interface Props extends SeoProps {
 //   headerVariant?: 'default' | 'transparent';
@@ -26,13 +26,11 @@ const {
     </SeoHead> -->
   </head>
   <body>
-    <!-- <SiteHeader variant={headerVariant} /> -->
-
-    <main id="main-content" tabindex="-1">
-      <slot />
-    </main>
-
-    <!-- <Footer /> -->
+    <SiteHeader variant={headerVariant} />
+      <main id="main-content" tabindex="-1">
+        <slot />
+      </main>
+    <Footer />
 
     <!-- Analytics (via Partytown) -->
     <!-- <script is:inline type="text/partytown" async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
