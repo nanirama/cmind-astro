@@ -88,6 +88,26 @@ const { eyebrow, heading, subheading, body,  backgroundImage, ctas = [], image }
             </div>
           )
         } -->
+          {
+            image && (
+              <div class="my-8 block xl:-mx-4 xl:hidden">
+                <Image
+                  src={image.mobileSrc ?? image.src}
+                  alt={image.alt}
+                  width={image.widthMobile ?? image.width ?? 760}
+                  height={image.heightMobile ?? image.height ?? 360}
+                  widths={[375, 640, 750, 828]}
+                  sizes="100vw"
+                  format="webp"
+                  quality={75}
+                  loading="eager"
+                  fetchpriority="high"
+                  decoding="async"
+                  class="pointer-events-none h-auto w-full select-none object-contain"
+                />
+              </div>
+            )
+          }
 
         {
           subheading && (
